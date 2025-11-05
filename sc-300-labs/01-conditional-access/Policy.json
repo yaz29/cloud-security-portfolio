@@ -1,0 +1,62 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/conditionalAccess/policies",
+    "@microsoft.graph.tips": "Use $select to choose only the properties your app needs, as this can lead to performance improvements. For example: GET identity/conditionalAccess/policies?$select=conditions,createdDateTime",
+    "value": [
+        {
+            "id": "a3f20e81-d502-4a97-8e25-c45060c5a634",
+            "templateId": null,
+            "displayName": "Require MFA for all users",
+            "createdDateTime": "2025-10-31T16:33:20.3201745Z",
+            "modifiedDateTime": null,
+            "state": "enabled",
+            "sessionControls": null,
+            "conditions": {
+                "userRiskLevels": [],
+                "signInRiskLevels": [],
+                "clientAppTypes": [
+                    "all"
+                ],
+                "servicePrincipalRiskLevels": [],
+                "insiderRiskLevels": null,
+                "platforms": null,
+                "locations": null,
+                "devices": null,
+                "clientApplications": null,
+                "authenticationFlows": null,
+                "applications": {
+                    "includeApplications": [],
+                    "excludeApplications": [],
+                    "includeUserActions": [
+                        "urn:user:registerdevice"
+                    ],
+                    "includeAuthenticationContextClassReferences": [],
+                    "applicationFilter": null
+                },
+                "users": {
+                    "includeUsers": [
+                        "faf89e0b-82dd-4578-b4bd-e02047b71629"
+                    ],
+                    "excludeUsers": [],
+                    "includeGroups": [
+                        "7642dffd-3b54-4ed6-94c0-de751f3005ad"
+                    ],
+                    "excludeGroups": [],
+                    "includeRoles": [],
+                    "excludeRoles": [],
+                    "includeGuestsOrExternalUsers": null,
+                    "excludeGuestsOrExternalUsers": null
+                }
+            },
+            "grantControls": {
+                "operator": "OR",
+                "builtInControls": [
+                    "mfa"
+                ],
+                "customAuthenticationFactors": [],
+                "termsOfUse": [],
+                "authenticationStrength@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/conditionalAccess/policies('a3f20e81-d502-4a97-8e25-c45060c5a634')/grantControls/authenticationStrength/$entity",
+                "authenticationStrength": null
+            }
+        }
+    ]
+}
