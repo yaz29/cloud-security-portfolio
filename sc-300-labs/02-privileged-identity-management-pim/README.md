@@ -9,73 +9,215 @@ Implement Just-in-Time (JIT) access for Azure AD admin roles using approval work
 Privileged Identity Management (PIM) enhances security by limiting standing admin privileges.  
 In this lab, we configured eligible roles, activation approval, and alerts for privileged access.
 
+------
+----
+
+# Microsoft Entra ID – Privileged Identity Management (PIM) & Zero Standing Access  
+## 🧩 Overview  
+This lab implements **Just-in-Time (JIT) privileged access** using **Privileged Identity Management (PIM)** in Microsoft Entra ID.  
+Eligible roles are activated **only when needed**, with **MFA, justification, approval workflows, and time-bound access (max 4h)**.  
+Access reviews run monthly to auto-remove stale privileges.  
+This setup enforces **Zero Standing Access (ZSA)** — **no permanent admin rights** — aligning with **Zero Trust** and **NIST 800-207**.
+
+## ⚠️ Real-World Risk  
+> **74% of breaches involve over-privileged accounts** (Microsoft Security Report 2025).  
+> Permanent Global Admin = **single point of failure**.  
+PIM reduces:  
+- Privilege abuse  
+- Lateral movement  
+- Insider threats  
+- Compliance violations  
+
 ---
 
-## Full Flow Demo (MFA Prompt → Access Granted)
+## 🛠 What I Built  
+- **3 cloud-only users**: `admin-lab@`, `approver@`, `reviewer@`  
+- **PIM enabled** for Azure AD roles & Azure resources  
+- **Eligible roles**: Global Admin, User Admin, Billing Admin  
+- **Activation controls**: MFA + Justification + Approval + 4h max  
+- **Access Review**: Monthly, auto-apply results  
+- **Audit trail**: Activation logs + CSV export  
+- **Conditional Access**: Device compliance for PIM-activated sessions  
+- **100% cleanup**: All lab objects removed post-demo  
+
+### 🎥 Full Flow Demo (Activation → MFA → Approval → Access)  
+
+![PIM Activation Flow](./Screenshots/pim_activation.gif)  
+
+📜 [View PIM Role Settings (JSON Export)](./Exports/PIM_Role_Settings.json)  
+📊 [Activation History CSV](./Exports/PIM_Activation_History.csv)  
+
+---
+
+## 🛠 Architecture Diagram  
+<img width="900" src="https://github.com/user-attachments/assets/3f8e1a2b-9c44-4d1f-8a7e-1d2f9b5e7c91" />  
+
+---
+
+## 🛠 PIM Activation Decision Flow  
+<img width="1400" src="https://github.com/user-attachments/assets/a1b3f7d2-5e6a-4c9b-b1f3-7e8d4f2a9c0d" alt="PIM Decision Flow" />  
+
+---
+
+## 🛠 PIM Role Settings (JSON Exportable)  
+```json
+{
+  "roleDefinitionId": "62e90394-69f5-4237-9190-012177145e10",
+  "displayName": "Global Administrator",
+  "eligibleSettings": {
+    "requireMfaOnActivation": true,
+    "requireJustificationOnActivation": true,
+    "requireApprovalToActivate": true,
+    "maximumActivationDuration": "PT4H",
+    "approvers": ["approver@contoso-lab.onmicrosoft.com"]
+  },
+  "accessReviews": {
+    "frequency": "monthly",
+    "autoApplyResults": true,
+    "reviewerType": "self"
+  }
+}
+
+```
 
 
 ----
 
-## Step-by-Step Lab (15 Actions)
+## 🖼️  Evidence
 
-| Step | Action | Portal Path | Screenshot |
-|------|-------|-------------|------------|
-| 1 | **Enable PIM for Azure AD roles** | `Azure AD` → `Privileged Identity Management` → `Azure AD roles` → **Manage** → **Enable PIM** | `PIM_Enable.png` |
-| 2 | **Discover and enable PIM for Azure resources** (optional) | `PIM` → `Azure resources` → **Discover resources** → Select subscription → **Manage resource** | `PIM_Azure_Resources.png` |
-| 3 | **Assign eligible roles** (Global Admin, User Admin, Billing Admin) | `PIM` → `Azure AD roles` → **+ Add assignments** → **Eligible** → Select user → Assign | `PIM_Eligible_Assignment.png` |
-| 4 | **Set maximum activation duration (4 hours)** | `PIM` → `Azure AD roles` → **Role settings** → Edit → **Maximum activation duration: 4 hours** | `PIM_Max_Duration.png` |
-| 5 | **Require MFA on activation** | Role settings → **Require multifactor authentication on activation** ✓ | `PIM_Require_MFA.png` |
-| 6 | **Require justification on activation** | Role settings → **Require justification on activation** ✓ | `PIM_Require_Justification.png` |
-| 7 | **Enable approval workflow** | Role settings → **Require approval** → Select approver (`approver@...`) | `PIM_Approval_Workflow.png` |
-| 8 | **Create Access Review (monthly)** | `PIM` → `Azure AD roles` → **Access reviews** → **+ Create review** → Scope: Eligible members → Frequency: Monthly | `Access_Review_Created.png` |
-| 9 | **Enable email notifications** | `PIM` → `Settings` → **Email notifications** → Enable for approvers & reviewers | `PIM_Notifications.png` |
-| 10 | **Activate role as eligible user** | Portal → **My roles** → Eligible → **Activate** → Enter justification → Complete MFA | `PIM_Activation_Success.png` |
-| 11 | **Validate activation in Audit Logs** | `Azure AD` → `Audit logs` → Filter: `Activity: Manage PIM` → View activation event | `Audit_Log_Activation.png` |
-| 12 | **Export activation history (CSV)** | `PIM` → `Azure AD roles` → **Role activation history** → **Export** | `PIM_Activation_Export.csv` |
-| 13 | **Apply Conditional Access to PIM-activated users** | `Conditional Access` → New policy → Users: Include `All users`, Exclude `admin-lab` → Cloud apps: `Microsoft Azure Management` → Grant: **Require device compliance** | Enforces secure endpoints |
-| 14 | **Simulate activation denial (no MFA)** | Attempt activation without MFA → Capture error | Proves enforcement works |
-| 15 | **Generate Sign-in Logs report** | `Azure AD` → `Sign-ins` → Filter: `PIM` → Export | Full traceability |
+Action,Screenshot
+1,Create 3 test users,"<img src=""./Screenshots/Users_Created.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+2,Enable PIM for Azure AD roles,"<img src=""./Screenshots/PIM_Enabled.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+3,Assign eligible Global Admin role,"<img src=""./Screenshots/Eligible_Assignment.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+4,Configure activation rules (MFA + 4h),"<img src=""./Screenshots/Role_Settings.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+5,Set approval workflow,"<img src=""./Screenshots/Approval_Workflow.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+6,Create monthly Access Review,"<img src=""./Screenshots/Access_Review.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+7,Activate role (MFA + justification),"<img src=""./Screenshots/Activation_MFA.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+8,Approve activation request,"<img src=""./Screenshots/Approval_Granted.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+9,Validate in Audit Logs,"<img src=""./Screenshots/Audit_Log.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+10,Export activation history,"<img src=""./Screenshots/Export_CSV.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
 
 ---
+---
+## 🧭 Step-by-Step 
 
-## 🖼️  Evidence Summary (Attached)
+##1️⃣ Microsoft Entra ID User Creation
+Created three cloud-only users in a Microsoft 365 Developer Tenant:
 
-Screenshots stored in [`/screenshots`](./screenshots/)  
-- `PIM_Enable.png` – PIM enabled  
-- `PIM_Eligible_Assignment.png` – Role assigned  
-- `PIM_Activation_Success.png` – MFA + justification  
-- `Access_Review_Created.png` – Monthly review  
-- `Audit_Log_Activation.png` – Audit trail  
-- `PIM_Activation_Export.csv` – Exported report  
-- `CA_Policy_PIM.png` – Conditional Access (bonus)
+admin-lab@contoso-lab.onmicrosoft.com → Eligible admin
+approver@contoso-lab.onmicrosoft.com → Approval authority
+reviewer@contoso-lab.onmicrosoft.com → Access review delegate
+📸 Screenshot: Users_Created.png
+
+
+## 2️⃣ Enable PIM for Azure AD Roles
+
+Navigated to Microsoft Entra Admin Center → Identity → Roles & admins → Privileged Identity Management
+Enabled PIM for Azure AD roles
+Discovered and enabled PIM for Azure subscription (optional)
+📸 Screenshot: PIM_Enabled.png
+
+
+## 3️⃣ Assign Eligible Global Administrator Role
+
+In PIM → Azure AD roles → + Add assignments
+Selected Eligible → User: admin-lab@... → Role: Global Administrator
+📸 Screenshot: Eligible_Assignment.png
+
+
+## 4️⃣ Configure Activation Controls
+
+PIM → Role settings → Edit Global Administrator
+Set:
+
+Require MFA
+Require justification
+Maximum duration: 4 hours
+Require approval → Approver: approver@...
+📸 Screenshot: Role_Settings.png
+
+
+## 5️⃣ Create Monthly Access Review
+
+PIM → Access reviews → + Create review
+Scope: Eligible members of Global Administrator
+Frequency: Monthly
+Auto-apply results: Remove access
+📸 Screenshot: Access_Review.png
+
+
+## 6️⃣ Role Activation (User Flow)
+
+Signed in as admin-lab@... → My roles → Activate
+Entered justification: "Emergency user provisioning for SC-300 lab"
+Completed MFA via Microsoft Authenticator
+📸 Screenshot: Activation_MFA.png
+
+
+## 7️⃣ Approval Workflow (Approver Flow)
+
+approver@... received email + portal notification
+Reviewed request → Approved with comment
+📸 Screenshot: Approval_Granted.png
+
+
+## 8️⃣ Audit Log Validation
+
+Microsoft Entra Admin Center → Audit logs
+Filtered: Activity: Manage PIM → Role activation
+Confirmed event with IP, device, MFA status
+📸 Screenshot: Audit_Log.png
+
+
+## 9️⃣ Export Activation History
+
+PIM → Role activation history → Export
+Saved as PIM_Activation_History.csv
+📊 File: ./Exports/PIM_Activation_History.csv
+
+## 🔟 Bonus: Conditional Access for PIM Sessions
+Policy Name: Require compliant device for PIM
+
+Users: Include admin-lab@...
+Cloud apps: Microsoft Azure Management
+Grant: Require device to be marked as compliant
+📸 Screenshot: CA_PIM_Policy.png
+
 
 ---
+✅ Tools Result:
+Zero Standing Access (ZSA) achieved
 
-## Conclusion
-> **Zero Standing Access (ZSA)** achieved:  
-> - No permanent privileged roles  
-> - Just-in-time activation with MFA, justification, and approval  
-> - Monthly access reviews + full audit export  
-> - Conditional Access enforcement on management plane  
+No permanent admin roles
+JIT activation with full governance
+Audit trail + exportable proof
+Monthly access hygiene
+Device compliance enforced
 
----
 
-## Prerequisites
-- Microsoft 365 Developer Tenant (free, auto-renew) or Azure Free Trial
-- 3 test users: `admin-lab@contoso-lab.onmicrosoft.com`, `approver@...`, `reviewer@...`
-- Global Admin access (initial setup only)
+🧰 Tools & Services Used
 
----
-
-## 🎯 Outcome
-✅ Implemented least-privilege admin model with JIT access.  
-✅ Reduced standing Global Administrator assignments to zero.  
-✅ Enabled automated alerts and review reminders.
+Microsoft Entra Admin Center
+Privileged Identity Management (PIM)
+Microsoft Authenticator
+Azure AD Audit Logs
+Conditional Access
+Microsoft 365 Developer Tenant (free)
 
 ---
+💡 Outcome
+This lab proves enterprise-grade privileged access control using PIM — a core SC-300 skill.
+Demonstrates:
 
-📘 *Certification Reference:*  
-[Microsoft SC-300: Manage Azure AD roles with Privileged Identity Management](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/privileged-identity-management)
+JIT access with MFA & approval
+Access reviews & auto-remediation
+Full auditability
+Zero Trust alignment
+
+---
+🧩 Troubleshooting:
+If PIM is grayed out → assign Microsoft Entra ID P2 license to the admin user.
+Set Usage Location (e.g., US) in user profile → reassign license.
 
 ---
 
