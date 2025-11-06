@@ -4,15 +4,6 @@
 Implement Just-in-Time (JIT) access for Azure AD admin roles using approval workflows and MFA.
 
 ---
-
-## 🧭 Overview
-Privileged Identity Management (PIM) enhances security by limiting standing admin privileges.  
-In this lab, we configured eligible roles, activation approval, and alerts for privileged access.
-
-------
-----
-
-# Microsoft Entra ID – Privileged Identity Management (PIM) & Zero Standing Access  
 ## 🧩 Overview  
 This lab implements **Just-in-Time (JIT) privileged access** using **Privileged Identity Management (PIM)** in Microsoft Entra ID.  
 Eligible roles are activated **only when needed**, with **MFA, justification, approval workflows, and time-bound access (max 4h)**.  
@@ -83,25 +74,25 @@ PIM reduces:
 
 ----
 
-## 🖼️  Evidence
+## 🖼️  Evidence 
 
-Action,Screenshot
-1,Create 3 test users,"<img src=""./Screenshots/Users_Created.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-2,Enable PIM for Azure AD roles,"<img src=""./Screenshots/PIM_Enabled.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-3,Assign eligible Global Admin role,"<img src=""./Screenshots/Eligible_Assignment.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-4,Configure activation rules (MFA + 4h),"<img src=""./Screenshots/Role_Settings.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-5,Set approval workflow,"<img src=""./Screenshots/Approval_Workflow.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-6,Create monthly Access Review,"<img src=""./Screenshots/Access_Review.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-7,Activate role (MFA + justification),"<img src=""./Screenshots/Activation_MFA.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-8,Approve activation request,"<img src=""./Screenshots/Approval_Granted.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-9,Validate in Audit Logs,"<img src=""./Screenshots/Audit_Log.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
-10,Export activation history,"<img src=""./Screenshots/Export_CSV.png"" width=""180"" height=""120"" style=""object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);""/>"
+| # | Action | Screenshot |
+|---|--------|------------|
+| 1 | Create 3 test users | <img src="./Screenshots/Users_Created.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 2 | Enable PIM | <img src="./Screenshots/PIM_Enabled.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 3 | Assign eligible role | <img src="./Screenshots/Eligible_Assignment.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 4 | Configure activation rules | <img src="./Screenshots/Role_Settings.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 5 | Set approval workflow | <img src="./Screenshots/Approval_Workflow.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 6 | Create access review | <img src="./Screenshots/Access_Review.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 7 | Activate role (MFA) | <img src="./Screenshots/Activation_MFA.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 8 | Approve request | <img src="./Screenshots/Approval_Granted.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 9 | Check audit logs | <img src="./Screenshots/Audit_Log.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 10 | Export history | <img src="./Screenshots/Export_CSV.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 
----
 ---
 ## 🧭 Step-by-Step 
 
-##1️⃣ Microsoft Entra ID User Creation
+## 1️⃣ Microsoft Entra ID User Creation
 Created three cloud-only users in a Microsoft 365 Developer Tenant:
 
 admin-lab@contoso-lab.onmicrosoft.com → Eligible admin
@@ -182,7 +173,6 @@ Users: Include admin-lab@...
 Cloud apps: Microsoft Azure Management
 Grant: Require device to be marked as compliant
 📸 Screenshot: CA_PIM_Policy.png
-
 
 ---
 ✅ Tools Result:
