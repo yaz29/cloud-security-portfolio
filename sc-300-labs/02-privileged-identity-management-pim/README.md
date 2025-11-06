@@ -95,9 +95,9 @@ PIM reduces:
 ## 1️⃣ Microsoft Entra ID User Creation
 Created three cloud-only users in a Microsoft 365 Developer Tenant:
 
-admin-lab@contoso-lab.onmicrosoft.com → Eligible admin
-approver@contoso-lab.onmicrosoft.com → Approval authority
-reviewer@contoso-lab.onmicrosoft.com → Access review delegate
+admin-lab@yasmigonzalezgmail.onmicrosoft.com → Eligible admin
+approver@yasmigonzalezgmail.onmicrosoft.com → Approval authority
+reviewer@yasmigonzalezgmail.onmicrosoft.com → Access review delegate
 📸 Screenshot: Users_Created.png
 
 
