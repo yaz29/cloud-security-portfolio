@@ -173,7 +173,7 @@ Grant: Require device to be marked as compliant
 📸 Screenshot: CA_PIM_Policy.png
 
 ---
-✅ Tools Result:
+## ✅ Tools Result:
 Zero Standing Access (ZSA) achieved
 
 No permanent admin roles
@@ -183,7 +183,7 @@ Monthly access hygiene
 Device compliance enforced
 
 
-🧰 Tools & Services Used
+## 🧰 Tools & Services Used
 
 Microsoft Entra Admin Center
 Privileged Identity Management (PIM)
@@ -193,7 +193,7 @@ Conditional Access
 Microsoft 365 Developer Tenant (free)
 
 ---
-💡 Outcome
+## 💡 Outcome
 This lab proves enterprise-grade privileged access control using PIM — a core SC-300 skill.
 Demonstrates:
 
@@ -203,11 +203,11 @@ Full auditability
 Zero Trust alignment
 
 ---
-🧩 Troubleshooting:
+## 🧩 Troubleshooting:
 If PIM is grayed out → assign Microsoft Entra ID P2 license to the admin user.
 Set Usage Location (e.g., US) in user profile → reassign license.
 
 ---
 
-👩‍💻 *Author:* [Yazmina G.](https://www.linkedin.com/in/yasmina-g-p-227576a)
+## 👩‍💻 *Author:* [Yazmina G.](https://www.linkedin.com/in/yasmina-g-p-227576a)
 
