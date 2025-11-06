@@ -43,7 +43,9 @@ PIM reduces:
 ## 🛠 Architecture Diagram  
 <img width="900" src="./Screenshots/pim_architecture_diagram.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
 
+
 *Zero Standing Access (ZSA): No permanent privileges. JIT activation with MFA, approval, 4h limit, and monthly hygiene.*
+
 
 ---
 
@@ -95,9 +97,9 @@ PIM reduces:
 ## 1️⃣ Microsoft Entra ID User Creation
 Created three cloud-only users in a Microsoft 365 Developer Tenant:
 
-admin-lab@yasmigonzalezgmail.onmicrosoft.com → Eligible admin
-approver@yasmigonzalezgmail.onmicrosoft.com → Approval authority
-reviewer@yasmigonzalezgmail.onmicrosoft.com → Access review delegate
+Jasmine@PracticeCyber.onmicrosoft.com → Eligible admin
+Aaron@PracticeCyber.onmicrosoft.com → Approval authority
+Arianne@PracticeCyber.onmicrosoft.com → Access review delegate
 📸 Screenshot: Users_Created.png
 
 
