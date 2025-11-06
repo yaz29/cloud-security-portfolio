@@ -41,7 +41,9 @@ PIM reduces:
 ---
 
 ## 🛠 Architecture Diagram  
-<img width="900" src="https://github.com/user-attachments/assets/3f8e1a2b-9c44-4d1f-8a7e-1d2f9b5e7c91" />  
+<img width="900" src="./Screenshots/pim_architecture_diagram.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
+
+*Zero Standing Access (ZSA): No permanent privileges. JIT activation with MFA, approval, 4h limit, and monthly hygiene.*
 
 ---
 
