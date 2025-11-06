@@ -70,8 +70,6 @@ PIM reduces:
 }
 
 ```
-
-
 ----
 
 ## 🖼️  Evidence 
