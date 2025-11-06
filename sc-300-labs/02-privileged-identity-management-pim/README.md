@@ -11,6 +11,11 @@ In this lab, we configured eligible roles, activation approval, and alerts for p
 
 ---
 
+## Full Flow Demo (MFA Prompt → Access Granted)
+
+
+----
+
 ## Step-by-Step Lab (15 Actions)
 
 | Step | Action | Portal Path | Screenshot |
