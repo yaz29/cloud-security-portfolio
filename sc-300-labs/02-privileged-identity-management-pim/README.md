@@ -114,7 +114,8 @@ Discovered and enabled PIM for Azure subscription (optional)
 ## 3️⃣ Assign Eligible Global Administrator Role
 
 In PIM → Azure AD roles → + Add assignments
-Selected Eligible → User: admin-lab@... → Role: Global Administrator
+Selected Eligible → User: Jasmine@PracticeCyber.onmicrosoft.com → Role: Global Administrator
+
 📸 Screenshot: Eligible_Assignment.png
 
 
