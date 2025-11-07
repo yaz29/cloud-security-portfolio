@@ -80,8 +80,8 @@ PIM reduces:
 
 | # | Action | Screenshot |
 |---|--------|------------|
-| 1 | Create 3 test users | <img src="./Screenshots/Users_Created.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 2 | Enable PIM | <img src="./Screenshots/PIM_Enabled.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 1 | Create 3 test users | <img src="./Screenshots/Users_Created.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> | 
+| 2 | Enable PIM | <img src="./Screenshots/PIM_Enabled.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> | <img src="./Screenshots/Discovery-Azure-subscription.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 3 | Assign eligible role | <img src="./Screenshots/Eligible_Assignment.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 4 | Configure activation rules | <img src="./Screenshots/Role_Settings.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 5 | Set approval workflow | <img src="./Screenshots/Approval_Workflow.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
