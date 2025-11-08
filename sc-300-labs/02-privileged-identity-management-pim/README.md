@@ -50,7 +50,8 @@ PIM reduces:
 ---
 
 ## 🛠 PIM Activation Decision Flow  
-<img width="1400" src="https://github.com/user-attachments/assets/a1b3f7d2-5e6a-4c9b-b1f3-7e8d4f2a9c0d" alt="PIM Decision Flow" />  
+
+<img width="900" src="./Screenshots/pim_activation_decision.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
 
 ---
 
