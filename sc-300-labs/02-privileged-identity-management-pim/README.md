@@ -89,7 +89,7 @@ PIM reduces:
 | 7 | Activate role | <img src="./Screenshots/Activation_Role.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 8 | Approve request | <img src="./Screenshots/Approval_Granted.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 9 | Check audit logs | <img src="./Screenshots/Audit_Log.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 10 | Export history | <img src="./Screenshots/Export_CSV.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+
 
 ---
 ## 🧭 Step-by-Step 
@@ -168,7 +168,10 @@ Confirmed event with IP, device, MFA status
 
 PIM → Role activation history → Export
 Saved as PIM_Activation_History.csv
+📸 Screenshot: Export_CSV.png  
+📊 [Activation History CSV](./Exports/PIM_Activation_History.csv)
 📊 File: ./Exports/PIM_Activation_History.csv
+
 
 ## 🔟 Conditional Access for PIM Sessions
 Policy Name: Require compliant device for PIM
