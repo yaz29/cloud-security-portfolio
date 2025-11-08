@@ -22,7 +22,12 @@ PIM reduces:
 ---
 
 ## 🛠 What I Built  
-- **3 cloud-only users**: `admin-lab@`, `approver@`, `reviewer@`  
+- **4 cloud-only users**:
+  
+  - `Daniel-Admin@PracticeCyber.onmicrosoft.com` → **Eligible Global Admin (requests JIT)**
+  - `Jasmine@PracticeCyber.onmicrosoft.com` → **Eligible Global Admin**
+  - `Aaron@PracticeCyber.onmicrosoft.com` → **PIM Approver**
+  - `Arianne@PracticeCyber.onmicrosoft.com` → **Access Review Delegate**
 - **PIM enabled** for Azure AD roles & Azure resources  
 - **Eligible roles**: Global Admin, User Admin, Billing Admin  
 - **Activation controls**: MFA + Justification + Approval + 4h max  
@@ -65,12 +70,13 @@ PIM reduces:
     "requireJustificationOnActivation": true,
     "requireApprovalToActivate": true,
     "maximumActivationDuration": "PT4H",
-    "approvers": ["approver@contoso-lab.onmicrosoft.com"]
+    "approvers": ["Aaron@PracticeCyber.onmicrosoft.com"]
   },
   "accessReviews": {
     "frequency": "monthly",
     "autoApplyResults": true,
-    "reviewerType": "self"
+    "reviewerType": "designated",
+    "reviewers": ["Arianne@PracticeCyber.onmicrosoft.com"]
   }
 }
 
@@ -116,8 +122,8 @@ Discovered and enabled PIM for Azure subscription (optional)
 ## 3️⃣ Assign Eligible Global Administrator Role
 
 In PIM → Azure AD roles → + Add assignments
-Selected Eligible → User: Jasmine@PracticeCyber.onmicrosoft.com → Role: Global Administrator
-
+- User: **Daniel-Admin@PracticeCyber.onmicrosoft.com** → Eligible: Global Administrator
+- User: **Jasmine@PracticeCyber.onmicrosoft.com** → Eligible: Global Administrator
 📸 Screenshot: Eligible_Assignment.png
 
 
@@ -128,7 +134,7 @@ Set:
 
 Require MFA
 Require justification
-Maximum duration: 8 hours
+Maximum duration: 4 hours
 Require approval → Approver: Aaron@PracticeCyber.onmicrosoft.com
 📸 Screenshot: Role_Settings.png
 
@@ -142,20 +148,18 @@ Auto-apply results: Remove access
 📸 Screenshot: Access_Review.png
 
 
-## 6️⃣ Role Activation (User Flow)
+## 6️⃣ Role Activation (Daniel's Request)
+Signed in as **Daniel-Admin@PracticeCyber.onmicrosoft.com**  
+→ My roles → **Activate Global Administrator**  
+Justification: "Emergency user provisioning for SC-300 lab"  
+MFA: Microsoft Authenticator  
+📸 Screenshot: Activation_MFA.png → Activation_Role.png
 
-Signed in as Daniel-Admin@PracticeCyber.onmicrosoft.com → My roles → Activate
-Entered justification: "Emergency user provisioning for SC-300 lab"
-Completed MFA via Microsoft Authenticator
-📸 Screenshot: Activation_MFA.png
 
-
-## 7️⃣ Approval Workflow (Approver Flow)
-
-Aaron@PracticeCyber.onmicrosoft.com received email + portal notification
-Reviewed request → Approved with comment
+## 7️⃣ Approval Workflow (Aaron)
+Aaron@PracticeCyber.onmicrosoft.com receives email + portal alert  
+→ Reviews request → **Approves** with comment  
 📸 Screenshot: Approval_Granted.png
-
 
 ## 8️⃣ Audit Log Validation
 
@@ -168,16 +172,17 @@ Confirmed event with IP, device, MFA status
 ## 9️⃣ Export Activation History
 
 PIM → Role activation history → Export
-Saved as PIM_Activation_History_Comp.csv
+Saved as PIM_Activation_History.csv
 📊 [Activation History CSV](./Exports/PIM_Activation_History_Comp.csv)
 
-## 🔟 Conditional Access for PIM Sessions
-Policy Name: Require compliant device for PIM
 
-Users: Include admin-lab@...
-Cloud apps: Microsoft Azure Management
-Grant: Require device to be marked as compliant
+## 🔟 Conditional Access for PIM Sessions
+Policy: Require compliant device  
+Users: **Include: Daniel-Admin@..., Jasmine@...**  
+Cloud apps: Microsoft Azure Management  
+Grant: Require device compliance  
 📸 Screenshot: CA_PIM_Policy.png
+
 
 ---
 ## ✅ Tools Result:
