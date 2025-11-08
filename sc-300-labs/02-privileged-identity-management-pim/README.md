@@ -167,11 +167,8 @@ Confirmed event with IP, device, MFA status
 ## 9️⃣ Export Activation History
 
 PIM → Role activation history → Export
-Saved as PIM_Activation_History.csv
-📸 Screenshot: Export_CSV.png  
-📊 [Activation History CSV](./Exports/PIM_Activation_History.csv)
-📊 File: ./Exports/PIM_Activation_History.csv
-
+Saved as PIM_Activation_History_Comp.csv
+📊 [Activation History CSV](./Exports/PIM_Activation_History_Comp.csv)
 
 ## 🔟 Conditional Access for PIM Sessions
 Policy Name: Require compliant device for PIM
@@ -184,7 +181,6 @@ Grant: Require device to be marked as compliant
 ---
 ## ✅ Tools Result:
 Zero Standing Access (ZSA) achieved
-
 No permanent admin roles
 JIT activation with full governance
 Audit trail + exportable proof
@@ -200,12 +196,12 @@ Microsoft Authenticator
 Azure AD Audit Logs
 Conditional Access
 Microsoft 365 Developer Tenant (free)
+Microsoft Graph Dev Center
 
 ---
 ## 💡 Outcome
 This lab proves enterprise-grade privileged access control using PIM — a core SC-300 skill.
 Demonstrates:
-
 JIT access with MFA & approval
 Access reviews & auto-remediation
 Full auditability
@@ -218,5 +214,5 @@ Set Usage Location (e.g., US) in user profile → reassign license.
 
 ---
 
-## 👩‍💻 *Author:* [Yazmina G.](https://www.linkedin.com/in/yasmina-g-p-227576a)
+## 👩‍💻 *Author:* [Yaz.](https://www.linkedin.com/in/yasmina-g-p-227576a)
 
