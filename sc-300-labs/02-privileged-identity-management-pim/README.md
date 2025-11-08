@@ -142,7 +142,7 @@ Auto-apply results: Remove access
 
 ## 6️⃣ Role Activation (User Flow)
 
-Signed in as admin-lab@... → My roles → Activate
+Signed in as Daniel-Admin@PracticeCyber.onmicrosoft.com → My roles → Activate
 Entered justification: "Emergency user provisioning for SC-300 lab"
 Completed MFA via Microsoft Authenticator
 📸 Screenshot: Activation_MFA.png
@@ -150,7 +150,7 @@ Completed MFA via Microsoft Authenticator
 
 ## 7️⃣ Approval Workflow (Approver Flow)
 
-approver@... received email + portal notification
+Aaron@PracticeCyber.onmicrosoft.com received email + portal notification
 Reviewed request → Approved with comment
 📸 Screenshot: Approval_Granted.png
 
