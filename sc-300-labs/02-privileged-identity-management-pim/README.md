@@ -107,7 +107,8 @@ Created three cloud-only users in a Microsoft 365 Developer Tenant:
 Jasmine@PracticeCyber.onmicrosoft.com → Eligible admin
 Aaron@PracticeCyber.onmicrosoft.com → Approval authority
 Arianne@PracticeCyber.onmicrosoft.com → Access review delegate
-Daniel-Admin@PracticeCyber.onmicrosoft.com → Admin Request
+Daniel-Admin@PracticeCyber.onmicrosoft.com → Admin Request 
+
 📸 Screenshot: Users_Created.png
 
 
@@ -116,6 +117,7 @@ Daniel-Admin@PracticeCyber.onmicrosoft.com → Admin Request
 Navigated to Microsoft Entra Admin Center → Identity → Roles & admins → Privileged Identity Management
 Enabled PIM for Azure AD roles
 Discovered and enabled PIM for Azure subscription (optional)
+
 📸 Screenshot: PIM_Enabled.png
 
 
@@ -124,6 +126,7 @@ Discovered and enabled PIM for Azure subscription (optional)
 In PIM → Azure AD roles → + Add assignments
 - User: **Daniel-Admin@PracticeCyber.onmicrosoft.com** → Eligible: Global Administrator
 - User: **Jasmine@PracticeCyber.onmicrosoft.com** → Eligible: Global Administrator
+  
 📸 Screenshot: Eligible_Assignment.png
 
 
@@ -136,6 +139,7 @@ Require MFA
 Require justification
 Maximum duration: 4 hours
 Require approval → Approver: Aaron@PracticeCyber.onmicrosoft.com
+
 📸 Screenshot: Role_Settings.png
 
 
@@ -145,6 +149,7 @@ PIM → Access reviews → + Create review
 Scope: Eligible members of Global Administrator
 Frequency: Monthly
 Auto-apply results: Remove access
+
 📸 Screenshot: Access_Review.png
 
 
@@ -153,12 +158,14 @@ Signed in as **Daniel-Admin@PracticeCyber.onmicrosoft.com**
 → My roles → **Activate Global Administrator**  
 Justification: "Emergency user provisioning for SC-300 lab"  
 MFA: Microsoft Authenticator  
+
 📸 Screenshot: Activation_MFA.png → Activation_Role.png
 
 
 ## 7️⃣ Approval Workflow (Aaron)
 Aaron@PracticeCyber.onmicrosoft.com receives email + portal alert  
 → Reviews request → **Approves** with comment  
+
 📸 Screenshot: Approval_Granted.png
 
 ## 8️⃣ Audit Log Validation
@@ -166,6 +173,7 @@ Aaron@PracticeCyber.onmicrosoft.com receives email + portal alert
 Microsoft Entra Admin Center → Audit logs
 Filtered: Activity: Manage PIM → Role activation
 Confirmed event with IP, device, MFA status
+
 📸 Screenshot: Audit_Log.png
 
 
@@ -173,6 +181,7 @@ Confirmed event with IP, device, MFA status
 
 PIM → Role activation history → Export
 Saved as PIM_Activation_History.csv
+
 📊 [Activation History CSV](./Exports/PIM_Activation_History_Comp.csv)
 
 
@@ -181,6 +190,7 @@ Policy: Require compliant device
 Users: **Include: Daniel-Admin@..., Jasmine@...**  
 Cloud apps: Microsoft Azure Management  
 Grant: Require device compliance  
+
 📸 Screenshot: CA_PIM_Policy.png
 
 
