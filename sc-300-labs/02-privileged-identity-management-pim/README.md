@@ -100,6 +100,7 @@ Created three cloud-only users in a Microsoft 365 Developer Tenant:
 Jasmine@PracticeCyber.onmicrosoft.com → Eligible admin
 Aaron@PracticeCyber.onmicrosoft.com → Approval authority
 Arianne@PracticeCyber.onmicrosoft.com → Access review delegate
+Daniel-Admin@PracticeCyber.onmicrosoft.com → Admin Request
 📸 Screenshot: Users_Created.png
 
 
