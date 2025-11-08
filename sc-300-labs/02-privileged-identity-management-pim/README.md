@@ -170,7 +170,7 @@ PIM → Role activation history → Export
 Saved as PIM_Activation_History.csv
 📊 File: ./Exports/PIM_Activation_History.csv
 
-## 🔟 Bonus: Conditional Access for PIM Sessions
+## 🔟 Conditional Access for PIM Sessions
 Policy Name: Require compliant device for PIM
 
 Users: Include admin-lab@...
