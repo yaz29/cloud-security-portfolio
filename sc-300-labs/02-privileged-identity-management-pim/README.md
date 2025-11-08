@@ -128,7 +128,7 @@ Set:
 Require MFA
 Require justification
 Maximum duration: 8 hours
-Require approval → Approver: approver@...
+Require approval → Approver: Aaron@PracticeCyber.onmicrosoft.com
 📸 Screenshot: Role_Settings.png
 
 
