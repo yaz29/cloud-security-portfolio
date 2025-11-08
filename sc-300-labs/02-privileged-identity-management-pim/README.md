@@ -85,11 +85,10 @@ PIM reduces:
 | 3 | Assign eligible role | <img src="./Screenshots/Eligible_Assignment.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 4 | Configure activation rules | <img src="./Screenshots/Role_Settings.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 5 | Create access review | <img src="./Screenshots/Access_Review.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 6 | Set approval workflow | <img src="./Screenshots/Approval_Workflow.gif" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 7 | Activate role (MFA) | <img src="./Screenshots/Activation_MFA.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 8 | Approve request | <img src="./Screenshots/Approval_Granted.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 9 | Check audit logs | <img src="./Screenshots/Audit_Log.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
-| 10 | Export history | <img src="./Screenshots/Export_CSV.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 6 | Activate role (MFA) | <img src="./Screenshots/Activation_MFA.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 7 | Approve request | <img src="./Screenshots/Approval_Granted.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 8 | Check audit logs | <img src="./Screenshots/Audit_Log.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 9 | Export history | <img src="./Screenshots/Export_CSV.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 
 ---
 ## 🧭 Step-by-Step 
