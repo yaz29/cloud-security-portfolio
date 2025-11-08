@@ -126,7 +126,7 @@ Set:
 
 Require MFA
 Require justification
-Maximum duration: 4 hours
+Maximum duration: 8 hours
 Require approval → Approver: approver@...
 📸 Screenshot: Role_Settings.png
 
