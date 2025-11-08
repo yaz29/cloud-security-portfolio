@@ -1,0 +1,30 @@
+{
+  "role": "Global Administrator",
+  "roleDefinitionId": "62e90394-69f5-4237-9190-012177145e10",
+  "policyId": "Directory_a940ddaa-a956-4e0d-9a43-796ec70ec001_4616d433-e12e-4e1a-afda-aad003f835f5",
+  "activationPolicy": {
+    "maximumActivationDuration": "PT8H",
+    "requireMfa": true,
+    "requireJustification": true,
+    "requireTicket": true,
+    "requireApproval": true,
+    "approvalMode": "SingleStage",
+    "approvers": [
+      {
+        "id": "eca99e3e-6cb1-4cb9-92ad-1fbe1571755b",
+        "displayName": "Aaron",
+        "userPrincipalName": "approver@PracticeCyber.onmicrosoft.com"
+      }
+    ]
+  },
+  "eligibilityPolicy": {
+    "isExpirationRequired": false,
+    "maxEligibility": "P365D"
+  },
+  "assignmentPolicy": {
+    "isExpirationRequired": false,
+    "maxAssignment": "P180D",
+    "requireJustificationOnAssignment": true
+  },
+  "source": "Microsoft Graph /beta roleManagementPolicies rules"
+}
