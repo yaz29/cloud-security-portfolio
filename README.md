@@ -57,5 +57,5 @@ By completing these labs, you will:
 
 ---
 
-👩‍💻 *Author:* [Yazmina G.](https://www.linkedin.com/in/yasmina-g-p-227576a)  
+👩‍💻 *Author:* [Yaz.](https://www.linkedin.com/in/yasmina-g-p-227576a)  
 📂 *Portfolio:* [Cloud Security Portfolio](https://github.com/yaz29/cloud-security-portfolio)
