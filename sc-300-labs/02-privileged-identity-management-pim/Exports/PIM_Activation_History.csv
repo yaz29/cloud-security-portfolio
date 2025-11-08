@@ -1,1 +1,5 @@
-
+TimestampUTC,UserPrincipalName,Role,Event,Status,Approver,Justification,DurationHours,TicketNumber,RequestId
+08/11/2025 14:39,Daniel-Admin@PracticeCyber.onmicrosoft.com,Global Administrator,ActivationRequested,PendingApproval,approver@PracticeCyber.onmicrosoft.com,Emergency user provisioning for SC-300 lab,4,SC300-LAB01,req-0001
+08/11/2025 14:43,Daniel-Admin@PracticeCyber.onmicrosoft.com,Global Administrator,Approval,Approved,approver@PracticeCyber.onmicrosoft.com,Approved for SC-300 lab testing,4,SC300-LAB01,req-0001
+08/11/2025 14:44,Daniel-Admin@PracticeCyber.onmicrosoft.com,Global Administrator,Activation,Succeeded,approver@PracticeCyber.onmicrosoft.com,Emergency user provisioning for SC-300 lab,4,SC300-LAB01,req-0001
+08/11/2025 18:51,Daniel-Admin@PracticeCyber.onmicrosoft.com,Global Administrator,Deactivation,AutoExpired,approver@PracticeCyber.onmicrosoft.com,Max duration reached,4,SC300-LAB01,req-0001
