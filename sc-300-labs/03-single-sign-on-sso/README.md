@@ -1,5 +1,10 @@
 # 03-Single-Sign-On (SSO)
 
+## 🧾 TL;DR
+Implemented SSO (SAML 2.0) + SCIM user provisioning between Microsoft Entra ID and Salesforce.  
+Demonstrated full user lifecycle automation (create → update → disable → delete) with dynamic group assignment.
+
+
 ## 📘 Overview
 This project explores the concept and implementation of **Single Sign-On (SSO)** — a widely used authentication mechanism that allows users to access multiple applications using a single set of credentials.
 
@@ -238,5 +243,22 @@ This lab demonstrates **SC-300-level mastery** of:
 | **Attributes not syncing** | Confirm mapping + restart provisioning |
 
 ---
+---
+## 🌟 Personal Note
+I built this project to continue growing as an Identity professional,  
+proving that learning, curiosity, and technical depth matter — even outside a formal job role.  
+I enjoy solving authentication and automation challenges and would love to bring that mindset to a professional team.
+
+---
+## 📚 References
+- [Microsoft Entra ID: SCIM Provisioning Overview](https://learn.microsoft.com/en-us/azure/active-directory/app-provisioning/use-scim-to-provision-users-and-groups)
+- [Salesforce SAML Single Sign-On](https://help.salesforce.com/s/articleView?id=sf.sso_saml.htm)
+- [Auth0 Docs: Understanding SSO](https://auth0.com/docs/authenticate/protocols/sso)
+
+
+## 🌟 Personal Note
+I built this project to continue growing as an **Identity & Access Management professional**,  
+proving that **curiosity, consistency, and technical depth** matter — even outside a formal job role.  
+
 
 **Author:** **Yaz**
