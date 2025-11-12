@@ -242,6 +242,30 @@ This lab demonstrates **SC-300-level mastery** of:
 | **SAML login loop** | Verify Reply URL matches ACS in Salesforce |
 | **Attributes not syncing** | Confirm mapping + restart provisioning |
 
+
+
+## 🧩 Troubleshooting: Salesforce ↔ Microsoft Entra ID (SAML SSO)
+
+This section documents the main issues encountered while configuring **SAML-based Single Sign-On** between **Microsoft Entra ID** and **Salesforce**, along with the resolution steps.
+
+| ❌ Error / Symptom | 🔍 Root Cause | 🛠️ Resolution Steps | 📸 Screenshot |
+|--------------------|--------------|---------------------|---------------|
+| **AADSTS50105:** *The signed in user is blocked because they are not assigned to the application.* | The user (e.g., `alice.johnson@practicecyber.onmicrosoft.com`) was not directly assigned to the Salesforce-Lab enterprise app. | • Go to **Microsoft Entra Admin Center → Enterprise applications → Salesforce-Lab → Users and groups**.<br>• Verify that the dynamic group `GRP-Salesforce-Users` is assigned.<br>• Ensure **Alice** is a member of that group or assign her directly via **Add user/group → Assign**. | `AADSTS50105_Fix.png` |
+| **Salesforce:** *Single Sign-On Error – We can’t log you in because of an issue with single sign-on.* | Salesforce couldn’t match the user in the SAML assertion (NameID) with a Salesforce user. | • In **Salesforce → Setup → Users → Users**, edit the user.<br>• Set the **Federation ID** to match the **NameID** from SAML (`user.userprincipalname`, e.g. `alice.johnson@practicecyber.onmicrosoft.com`).<br>• Save and re-run the **Test Sign-In**. | `FederationID_Fix.png` |
+| Redirect goes to **Salesforce classic login** instead of Microsoft login | The **Entity ID** or **Reply URL (ACS)** in Salesforce does not match Microsoft Entra configuration. | • In **Salesforce → Setup → Single Sign-On Settings → Edit (sts)** verify:<br> - **Issuer:** `https://sts.windows.net/<tenant_id>/`<br> - **Entity ID:** matches the Identifier (Entity ID) in Entra<br> - **Login URL:** `https://login.microsoftonline.com/<tenant_id>/saml2` | `EntityID_Verify.png` |
+| **No file selected** under *Identity Provider Certificate* | The SAML certificate was not uploaded or expired. | • In **Entra → Salesforce-Lab → Single sign-on**, download the **Federation Metadata XML**.<br>• In **Salesforce → Single Sign-On Settings**, upload that file in **Identity Provider Certificate**.<br>• Save and re-test. | `SAML_Certificate.png` |
+| Still redirected to **username/password login** instead of SSO | The Salesforce domain is not configured to use the SSO provider. | • In **Salesforce Setup → My Domain → Authentication Configuration**, check **sts** (Microsoft SSO provider).<br>• Optionally uncheck *Login Form* to enforce SSO.<br>• Access Salesforce through: `https://<your-domain>.my.salesforce.com`. | `MyDomain_SSO.png` |
+| ✅ **Expected Behavior** | — | • From **Microsoft Entra → Salesforce-Lab → Single sign-on → Test sign in**:<br> 1. Redirects to Microsoft login.<br> 2. Authenticates the assigned user.<br> 3. Redirects to Salesforce and shows dashboard. | `SSO_Success.png` |
+
+---
+
+### 🧠 Notes
+
+- Ensure the **NameID (user.userprincipalname)** in Entra matches the **Federation ID** in Salesforce.  
+- After updating certificates or metadata, re-upload the XML file if needed.  
+- If using a **dynamic group**, allow several minutes for membership propagation before testing.  
+
+
 ---
 ---
 ## 🌟 Personal Note
