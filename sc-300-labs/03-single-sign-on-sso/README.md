@@ -85,7 +85,7 @@ Instead of logging in separately to each system, users authenticate once via the
 ---
 
 ## 🔄 SCIM Provisioning Decision Flow
-<img width="1200" src="./Screenshots/scim_provisioning_flow.png" alt="SCIM Lifecycle: Create, Update, Disable, Delete" />
+<img width="800" src="./Screenshots/scim_provisioning_flow.png" alt="SCIM Lifecycle: Create, Update, Disable, Delete" />
 
 ---
 
