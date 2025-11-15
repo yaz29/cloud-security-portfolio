@@ -200,104 +200,8 @@ This table chronologically documents all steps, from the successful SAML SSO con
 
 ```
 
-
-
-----------------------------------  
-#### 3. Add Salesforce Enterprise Application
-* **Path:** Microsoft Entra Admin Center $\rightarrow$ **Enterprise applications** $\rightarrow$ **New application**.
-* **Action:** Select **Create your own application** $\rightarrow$ **Name:** `Salesforce-Lab`.
-
-### Part B: Configuring SAML 2.0 (The Successful Part)
-
-#### 4. Configure SAML SSO in Salesforce (SP)
-* **Path:** Salesforce Setup $\rightarrow$ **Identity** $\rightarrow$ **Single Sign-On Settings** $\rightarrow$ **New** (SAML).
-* **Name:** `STS - Microsoft Entra SSO`.
-* **SAML Identity Type:** **Assertion contains the Federation ID from the User object** (This must match the NameID from Entra).
-* **Entity ID:** `urn:salesforce:lab` (or similar).
-* **Crucial Step:** Note the **Assertion Consumer Service (ACS) URL** from this page—you need it for Entra ID.
-
-#### 5. Configure SAML SSO in Microsoft Entra ID (IdP)
-* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Single sign-on** $\rightarrow$ **SAML**.
-* **Basic SAML Configuration (Section 1):**
-    * **Identifier (Entity ID):** Must match the value in Salesforce (e.g., `urn:salesforce:lab`).
-    * **Reply URL (Assertion Consumer Service URL):** Use the ACS URL noted from Salesforce.
-    * **Sign on URL:** Use your Salesforce domain login URL.
-* **Attributes & Claims (Section 2):** Ensure the **Unique User Identifier (Name ID)** is set to `user.userprincipalname`.
-* **SAML Signing Certificate (Section 3):** Download the **Federation Metadata XML**.
-
-#### 6. Finalize SAML Configuration in Salesforce
-* **Path:** Return to the Salesforce **Single Sign-On Settings** page.
-* **Identity Provider Certificate:** Upload the **Federation Metadata XML** downloaded from Entra ID.
--------------
-## Step-by-Step Implementation
-
-### 1. Create Test Users
-- Emails: `alice.johnson@...`, `bob.smith@...`, `carol.lee@...`  
-- Department: `Salesforce Users`  
-→ See: `Users_Created.png`
-
-### 2. Create Dynamic Group
-- Name: `GRP-Salesforce-Users`  
-- Rule: `(user.department -eq "Salesforce Users")`  
-→ See: `Dynamic_Group.png`
-
-### 3. Add Salesforce App
-- Path: **Enterprise Apps → New → Create own app → Salesforce-Lab**  
-→ See: `App_Added.png`
-
-### 4. Configure SAML SSO
-- Identifier: `urn:salesforce:lab`  
-- Reply URL: `https://speed-velocity-336.my.salesforce.com`  
-- Metadata exchanged (Entra ↔ Salesforce)  
-→ See: `SAML_Config.png`
-
-### 5. Enable SCIM → **BLOCKED**
-> **SCIM not supported in Developer/Trial orgs**  
-> - No “Provisioning” menu  
-> - No SCIM endpoint or token  
-> **Actual result:** `"SCIM endpoint not supported"`  
-→ See: `SCIM_Disabled.png`
-
-### 6. Attribute Mapping → **SKIPPED**
-> No SCIM → no mapping UI  
-**Expected mappings:**
-```json
-userPrincipalName → userName
-displayName       → name.formatted
-mail              → emails[type eq "work"].value
-jobTitle          → title
-department        → department
-```
-------------
-
-#### 7. Manually Create Users in Salesforce **(Crucial Workaround for SCIM Limitation)** 
-* **Path:** Salesforce Setup $\rightarrow$ **Users** $\rightarrow$ **New User**.
-* **Action:** Create the Alice, Bob, and Carol user records.
-* **Crucial Step:** Set the Salesforce **Federation ID** for each user to their full Entra ID email address (e.g., `alice.johnson@practicecyber.onmicrosoft.com`). **This is what allows SAML login to work.**
-
-#### 8. Assign Application to Dynamic Group
-* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Users and groups** $\rightarrow$ **Add user/group**.
-* **Group:** Select `GRP-Salesforce-Users`.
-* **Assignment required:** **Yes**.
-
-#### 9. Test SSO (SP-Initiated)
-* **Path:** Open an incognito browser tab and navigate to your Salesforce domain URL (`https://<instance>.my.salesforce.com`).
-* **Result:** Should successfully redirect through Microsoft Login and land you on the Salesforce dashboard.
-
-### Part C: SCIM Provisioning (Limitation and Simulation)
-
-#### 10. Attempt to Enable SCIM Provisioning (The Expected Failure)
-* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Provisioning**.
-* **Provisioning Mode:** Set to **Automatic**.
-* **Issue:** You **cannot** obtain the Tenant URL or Secret Token from Salesforce. The required **User Provisioning Settings** under Connected Apps are missing in Developer Edition.
-* **Result:** The **Test Connection** in Entra ID will **Fail** with an error like `"SCIM endpoint not supported"`.
-
-#### 11. SCIM Attribute Mapping (Conceptual Step)
-* **Note:** The mapping interface is inaccessible due to the connection failure.
-* **Conceptual Goal:** Map Entra attributes to Salesforce fields (e.g., `userPrincipalName` $\rightarrow$ `userName`, `mail` $\rightarrow$ `emails[type eq "work"].value`, etc.).
-* [**View SCIM Mapping Schema (Conceptual)**](./Exports/SCIM_Mapping.json)
-
 #### 12. Manual Lifecycle Simulation
+
 To demonstrate understanding of the full lifecycle:
 
 | Action | Azure Action | Salesforce Manual Action | SCIM Expected Result |
@@ -307,6 +211,7 @@ To demonstrate understanding of the full lifecycle:
 | **Delete** Carol | Hard delete the user Carol in Entra ID. | Manually delete Carol's user record in Salesforce. | **Deprovision** (DELETE) operation. |
 
 #### 13. Export Provisioning Logs (Documentation of Failure)
+
 * **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Provisioning logs**.
 * **Filter:** Filter by **Failure** status.
 * **Action:** Download the logs. This file proves the SCIM endpoint was the limiting factor.
