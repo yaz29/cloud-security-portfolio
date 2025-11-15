@@ -44,7 +44,7 @@ By completing this lab, I was able to:
 ## Architecture Diagram
 This diagram illustrates the intended full implementation flow (SAML for authentication, SCIM for provisioning).
 
-<img width="900" src="./Screenshots/sso_scim_architecture.png" alt="SAML/OIDC SSO + SCIM Provisioning Architecture" />
+<img width="600" src="./Screenshots/sso_scim_architecture.png" alt="SAML/OIDC SSO + SCIM Provisioning Architecture" />
 
 
 *Dynamic group → JIT → SSO → Manual sync simulation*
@@ -52,7 +52,7 @@ This diagram illustrates the intended full implementation flow (SAML for authent
 
 ## 🔄 SCIM Provisioning Decision Flow 
 
-<img width="800" src="./Screenshots/scim_provisioning_flow.png" alt="SCIM Lifecycle: Create, Update, Disable, Delete" />
+<img width="600" src="./Screenshots/scim_provisioning_flow.png" alt="SCIM Lifecycle: Create, Update, Disable, Delete" />
 
 
 ***Note:** The SCIM provisioning path was simulated for this specific lab environment.*
