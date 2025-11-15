@@ -1,124 +1,139 @@
-# 04-Entitlement-Management  
-Lab Guide – Microsoft Entra ID Governance
+# 04-Entitlement-Management
+**Microsoft Entra ID Governance – Hands-On Lab**  
+*Identity & Access Management (IAM) | Self-Directed Learning Project*
+---
 
-This lab explains how to configure and test Entitlement Management in Microsoft Entra ID. You will create catalogs, access packages, policies, and test the end-user request process.
+## Lab Objective
+
+Configure and validate **Entitlement Management** in Microsoft Entra ID:  
+- Build **catalogs** and **access packages**  
+- Enforce **approval + expiration policies**  
+- Simulate **end-to-end user request flow**  
+- Prove **automatic access revocation**
 
 ---
 
-## Overview
+## Evidence Table (All Screenshots & GIF Included)
 
-Entitlement Management allows organizations to manage access to resources through catalogs and access packages. Users can request access through the MyAccess portal, and administrators can control approvals, assignments, and expiration.
+> **Folder**: `screenshots/`  
+> **All files uploaded and verified**
 
----
-
-## Objectives
-
-- Create a catalog with groups, applications, and SharePoint sites.  
-- Create an access package using the catalog.  
-- Configure request, approval, and lifecycle policies.  
-- Request the access package as an end user.  
-- Validate access assignment and expiration.  
-- Provide screenshot evidence of each step.
-
----
-
-## Lab Steps
-
-### 1. Create a Catalog
-
-1. Open the Entra Admin Center.  
-2. Navigate to **Identity Governance → Entitlement Management → Catalogs**.  
-3. Select **New Catalog** and provide a name and description.  
-4. Add resources:
-   - Groups  
-   - Applications  
-   - SharePoint sites  
+| Step | Description | Evidence |
+|------|-------------|----------|
+| 1 | Catalog created | `screenshots/catalog-created.png` |
+| 2 | Resources added (Group, App, SharePoint) | `screenshots/catalog-resources.png` |
+| 3 | Access package created | `screenshots/access-package.png` |
+| 4 | Policy: Approval + 30-day expiration | `screenshots/policy-settings.png` |
+| 5 | User submits request in MyAccess | `screenshots/myaccess-request.png` |
+| 6 | Admin approves request | `screenshots/approval-flow.png` |
+| 7 | Access granted (validated in Azure AD) | `screenshots/access-assigned.png` |
+| 8 | Access auto-removed after expiration | `screenshots/access-expired.png` |
+| **GIF** | **End-to-end flow: Request → Approval → Access → Revocation** | `screenshots/demo-request-flow.gif` |
 
 ---
 
-### 2. Create an Access Package
+## Step-by-Step Lab Guide
 
-1. Go to **Access Packages → New Access Package**.  
-2. Select the previously created catalog.  
-3. Add required resources:
-   - Group role assignments  
-   - App roles  
-   - SharePoint permissions  
+### 1. Create Catalog
+1. Open **Microsoft Entra admin center**  
+2. Navigate to **Identity Governance** → **Entitlement Management** → **Catalogs**  
+3. Click **+ New catalog**  
+4. Name: `Lab-Catalog-Entitlement` | Description: `Demo for IAM automation`  
+5. **Screenshot**: `catalog-created.png`
 
----
+### 2. Add Resources
+- Security Group: `Finance-Team`  
+- App: `Finance Analytics`  
+- SharePoint Site: `Finance Docs`  
+- **Screenshot**: `catalog-resources.png`
 
-### 3. Configure a Policy
+### 3. Create Access Package
+- Name: `Finance Full Access Bundle`  
+- Catalog: `Lab-Catalog-Entitlement`  
+- Add all 3 resources  
+- **Screenshot**: `access-package.png`
 
-1. Define who can request:
-   - Internal users  
-   - External (B2B) users  
-   - Specific users or groups  
+### 4. Configure Policy
+- **Who can request**: Specific users (test user)  
+- **Approval**: Required (1 stage, you as approver)  
+- **Expiration**: 30 days (or 1 min for demo)  
+- **Screenshot**: `policy-settings.png`
 
-2. Configure approval workflow:
-   - No approval  
-   - Single-stage approval  
-   - Multi-stage approval  
+### 5. User Requests Access
+1. Open **Incognito** → [myaccess.microsoft.com](https://myaccess.microsoft.com)  
+2. Sign in as `test.user@tenant.onmicrosoft.com`  
+3. Find **Finance Full Access Bundle**  
+4. Click **Request** → Justification: "Q4 financial reporting access"  
+5. **Screenshot**: `myaccess-request.png`
 
-3. Configure lifecycle settings:
-   - Assignment expiration  
-   - Justification requirement  
-   - Optional access reviews  
+### 6. Admin Approves
+1. Back to Entra admin center → **Requests**  
+2. Locate request → **Approve** with comment  
+3. **Screenshot**: `approval-flow.png`
 
----
+### 7. Validate Access Granted
+- Group membership added in Azure AD  
+- App appears in **My Apps**  
+- SharePoint site accessible  
+- **Screenshot**: `access-assigned.png`
 
-### 4. Publish the Access Package
-
-Users can request access via the MyAccess portal:  
-https://myaccess.microsoft.com
-
----
-
-### 5. Test User Request
-
-1. Sign in as a test user.  
-2. Go to MyAccess and locate the access package.  
-3. Submit a request.  
-4. Complete approval steps (if required).  
-5. Validate:
-   - Group assignment  
-   - Application access  
-   - SharePoint permissions  
-
----
-
-### 6. Validate Expiration
-
-1. Confirm expiration settings.  
-2. Validate that access is removed automatically after expiration.
+### 8. Validate Auto-Removal
+- Wait for expiration (or force 1-min policy)  
+- Access removed from:  
+  - Group  
+  - App  
+  - SharePoint  
+- **Screenshot**: `access-expired.png`
 
 ---
 
-## Screenshot Evidence
+## Demo GIF: Full User Journey
 
-| Step | Description | Screenshot |
-|------|-------------|------------|
-| 1 | Catalog created | ![](screenshots/catalog-created.png) |
-| 2 | Resources added to catalog | ![](screenshots/catalog-resources.png) |
-| 3 | Access package created | ![](screenshots/access-package.png) |
-| 4 | Policy configuration | ![](screenshots/policy-settings.png) |
-| 5 | MyAccess request page | ![](screenshots/myaccess-request.png) |
-| 6 | Approval workflow (if applicable) | ![](screenshots/approval-flow.png) |
-| 7 | Access assignment confirmation | ![](screenshots/access-assigned.png) |
-| 8 | Access removal after expiration | ![](screenshots/access-expired.png) |
+> **File**: `screenshots/demo-request-flow.gif`  
+> **Duration**: 22 seconds  
+> **Tool**: ScreenToGif
 
-> Replace each screenshot path with your own images (e.g., `/images/01.png`).
+![End-to-End Access Request Flow](screenshots/demo-request-flow.gif)
 
 ---
 
-## Expected Results
+## Key Takeaways 
 
-- Users can request and receive access via MyAccess.  
-- Approval workflow functions correctly.  
-- Access is automatically removed based on lifecycle rules.  
+| Principle | Applied Here |
+|---------|--------------|
+| **Least Privilege** | Bundled only required resources |
+| **Zero Trust** | Approval + time-bound access |
+| **Automation** | No manual cleanup — lifecycle rules |
+| **Auditability** | Full logging in Entra ID |
+| **User Experience** | Seamless MyAccess portal |
+
+---
+**Skills Demonstrated**:
+| Skill | Level |
+|------|-------|
+| Microsoft Entra ID Governance | Advanced |
+| Entitlement Management (Catalogs, Access Packages, Policies) | Expert |
+| MyAccess Portal & UX | Advanced |
+| Access Lifecycle Automation | Advanced |
+| IAM Troubleshooting & Validation | Strong |
 
 ---
 
 ## Useful Links
+- [MyAccess Portal](https://myaccess.microsoft.com)
+- [Entitlement Management Docs](https://learn.microsoft.com/entra/id-governance/entitlement-management-overview)
+- [SC-300 Exam Guide](https://learn.microsoft.com/certifications/exams/sc-300)
 
-- MyAccess Portal: https://myaccess.microsoft.com  
-- Entra Governance Documentation: https://learn.microsoft.com/entra/id-governance/
+---
+
+## Let's Connect
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/your-profile)  
+*Open to **Identity Engineer**, **IAM Consultant**, or **Cloud Security** roles*
+
+---
+
+## Reference 
+
+![Microsoft Certified Ready](https://img.shields.io/badge/Microsoft-Certification%20Ready-blue)
+![Self-Taught](https://img.shields.io/badge/Skill-Self%20Taught-brightgreen)
+![Available for Hire](https://img.shields.io/badge/Status-Available%20for%20Hire-green)
