@@ -1,288 +1,160 @@
-# 03-Single-Sign-On (SSO)
 
-## 🧾 TL;DR
-Implemented SSO (SAML 2.0) + SCIM user provisioning between Microsoft Entra ID and Salesforce.  
-Demonstrated full user lifecycle automation (create → update → disable → delete) with dynamic group assignment.
+# 03-Single-Sign-On (SSO) & SCIM Provisioning Lab
 
+## 🧾 TL;DR (Executive Summary)
+Implemented and validated **SAML 2.0 Single Sign-On (SSO)** between **Microsoft Entra ID (Azure AD)** and **Salesforce Developer Edition (SP-initiated flow)**.
 
-## 📘 Overview
-This project explores the concept and implementation of **Single Sign-On (SSO)** — a widely used authentication mechanism that allows users to access multiple applications using a single set of credentials.
+### 🛑 Key Finding on SCIM Provisioning
+Due to platform restrictions on the Salesforce Developer Edition (or Trailhead Playgrounds), **SCIM provisioning was blocked**. This project successfully documents the SAML SSO configuration and provides a **manual simulation** and detailed steps to understand the full user lifecycle (Create, Update, Disable, Delete) as it *would* occur with a working SCIM endpoint.
 
-The goal is to understand how SSO enhances user experience, improves security, and simplifies identity management across systems.
+TThis lab validates proficiency in Identity Federation, SAML configuration, and user provisioning concepts essential for modern **Identity and Access Management (IAM)**.
 
 ---
 
 ## 🎯 Learning Objectives
-By the end of this project, you should be able to:
-- Understand what **SSO** is and how it works.  
-- Describe the role of **Identity Providers (IdP)** and **Service Providers (SP)**.  
-- Explain key protocols used in SSO, such as **OAuth 2.0**, **OpenID Connect (OIDC)**, and **SAML**.  
-- Implement a basic **SSO flow** in a web application.  
-- Integrate a third-party authentication provider (e.g., **Google**, **GitHub**, or **Auth0**).
-
----
-
-## 🧩 Key Concepts
-- **Identity Provider (IdP):** The system that authenticates users and issues identity tokens.  
-- **Service Provider (SP):** The application or service that relies on the IdP to authenticate users.  
-- **Tokens:** Encrypted pieces of data that verify the user’s identity (e.g., **JWT**).  
-- **Federated Identity:** A method to link a user's digital identity across multiple systems.  
-
----
-
-## 🏗️ Implementation Steps
-1. **Set up a demo application** (e.g., Node.js or Python web app).  
-2. **Configure an Identity Provider** — use a service like **Auth0**, **Okta**, or **Firebase Authentication**.  
-3. **Integrate OAuth 2.0 / OpenID Connect** into the application.  
-4. **Handle token validation and session management.**  
-5. **Test the login flow** to ensure smooth authentication between apps.  
-
----
-
-## ⚙️ Technologies Used
-- **Frontend:** HTML, CSS, JavaScript (or React)  
-- **Backend:** Node.js / Express or Python / Flask  
-- **Authentication:** OAuth 2.0 / OpenID Connect / SAML  
-- **Tools:** Auth0, Okta, or custom IdP  
-
----
-
-## 🧠 Example Use Case
-A company has multiple internal tools — a dashboard, a CRM, and a file storage system.  
-Instead of logging in separately to each system, users authenticate once via the company’s **SSO portal**, which grants them access to all systems automatically.
-
----
-
-## 🔒 Benefits of SSO
-- ✅ **Improved user experience** — one login for all services.  
-- ✅ **Reduced password fatigue** and support costs.  
-- ✅ **Centralized authentication management.**  
-- ✅ **Enhanced security and compliance.**  
-
----
-
-## 💻 What I Built
-- **SaaS App:** Salesforce (Developer Edition) – supports **SAML + SCIM**  
-- **SSO Protocol:** **SAML 2.0 (SP-initiated)**  
-- **SCIM Provisioning:** Enabled with **Microsoft Entra ID**  
-- **Assignment:** Dynamic group → auto-assign app  
-- **Users synced:** 3 test users (**create → update → disable → delete**)  
-- **Full lifecycle demo:** **Provision → Update → Deprovision**  
-- **100% cleanup:** App, users, group removed  
-
-### Full Flow Demo (Login + Sync)
-![SSO + SCIM Flow](./Screenshots/sso_scim_flow.gif)  
-[**View SCIM Schema Mapping**](./Exports/SCIM_Mapping.json)  
-[**Provisioning Logs CSV**](./Exports/Provisioning_Logs.csv)
+By completing this lab, I was able to:
+* ✅ Configure a secure **SAML 2.0 trust relationship** between an IdP and an SP.
+* ✅ Demonstrate **SP-initiated SSO login flow**.
+* ✅ Define and use **Dynamic Groups** to automate application assignment.
+* ✅ Understand and document the process for **SCIM provisioning** and **attribute mapping**.
+* ✅ Manually simulate the **full user lifecycle (Create, Update, Disable, Delete)** to meet the project's learning goal despite platform limitations.
 
 ---
 
 ## 🏗️ Architecture Diagram
+This diagram illustrates the intended full implementation flow (SAML for authentication, SCIM for provisioning).
+
 <img width="900" src="./Screenshots/sso_scim_architecture.png" alt="SAML/OIDC SSO + SCIM Provisioning Architecture" />
 
-*JIT assignment → SSO → SCIM syncs users/groups in real time*
+***Note:** The SCIM provisioning path was simulated for this specific lab environment.*
 
 ---
 
-## 🔄 SCIM Provisioning Decision Flow
-<img width="800" src="./Screenshots/scim_provisioning_flow.png" alt="SCIM Lifecycle: Create, Update, Disable, Delete" />
+## 💻 Project Flow & Outcome (Evidence)
+
+### Part 1: SAML SSO Implementation (Successful)
+
+## 💻 Full Implementation Workflow & Evidence
+
+This table chronologically documents all steps, from the successful SAML SSO configuration to the SCIM provisioning failure and the subsequent manual simulation.
+
+| # | **Feature** | **Action** | **Status** | **Screenshot / Evidence** |
+|:-:|:------------|:---------------|:---------------|:---------------|
+| **1** | **Users & Group** | Create 3 Test Users (Alice, Bob, Carol) in Entra ID with `Department = Salesforce Users`. | ✅ Success | <img src="./Screenshots/Users_Created.png" width="180" height="120"/> |
+| **2** | **Users & Group** | Create Dynamic Group `GRP-Salesforce-Users` with rule based on the `Department` attribute. | ✅ Success | <img src="./Screenshots/Dynamic_Group.png" width="180" height="120"/> |
+| **3** | **App Setup** | Add Salesforce Enterprise Application and assign it to the Dynamic Group. | ✅ Success | <img src="./Screenshots/App_Assignment.png" width="180" height="120"/> |
+| **4** | **SAML Config** | Configure SAML 2.0 in Entra ID and upload Metadata XML to Salesforce. | ✅ Success | <img src="./Screenshots/SAML_Config.png" width="180" height="120"/> |
+| **5** | **User Creation** | **Manual Step:** Create test users in Salesforce and set **Federation ID** to match the Entra ID UPN (`user.userprincipalname`). | ✅ Success (Manual) | <img src="./Screenshots/Users_Manual.png" width="180" height="120"/> |
+| **6** | **SSO Test** | Test SP-initiated login flow from Salesforce URL $\rightarrow$ Entra ID Login $\rightarrow$ Salesforce Dashboard. | ✅ Success | <img src="./Screenshots/SSO_Login.png" width="180" height="120"/> |
+| **7** | **SCIM Attempt** | Attempt to configure Automatic Provisioning (SCIM) in Entra ID and test connection. | ❌ **Failed** | <img src="./Screenshots/SCIM_Disabled.png" width="180" height="120"/> |
+| **8** | **SCIM Failure** | **Root Cause:** SCIM Provisioning is not supported in the Salesforce Developer Edition/Trial Org. | 🛑 **Blocked** | *Provisioning logs show "SCIM endpoint not supported."* |
+| **9** | **SCIM Mapping** | **Conceptual:** Document required attribute mapping (e.g., `userPrincipalName` $\rightarrow$ `userName`) despite UI being inaccessible. | **Skipped** | [View Conceptual Mapping](./Exports/SCIM_Mapping.json) |
+| **10** | **Lifecycle** | **Manual Simulation:** Update Alice's job title in Entra $\rightarrow$ manually update in Salesforce. | ✅ Success (Manual) | <img src="./Screenshots/Lifecycle_Manual.png" width="180" height="120"/> |
+| **11** | **Deprovisioning** | **Manual Simulation:** Disable Bob and Delete Carol in Entra $\rightarrow$ manually deactivate/delete in Salesforce. | ✅ Success (Manual) | <img src="./Screenshots/User_Disabled.png" width="180" height="120"/> |
+| **12** | **Audit Trail** | Export Entra ID Provisioning Logs showing the continuous SCIM connection errors. | ✅ Captured | <img src="./Screenshots/Provisioning_Logs_Error.png" width="180" height="120"/> / [Download CSV](./Exports/Provisioning_Logs_No_SCIM.csv) |
 
 ---
 
-## 🧾 SCIM Mapping (JSON Export)
+## 🪜 Step-by-Step Implementation Guide (Avoiding Pitfalls)
 
-### Evidence
+### Part A: Initial Setup in Microsoft Entra ID (Azure AD)
 
-| # | **Action** | **Screenshot** |
-|:-:|:------------|:---------------|
-| 1 | **Create test users** | <img src="./Screenshots/Users_Created.png" width="180" height="120"/> |
-| 2 | **Create dynamic group** | <img src="./Screenshots/Dynamic_Group.png" width="180" height="120"/> |
-| 3 | **Add SaaS app (Salesforce)** | <img src="./Screenshots/App_Added.png" width="180" height="120"/> |
-| 4 | **Configure SAML SSO** | <img src="./Screenshots/SAML_Config.png" width="180" height="120"/> |
-| 5 | **Enable SCIM provisioning** | <img src="./Screenshots/SCIM_Enabled.png" width="180" height="120"/> |
-| 6 | **Map attributes** | <img src="./Screenshots/SCIM_Mapping.png" width="180" height="120"/> |
-| 7 | **Assign group to app** | <img src="./Screenshots/App_Assignment.png" width="180" height="120"/> |
-| 8 | **Test SSO login** | <img src="./Screenshots/SSO_Login.png" width="180" height="120"/> |
-| 9 | **Verify user in Salesforce** | <img src="./Screenshots/User_In_Salesforce.png" width="180" height="120"/> |
-| 10 | **Disable user → deprovision** | <img src="./Screenshots/User_Disabled.png" width="180" height="120"/> |
-| 11 | **Provisioning logs** | <img src="./Screenshots/Provisioning_Logs.png" width="180" height="120"/> |
+#### 1. Create Test Users
+* **Path:** Microsoft Entra Admin Center $\rightarrow$ **Users** $\rightarrow$ **New user**.
+* **Users:** Create the three test accounts (Alice, Bob, Carol).
+* **Crucial Step:** Ensure all three users have their **Department** attribute set to `Salesforce Users`.
 
----
+#### 2. Create Dynamic Group
+* **Path:** Microsoft Entra Admin Center $\rightarrow$ **Groups** $\rightarrow$ **New group**.
+* **Type:** Security $\rightarrow$ **Membership type:** Dynamic User.
+* **Name:** `GRP-Salesforce-Users`
+* **Dynamic Query Rule:** `(user.department -eq "Salesforce Users")`
+* **Wait:** Allow 5-10 minutes for group membership to fully propagate before testing SSO.
 
-## 🪜 Step-by-Step
+#### 3. Add Salesforce Enterprise Application
+* **Path:** Microsoft Entra Admin Center $\rightarrow$ **Enterprise applications** $\rightarrow$ **New application**.
+* **Action:** Select **Create your own application** $\rightarrow$ **Name:** `Salesforce-Lab`.
 
-### 1. **Create Test Users**
-**Users:**  
-- **alice.johnson@practicecyber.onmicrosoft.com**  
-- **bob.smith@practicecyber.onmicrosoft.com**  
-- **carol.lee@practicecyber.onmicrosoft.com**  
-All in **Salesforce Users** department.  
-📸 Screenshot: **Users_Created.png**
+### Part B: Configuring SAML 2.0 (The Successful Part)
 
----
+#### 4. Configure SAML SSO in Salesforce (SP)
+* **Path:** Salesforce Setup $\rightarrow$ **Identity** $\rightarrow$ **Single Sign-On Settings** $\rightarrow$ **New** (SAML).
+* **Name:** `STS - Microsoft Entra SSO`.
+* **SAML Identity Type:** **Assertion contains the Federation ID from the User object** (This must match the NameID from Entra).
+* **Entity ID:** `urn:salesforce:lab` (or similar).
+* **Crucial Step:** Note the **Assertion Consumer Service (ACS) URL** from this page—you need it for Entra ID.
 
-### 2. **Create Dynamic Group**
-**Name:** `GRP-Salesforce-Users`  
-**Rule:** `(user.department -eq "Salesforce Users")`  
-📸 Screenshot: **Dynamic_Group.png**
+#### 5. Configure SAML SSO in Microsoft Entra ID (IdP)
+* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Single sign-on** $\rightarrow$ **SAML**.
+* **Basic SAML Configuration (Section 1):**
+    * **Identifier (Entity ID):** Must match the value in Salesforce (e.g., `urn:salesforce:lab`).
+    * **Reply URL (Assertion Consumer Service URL):** Use the ACS URL noted from Salesforce.
+    * **Sign on URL:** Use your Salesforce domain login URL.
+* **Attributes & Claims (Section 2):** Ensure the **Unique User Identifier (Name ID)** is set to `user.userprincipalname`.
+* **SAML Signing Certificate (Section 3):** Download the **Federation Metadata XML**.
 
----
+#### 6. Finalize SAML Configuration in Salesforce
+* **Path:** Return to the Salesforce **Single Sign-On Settings** page.
+* **Identity Provider Certificate:** Upload the **Federation Metadata XML** downloaded from Entra ID.
 
-### 3. **Add Salesforce App**
-**Path:** Microsoft Entra Admin Center → **Enterprise applications → New application**  
-→ **Create your own application** → **Name:** Salesforce-Lab  
-→ **Integrate with SAML**  
-📸 Screenshot: **App_Added.png**
+#### 7. Manually Create Users in Salesforce (Crucial Workaround for SCIM Limitation)
+* **Path:** Salesforce Setup $\rightarrow$ **Users** $\rightarrow$ **New User**.
+* **Action:** Create the Alice, Bob, and Carol user records.
+* **Crucial Step:** Set the Salesforce **Federation ID** for each user to their full Entra ID email address (e.g., `alice.johnson@practicecyber.onmicrosoft.com`). **This is what allows SAML login to work.**
 
----
+#### 8. Assign Application to Dynamic Group
+* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Users and groups** $\rightarrow$ **Add user/group**.
+* **Group:** Select `GRP-Salesforce-Users`.
+* **Assignment required:** **Yes**.
 
-### 4. **Configure SAML SSO**
-- **Sign-on URL:** `https://login.salesforce.com`  
-- **Reply URL:** `https://<your-instance>.my.salesforce.com`  
-- **Identifier:** `urn:salesforce:lab`  
-Download **Metadata XML** from Salesforce → upload to Entra.  
-📸 Screenshot: **SAML_Config.png**
+#### 9. Test SSO (SP-Initiated)
+* **Path:** Open an incognito browser tab and navigate to your Salesforce domain URL (`https://<instance>.my.salesforce.com`).
+* **Result:** Should successfully redirect through Microsoft Login and land you on the Salesforce dashboard.
 
----
+### Part C: SCIM Provisioning (Limitation and Simulation)
 
-### 5. **Enable SCIM Provisioning**
-**Provisioning → Mode:** Automatic  
-- **Tenant URL:** `https://scim.salesforce.com`  
-- **Secret Token:** `<generated in Salesforce>`  
-**Test connection → Success**  
-📸 Screenshot: **SCIM_Enabled.png**
+#### 10. Attempt to Enable SCIM Provisioning (The Expected Failure)
+* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Provisioning**.
+* **Provisioning Mode:** Set to **Automatic**.
+* **Issue:** You **cannot** obtain the Tenant URL or Secret Token from Salesforce. The required **User Provisioning Settings** under Connected Apps are missing in Developer Edition.
+* **Result:** The **Test Connection** in Entra ID will **Fail** with an error like `"SCIM endpoint not supported"`.
 
----
+#### 11. SCIM Attribute Mapping (Conceptual Step)
+* **Note:** The mapping interface is inaccessible due to the connection failure.
+* **Conceptual Goal:** Map Entra attributes to Salesforce fields (e.g., `userPrincipalName` $\rightarrow$ `userName`, `mail` $\rightarrow$ `emails[type eq "work"].value`, etc.).
+* [**View SCIM Mapping Schema (Conceptual)**](./Exports/SCIM_Mapping.json)
 
-### 6. **Attribute Mapping**
-Mapped fields:  
-- **userPrincipalName** → `userName`  
-- **displayName** → `name.formatted`  
-- **mail** → `emails[type eq "work"].value`  
-- **jobTitle**, **department** → direct  
-📸 Screenshot: **SCIM_Mapping.png**
+#### 12. Manual Lifecycle Simulation
+To demonstrate understanding of the full lifecycle:
 
----
+| Action | Azure Action | Salesforce Manual Action | SCIM Expected Result |
+|:---------|:---------------|:-------------------------|:---------------------|
+| **Update** Alice | Change Alice's `jobTitle` in Entra ID. | Manually edit Alice's user record in Salesforce and update the **Title** field. | **Update** (PATCH) operation. |
+| **Disable** Bob | Uncheck the **Account enabled** box for Bob in Entra ID. | Manually edit Bob's user record in Salesforce and uncheck **Active**. | **Deprovision** (Disable) operation. |
+| **Delete** Carol | Hard delete the user Carol in Entra ID. | Manually delete Carol's user record in Salesforce. | **Deprovision** (DELETE) operation. |
 
-### 7. **Assign App to Group**
-**Path:** Users and groups → Add → `GRP-Salesforce-Users`  
-**Assignment required:** Yes  
-📸 Screenshot: **App_Assignment.png**
-
----
-
-### 8. **Test SSO (SP-Initiated)**
-Go to **https://<instance>.my.salesforce.com**  
-→ Redirected to **Microsoft login** → **SSO success!**  
-📸 Screenshot: **SSO_Login.png**
+#### 13. Export Provisioning Logs (Documentation of Failure)
+* **Path:** Entra Enterprise Application `Salesforce-Lab` $\rightarrow$ **Provisioning logs**.
+* **Filter:** Filter by **Failure** status.
+* **Action:** Download the logs. This file proves the SCIM endpoint was the limiting factor.
+* [**View Provisioning Error Logs**](./Exports/Provisioning_Logs_No_SCIM.csv)
 
 ---
 
-### 9. **Verify Provisioning**
-In **Salesforce → Users**, see **Alice**, **Bob**, and **Carol** auto-created  
-with correct **email**, **name**, and **department**.  
-📸 Screenshot: **User_In_Salesforce.png**
+## 🧠 Troubleshooting: Salesforce $\leftrightarrow$ Microsoft Entra ID (SAML SSO)
+
+This section documents the main issues encountered and their resolution.
+
+| ❌ Error / Symptom | 🔍 Root Cause | 🛠️ Resolution Steps |
+|--------------------|--------------|---------------------|
+| **AADSTS50105:** *User not assigned to the application.* | User was not part of the assigned group, or dynamic membership hadn't propagated. | $\rightarrow$ Verified user met the Dynamic Group rule. $\rightarrow$ **Wait 5-10 minutes** for dynamic group membership to sync. |
+| **Salesforce SSO Error:** *Cannot log you in because of an issue.* | The Salesforce **Federation ID** did not match the **NameID** sent in the SAML assertion. | $\rightarrow$ Manually set the **Federation ID** in Salesforce to exactly match the Entra ID **User Principal Name**. |
+| Redirect goes to **Salesforce classic login** | The Salesforce domain was not configured to use the newly created SSO provider. | $\rightarrow$ In **Salesforce Setup $\rightarrow$ My Domain $\rightarrow$ Authentication Configuration**, ensure the new SSO provider is checked. |
+| **SAML login loop** | Mismatch in **Reply URL (ACS)** or **Entity ID** between IdP and SP. | $\rightarrow$ Re-upload the latest **Federation Metadata XML** from Entra ID to Salesforce. |
 
 ---
-
-### 10. **Lifecycle Test: Update & Deprovision**
-- **Update** Alice’s job title → syncs in **<1 min**  
-- **Disable** Bob in Entra ID → deactivated in Salesforce  
-- **Delete** Carol → hard delete via **SCIM**  
-📸 Screenshot: **User_Disabled.png**
-
----
-
-### 11. **Export Provisioning Logs**
-Go to **Provisioning logs → Download CSV**  
-Filtered: **Create**, **Update**, **Disable**, **Delete**  
-File: `Provisioning_Logs.csv`
-
----
-
-## 🧪 Tools Result
-
-| **Feature** | **Status** |
-|:-------------|:-----------|
-| **SSO (SAML)** | ✅ Working |
-| **SCIM Provisioning** | ✅ Automatic |
-| **JIT Assignment** | ✅ Dynamic group |
-| **Lifecycle Sync** | ✅ Create / Update / Disable / Delete |
-| **Audit Logs** | ✅ Full export |
-| **Cleanup** | ✅ 100% removed |
-
----
-
-## 🛠️ Tools & Services Used
-- **Microsoft Entra Admin Center**  
-- **Salesforce Developer Edition**  
-- **Microsoft Entra Provisioning Service (SCIM)**  
-- **Dynamic Groups**  
-- **SAML 2.0 / OIDC (fallback)**  
-- **Microsoft 365 Developer Tenant**
-
----
-
-## 🏁 Outcome
-This lab demonstrates **SC-300-level mastery** of:
-- **SAML/OIDC SSO configuration**  
-- **SCIM provisioning & attribute mapping**  
-- **Dynamic group assignment**  
-- **Full user lifecycle automation**  
-- **Audit & troubleshooting**
-
----
-
-## ⚙️ Troubleshooting
-
-| **Issue** | **Fix** |
-|:-----------|:--------|
-| **SCIM 401** | Regenerate token in Salesforce → *Setup → SCIM* |
-| **User not provisioned** | Check group membership + 5-min sync delay |
-| **SAML login loop** | Verify Reply URL matches ACS in Salesforce |
-| **Attributes not syncing** | Confirm mapping + restart provisioning |
-
-
-
-## 🧩 Troubleshooting: Salesforce ↔ Microsoft Entra ID (SAML SSO)
-
-This section documents the main issues encountered while configuring **SAML-based Single Sign-On** between **Microsoft Entra ID** and **Salesforce**, along with the resolution steps.
-
-| ❌ Error / Symptom | 🔍 Root Cause | 🛠️ Resolution Steps | 📸 Screenshot |
-|--------------------|--------------|---------------------|---------------|
-| **AADSTS50105:** *The signed in user is blocked because they are not assigned to the application.* | The user (e.g., `alice.johnson@practicecyber.onmicrosoft.com`) was not directly assigned to the Salesforce-Lab enterprise app. | • Go to **Microsoft Entra Admin Center → Enterprise applications → Salesforce-Lab → Users and groups**.<br>• Verify that the dynamic group `GRP-Salesforce-Users` is assigned.<br>• Ensure **Alice** is a member of that group or assign her directly via **Add user/group → Assign**. | `AADSTS50105_Fix.png` |
-| **Salesforce:** *Single Sign-On Error – We can’t log you in because of an issue with single sign-on.* | Salesforce couldn’t match the user in the SAML assertion (NameID) with a Salesforce user. | • In **Salesforce → Setup → Users → Users**, edit the user.<br>• Set the **Federation ID** to match the **NameID** from SAML (`user.userprincipalname`, e.g. `alice.johnson@practicecyber.onmicrosoft.com`).<br>• Save and re-run the **Test Sign-In**. | `FederationID_Fix.png` |
-| Redirect goes to **Salesforce classic login** instead of Microsoft login | The **Entity ID** or **Reply URL (ACS)** in Salesforce does not match Microsoft Entra configuration. | • In **Salesforce → Setup → Single Sign-On Settings → Edit (sts)** verify:<br> - **Issuer:** `https://sts.windows.net/<tenant_id>/`<br> - **Entity ID:** matches the Identifier (Entity ID) in Entra<br> - **Login URL:** `https://login.microsoftonline.com/<tenant_id>/saml2` | `EntityID_Verify.png` |
-| **No file selected** under *Identity Provider Certificate* | The SAML certificate was not uploaded or expired. | • In **Entra → Salesforce-Lab → Single sign-on**, download the **Federation Metadata XML**.<br>• In **Salesforce → Single Sign-On Settings**, upload that file in **Identity Provider Certificate**.<br>• Save and re-test. | `SAML_Certificate.png` |
-| Still redirected to **username/password login** instead of SSO | The Salesforce domain is not configured to use the SSO provider. | • In **Salesforce Setup → My Domain → Authentication Configuration**, check **sts** (Microsoft SSO provider).<br>• Optionally uncheck *Login Form* to enforce SSO.<br>• Access Salesforce through: `https://<your-domain>.my.salesforce.com`. | `MyDomain_SSO.png` |
-| ✅ **Expected Behavior** | — | • From **Microsoft Entra → Salesforce-Lab → Single sign-on → Test sign in**:<br> 1. Redirects to Microsoft login.<br> 2. Authenticates the assigned user.<br> 3. Redirects to Salesforce and shows dashboard. | `SSO_Success.png` |
-
----
-
-### 🧠 Notes
-
-- Ensure the **NameID (user.userprincipalname)** in Entra matches the **Federation ID** in Salesforce.  
-- After updating certificates or metadata, re-upload the XML file if needed.  
-- If using a **dynamic group**, allow several minutes for membership propagation before testing.  
-
-
----
----
-## 🌟 Personal Note
-I built this project to continue growing as an Identity professional,  
-proving that learning, curiosity, and technical depth matter — even outside a formal job role.  
-I enjoy solving authentication and automation challenges and would love to bring that mindset to a professional team.
-
----
-## 📚 References
-- [Microsoft Entra ID: SCIM Provisioning Overview](https://learn.microsoft.com/en-us/azure/active-directory/app-provisioning/use-scim-to-provision-users-and-groups)
-- [Salesforce SAML Single Sign-On](https://help.salesforce.com/s/articleView?id=sf.sso_saml.htm)
-- [Auth0 Docs: Understanding SSO](https://auth0.com/docs/authenticate/protocols/sso)
-
 
 ## 🌟 Personal Note
-I built this project to continue growing as an **Identity & Access Management professional**,  
-proving that **curiosity, consistency, and technical depth** matter — even outside a formal job role.  
-
+I executed this project to grow my skills as an **Identity & Access Management professional**, demonstrating that **curiosity, consistency, and technical depth** are key—even when faced with platform limitations. Documenting the SCIM limitation and manually simulating the lifecycle was a valuable exercise in understanding the full process. I look forward to bringing this problem-solving mindset to a professional team.
 
 **Author:** **Yaz**
