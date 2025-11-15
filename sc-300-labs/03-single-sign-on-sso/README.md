@@ -85,41 +85,6 @@ This table chronologically documents all steps, from the successful SAML SSO con
 
 ### Part A: Initial Setup in Microsoft Entra ID (Azure AD)
 
-markdown# 03-Single-Sign-On (SSO) with Microsoft Entra ID & Salesforce
-
-
-
-## Key Concepts
-- **IdP (Identity Provider):** Microsoft Entra ID – issues SAML assertions
-- **SP (Service Provider):** Salesforce – consumes SAML for login
-- **SCIM:** Automates user/group sync across domains
-- **JIT Assignment:** Access granted via dynamic group membership
-- **Federation ID:** Links Entra user to Salesforce (`userPrincipalName`)
-
----
-
-## Architecture Diagram
-![SSO + SCIM Architecture](./Screenshots/sso_scim_architecture.png)  
-*Dynamic group → JIT → SSO → Manual sync simulation*
-
-### SCIM Lifecycle Flow
-![SCIM Provisioning Flow](./Screenshots/scim_provisioning_flow.png)
-
----
-
-## What I Built
-| Component | Details |
-|---------|---------|
-| **SaaS App** | Salesforce Developer Edition (`speed-velocity-336`) |
-| **SSO Protocol** | SAML 2.0 (SP-initiated) |
-| **IdP** | Microsoft Entra ID |
-| **Dynamic Group** | `GRP-Salesforce-Users` (`user.department -eq "Salesforce Users"`) |
-| **Test Users** | Alice, Bob, Carol (`@practicecyber.onmicrosoft.com`) |
-| **Lifecycle** | Create → Update → Disable → Delete (manual) |
-| **Cleanup** | 100% – app, users, group removed |
-
----
-
 ## Step-by-Step Implementation
 
 ### 1. Create Test Users
