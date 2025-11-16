@@ -2,11 +2,14 @@
 ------
 ## 🔐 Lab – Access Review Automation & Identity Governance (SC-300)
 
-## objective:
-    - 35% average reduction in unnecessary access (real client data)
-    - 100% automated removal of inactive accounts (>90 days)
-    - Continuous compliance with ISO 27001, SOC 2, NIST CSF, and Cyber Essentials Plus
-    - Zero Standing Privileges (ZSP) on privileged roles via PIM + reviews
+### Objective
+- 35% average reduction in unnecessary access (real client data)
+- 100% automated removal of inactive accounts (>90 days)
+- Continuous compliance with ISO 27001, SOC 2, NIST CSF, and Cyber Essentials Plus
+- Zero Standing Privileges (ZSP) on privileged roles via PIM + reviews
+
+---
+    
 
 ## 🧩 Overview
   This lab implements automated Access Reviews for:
@@ -87,33 +90,32 @@ demo_gif: "./Screenshots/AccessReview_Flow.gif"
 
 ## ⚙️ Features Implemented
 
-  **group_membership_reviews:**
-  ### 👥 Group Membership Reviews
-      - "Automated recurring Access Reviews for M365 and Security groups"
-      - "Optional guest user inclusion/exclusion"
-      - "Sign-in activity–based recommendations"
+**group_membership_reviews:**
+### 👥 Group Membership Reviews
+- Automated recurring Access Reviews for M365 and Security groups
+- Optional guest user inclusion/exclusion
+- Sign-in activity–based recommendations
 
-  **application_assignment_reviews:**
-   ### 🧩 Application Assignment Reviews
-      - "Periodic certification of user assignments to enterprise apps"
-      - "Reviews completed by application owners or administrators"
+**application_assignment_reviews:**
+### 🧩 Application Assignment Reviews
+- Periodic certification of user assignments to enterprise apps
+- Reviews completed by application owners or administrators
 
-  **automatic_access_removal:**
-   ### 🗑️ Automatic Access Removal
-      - "Auto-apply reviewer decisions to remove denied users"
-      - "Remove access when reviewers do not respond"
-      - "Optional justification requirement"
+**automatic_access_removal:**
+### 🗑️ Automatic Access Removal
+- Auto-apply reviewer decisions to remove denied users
+- Remove access when reviewers do not respond
+- Optional justification requirement
 
- ### 📅 Scheduling & Notifications
-      - "Weekly, monthly, quarterly, or annual review cycles"
-      - "Automated reviewer email reminders"
-      - "Custom review duration"
+### 📅 Scheduling & Notifications
+- Weekly, monthly, quarterly, or annual review cycles
+- Automated reviewer email reminders
+- Custom review duration
 
- ### 🔑 PIM Integration
-
-      - "Privileged role Access Reviews"
-      - "Review of permanent vs. eligible role assignments"
-      - "PIM activation history analysis"
+### 🔑 PIM Integration
+- Privileged role Access Reviews
+- Review of permanent vs. eligible role assignments
+- PIM activation history analysis
 
 
 ## 🖼️ Evidence
@@ -130,83 +132,81 @@ evidence_table: |
   | 7 | Activity-Based Recommendations | <img src="./Screenshots/step7_activity.png" width="180" height="120" /> |
   | 8 | Apply Results | <img src="./Screenshots/step8_results.png" width="180" height="120" /> |
 
-
 ## 🚀 Step-by-Step Process
   steps_header: "## 🧭 Step-by-Step"
 
-## 1️⃣"Microsoft Entra ID – Access Reviews Dashboard"
-      Navigated to:
-      **Identity Governance → Access Reviews**
+## 1️⃣ Microsoft Entra ID – Access Reviews Dashboard
+Navigated to:
+**Identity Governance → Access Reviews**
       
-      Reviewed existing Access Reviews and created a new one.
-    screenshot: "./Screenshots/step1_dashboard.png"
+Reviewed existing Access Reviews and created a new one.
+screenshot: "./Screenshots/step1_dashboard.png"
 
 ## 2️⃣ Create New Access Review
-      - Clicked **New Access Review**
-      - Selected **Groups**
-      - Scope: Users in selected M365/Security Group
-    screenshot: "./Screenshots/step2_creation.png"
+- Clicked **New Access Review**
+- Selected **Groups**
+- Scope: Users in selected M365/Security Group
+screenshot: "./Screenshots/step2_creation.png"
 
 ## 3️⃣ Select Group for Review
-
-      Selected the target group for access re-certification.
-      Ensured that only group owners will perform reviews.
-    screenshot: "./Screenshots/step3_group_selection.png"
+Selected the target group for access re-certification.
+Ensured that only group owners will perform reviews.
+screenshot: "./Screenshots/step3_group_selection.png"
 
 ## 4️⃣ Configure Recurrence & Duration
-      Configured:
-      - Recurrence: **Monthly**
-      - Duration: **14 days**
-      - Auto-apply decisions: **Enabled**
-    screenshot: "./Screenshots/step4_schedule.png"
+Configured:
+- Recurrence: **Monthly**
+- Duration: **14 days**
+- Auto-apply decisions: **Enabled**
+screenshot: "./Screenshots/step4_schedule.png"
 
- ## 5️⃣ Assign Reviewers
-      Selected reviewers:
-      - Group Owners
-      - Enabled email reminder notifications
-    screenshot: "./Screenshots/step5_reviewers.png"
+## 5️⃣ Assign Reviewers
+Selected reviewers:
+- Group Owners
+- Enabled email reminder notifications
+screenshot: "./Screenshots/step5_reviewers.png"
 
- ## 6️⃣ Access Review In Progress
-      Reviewers evaluate each user's access:
-      ✔️ Approve  
-      ❌ Deny  
-      ⏳ Not Reviewed  
-    screenshot: "./Screenshots/step6_in_progress.png"
+## 6️⃣ Access Review In Progress
+Reviewers evaluate each user's access:
+✔️ Approve  
+❌ Deny  
+⏳ Not Reviewed  
+screenshot: "./Screenshots/step6_in_progress.png"
 
 ## 7️⃣ Activity-Based Recommendations
-      Used sign-in activity data to support reviewer decisions.
-      Identified inactive or risky users.
-    screenshot: "./Screenshots/step7_activity.png"
+Used sign-in activity data to support reviewer decisions.
+Identified inactive or risky users.
+screenshot: "./Screenshots/step7_activity.png"
 
 ## 8️⃣ Apply Results
-      - Auto-apply automatically removes denied or non-reviewed users.
-      - Manual apply option available.
-      - Exported results for audit and compliance.
-    screenshot: "./Screenshots/step8_results.png"
+- Auto-apply automatically removes denied or non-reviewed users.
+- Manual apply option available.
+- Exported results for audit and compliance.
+screenshot: "./Screenshots/step8_results.png"
 
 
 ## 🧠 SC-300 Skills Demonstrated
- ### 🛡️ Identity Governance"
-      - "Access Review lifecycle configuration"
-      - "Governance for groups, applications, and privileged roles"
-      - "External/guest access management"
+### 🛡️ Identity Governance"
+- Access Review lifecycle configuration
+- Governance for groups, applications, and privileged roles
+- External/guest access management
 
- ### 🔧 Automation & Scripting
-      - "Azure Portal configuration"
-      - "Microsoft Graph API automation"
-      - "PowerShell scripting"
+### 🔧 Automation & Scripting
+- Azure Portal configuration
+- Microsoft Graph API automation
+- PowerShell scripting
 
- ### 🏛️ Compliance & Zero Trust
+### 🏛️ Compliance & Zero Trust
 
-      - "ISO 27001 / SOC2 / SOX alignment"
-      - "Audit-ready access certifications"
-      - "Least privilege enforcement"
+- ISO 27001 / SOC2 / SOX alignment
+- Audit-ready access certifications
+- Least privilege enforcement
 
-  ### 📊 Monitoring & Reporting
+### 📊 Monitoring & Reporting
  
-      - "Exporting Access Review results"
-      - "Governance reporting"
-      - "Remediation documentation"
+- Exporting Access Review results
+- Governance reporting
+- Remediation documentation
 
 
 ## ✅ Tools Result
@@ -219,13 +219,13 @@ evidence_table: |
 
 
 ## 🧰 Tools & Services Used
-  - "Microsoft Entra Admin Center"
-  - "Identity Governance – Access Reviews"
-  - "Privileged Identity Management (PIM)"
-  - "Azure AD Audit Logs"
-  - "Microsoft 365 Developer Tenant"
-  - "Microsoft Graph API (optional)"
-  - "PowerShell (optional)"
+  - Microsoft Entra Admin Center
+  - Identity Governance – Access Reviews
+  - Privileged Identity Management (PIM)
+  - Azure AD Audit Logs
+  - Microsoft 365 Developer Tenant
+  - Microsoft Graph API (optional)
+  - PowerShell (optional)
 
 
 ## 💡 Outcome
@@ -237,11 +237,11 @@ evidence_table: |
 
 
 ## 🧩 Troubleshooting
-  - "If Access Reviews are grayed out → assign Microsoft Entra ID P2 license."
-  - "Ensure Usage Location is set (e.g., US) before assigning licenses."
-  - "If reviewers are not receiving emails → verify notification settings."
-  - "If activity recommendations do not appear → ensure users have sign-in logs."
-  - "If auto-apply fails → verify reviewers completed all required decisions."
+  - If Access Reviews are grayed out → assign Microsoft Entra ID P2 license.
+  - Ensure Usage Location is set (e.g., US) before assigning licenses.
+  - If reviewers are not receiving emails → verify notification settings.
+  - If activity recommendations do not appear → ensure users have sign-in logs.
+  - If auto-apply fails → verify reviewers completed all required decisions.
 
 
 ---------
