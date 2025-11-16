@@ -118,7 +118,7 @@ By completing this lab, I was able to:
 → 🖼️: `access-expired.png`
 
 ### 🎞️ GIF: Full End-to-End Flow
-> **File**: `Screenshots/demo-request-flow.gif`  
+> **File**: ![Entitlement ManagementFlow](./Screenshots/demo-request-flow.gif)  
 > **Tool**: ScreenToGif  
 > **Duration**: 22s  
 > **Steps Recorded**:  
@@ -127,8 +127,6 @@ By completing this lab, I was able to:
 > 3. Admin approves  
 > 4. Access appears  
 > 5. Expires after 1 min → removed
-
-→ 🖼️: `demo-request-flow.gif`
 
 ---
 ## 📊 Troubleshooting: Entitlement Management
