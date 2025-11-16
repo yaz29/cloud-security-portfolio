@@ -68,15 +68,14 @@ By completing this lab, I was able to:
 ### 2. Add Resources to Catalog
 - **Path:** Catalog → **Resources** → **+ Add resources**
 - **Add:**
-  - Group: `Finance-Team` (Security)
-  - App: `Finance Analytics` (Enterprise App)
-  - SharePoint: `https://practicecyber.sharepoint.com/sites/FinanceDocs`
+  - Group: `GRP-Salesforce-Users` (Security)
+  - App: `Salesforce-Lab` (Enterprise App)
 → 🖼️: `catalog-resources.png`
 
 ### 3. Create Access Package
 - **Path:** **Access packages** → **+ New access package**
 - **Details:**
-  - Name: `Finance Full Access Bundle`
+  - Name: `Salesforce Access packages`
   - Catalog: `Lab-Catalog-Entitlement`
   - Add all 3 resources
 → 🖼️: `access-package.png`
@@ -84,16 +83,16 @@ By completing this lab, I was able to:
 ### 4. Configure Policy
 - **Path:** Access Package → **Policies** → **+ Add policy**
 - **Settings:**
-  - **For users**: `Specific users` → Add `test.user@practicecyber.onmicrosoft.com`
-  - **Require approval**: `Yes` → Approver: You
-  - **Expiration**: `30 days` (use `1 minute` for quick demo)
+  - **For users**: `Specific users` → Add `Alice.johnson@PracticeCyber.onmicrosoft.com`
+  - **Require approval**: `Yes` → Approver: Yasmina@PracticeCyber.onmicrosoft.com
+  - **Expiration**: `30 days`
 → 🖼️: `policy-settings.png`
 
 ### 5. User Submits Request (MyAccess)
 - **Action:**
-  1. Open **incognito** → [myaccess.microsoft.com](https://myaccess.microsoft.com)
-  2. Sign in as `test.user@practicecyber.onmicrosoft.com`
-  3. Find **Finance Full Access Bundle**
+  1. Open **incognito** → (https://myaccess.microsoft.com)
+  2. Sign in as `Alice.johnson@PracticeCyber.onmicrosoft.com`
+  3. Find **[Salesforce Full Access Package]**
   4. Click **Request** → Justification: "Q4 reporting access required"
 → 🖼️: `myaccess-request.png`
 
@@ -104,18 +103,20 @@ By completing this lab, I was able to:
 
 ### 7. Validate Access Granted
 - **Check:**
-  - `test.user` in `Finance-Team` group
-  - App in **My Apps**
-  - SharePoint site accessible
+  - `test.user Alice.johnson@PracticeCyber.onmicrosoft.com  in `Salesforce Access Package` group
+  - App in **https://myaccess.microsoft.com**
 → 🖼️: `access-assigned.png`
 
 ### 8. Validate Auto-Revocation
-- **Action:** Wait for expiration (or force 1-min policy)
-- **Verify:**
-  - Access removed from MyAccess
-  - Group membership gone
-  - App/SharePoint inaccessible
-→ S🖼️: `access-expired.png`
+ **Action:** Wait for expiration  o performe the next step
+1. Navigate to MyAccess → My Access → Salesforce Package.
+2. Click **Remove Access**.
+3. Confirm the revocation.
+**Validation:**
+- Package no longer appears under MyAccess.
+- User is no longer a member of the assigned group.
+- Assignment status shows **Removed**.
+→ 🖼️: `access-expired.png`
 
 ### 🎞️ GIF: Full End-to-End Flow
 > **File**: `Screenshots/demo-request-flow.gif`  
