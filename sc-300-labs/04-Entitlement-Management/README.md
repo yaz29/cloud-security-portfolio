@@ -118,15 +118,15 @@ By completing this lab, I was able to:
 → 🖼️: `access-expired.png`
 
 ### 🎞️ GIF: Full End-to-End Flow
-> **File**: ![Entitlement ManagementFlow](./Screenshots/demo-request-flow.gif)  
-> **Tool**: ScreenToGif  
-> **Duration**: 22s  
+> ![Entitlement ManagementFlow](./Screenshots/demo-request-flow.gif)  
+>
+>  
 > **Steps Recorded**:  
 > 1. User opens MyAccess  
 > 2. Requests package  
 > 3. Admin approves  
 > 4. Access appears  
-> 5. Expires after 1 min → removed
+> 5. Access removed
 
 ---
 ## 📊 Troubleshooting: Entitlement Management
