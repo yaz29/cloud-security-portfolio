@@ -63,7 +63,6 @@ By completing this lab, I was able to:
 - **Path:** Entra Admin Center → **Identity Governance** → **Entitlement Management** → **Catalogs**
 - **Action:** `+ New catalog` → Name: `Lab-Catalog-Entitlement`
 - **Tip:** Enable **"Resources can be added by admins"**
-- **URL:** [Catalogs](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Catalogs)
 → 🖼️: `catalog-created.png`
 
 ### 2. Add Resources to Catalog
@@ -72,7 +71,6 @@ By completing this lab, I was able to:
   - Group: `Finance-Team` (Security)
   - App: `Finance Analytics` (Enterprise App)
   - SharePoint: `https://practicecyber.sharepoint.com/sites/FinanceDocs`
-- **URL:** [Resources](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Catalogs/catalogId/~)
 → 🖼️: `catalog-resources.png`
 
 ### 3. Create Access Package
@@ -81,7 +79,6 @@ By completing this lab, I was able to:
   - Name: `Finance Full Access Bundle`
   - Catalog: `Lab-Catalog-Entitlement`
   - Add all 3 resources
-- **URL:** [Access Packages](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/AccessPackages)
 → 🖼️: `access-package.png`
 
 ### 4. Configure Policy
@@ -90,7 +87,6 @@ By completing this lab, I was able to:
   - **For users**: `Specific users` → Add `test.user@practicecyber.onmicrosoft.com`
   - **Require approval**: `Yes` → Approver: You
   - **Expiration**: `30 days` (use `1 minute` for quick demo)
-- **URL:** [Policy Settings](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Policies)
 → 🖼️: `policy-settings.png`
 
 ### 5. User Submits Request (MyAccess)
@@ -99,13 +95,11 @@ By completing this lab, I was able to:
   2. Sign in as `test.user@practicecyber.onmicrosoft.com`
   3. Find **Finance Full Access Bundle**
   4. Click **Request** → Justification: "Q4 reporting access required"
-- **URL:** [MyAccess](https://myaccess.microsoft.com)
 → 🖼️: `myaccess-request.png`
 
 ### 6. Admin Approves Request
 - **Path:** Entra → **Entitlement Management** → **Requests**
 - **Action:** Find request → **Approve** → Comment: "Approved for reporting"
-- **URL:** [Requests](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Requests)
 → 🖼️: `approval-flow.png`
 
 ### 7. Validate Access Granted
@@ -113,7 +107,6 @@ By completing this lab, I was able to:
   - `test.user` in `Finance-Team` group
   - App in **My Apps**
   - SharePoint site accessible
-- **URL:** [Azure AD Users](https://entra.microsoft.com/#view/Microsoft_AAD_Users/UserManagementMenuBlade/~/AllUsers)
 → 🖼️: `access-assigned.png`
 
 ### 8. Validate Auto-Revocation
@@ -122,7 +115,6 @@ By completing this lab, I was able to:
   - Access removed from MyAccess
   - Group membership gone
   - App/SharePoint inaccessible
-- **URL:** [MyAccess](https://myaccess.microsoft.com)
 → S🖼️: `access-expired.png`
 
 ### 🎞️ GIF: Full End-to-End Flow
@@ -150,8 +142,6 @@ By completing this lab, I was able to:
 
 ---
 **Author:** **Yaz**  
-*Preparing: SC-300 (Dec 2025), SC-200 (Jan 2026), AWS Security Specialty*
-
 ---
 
 ![SC-300 Ready](https://img.shields.io/badge/SC--300-Ready-blue)
