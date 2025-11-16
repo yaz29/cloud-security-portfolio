@@ -1,11 +1,11 @@
 # 04-Entitlement-Management
-## TL;DR (Executive Summary)
+## 🧩 Overview
 Implemented and validated **Microsoft Entra ID Entitlement Management** with **catalogs**, **access packages**, **approval workflows**, and **automatic lifecycle expiration**.  
 Successfully simulated the **end-to-end user access request experience** via **MyAccess portal**, including **approval**, **assignment**, and **auto-revocation**.  
 This lab demonstrates production-ready **Identity Governance** skills — essential for **SC-300** and modern **IAM** roles.
 
 ---
-## Learning Objectives
+## 🏗️ Learning Objectives
 By completing this lab, I was able to:
 * Configure **Entitlement Management** from scratch in Microsoft Entra ID.
 * Build **access packages** with bundled resources (groups, apps, SharePoint).
@@ -15,7 +15,7 @@ By completing this lab, I was able to:
 * Document full **audit trail** and **governance compliance**.
 
 ---
-## Key Concepts
+## 📘Key Concepts
 - **Catalog**: Container for resources (groups, apps, sites)
 - **Access Package**: Bundle of entitlements for self-service
 - **Policy**: Controls who can request, approval, and expiration
@@ -24,7 +24,7 @@ By completing this lab, I was able to:
 - **Access Reviews**: (Future lab) Periodic entitlement validation
 
 ---
-## What I Built
+## ⚙️ What I Built
 | Component | Details |
 |---------|---------|
 | **Tenant** | `practicecyber.onmicrosoft.com` |
@@ -37,13 +37,13 @@ By completing this lab, I was able to:
 | **Cleanup** | 100% – catalog, package, resources removed |
 
 ----
-## Architecture Diagram
+## 🗺️ Architecture Diagram
 <img width="600" src="./Screenshots/entitlement_architecture.png" alt="Entitlement Management Architecture" />
 *Catalog → Access Package → Policy → MyAccess → Lifecycle Automation*
 
 ---
 ### Part 1: Entitlement Management Implementation (100% Success)
-## Full Implementation Workflow & Evidence
+## 🎯 Full Implementation Workflow & Evidence
 | # | **Feature** | **Action** | **Status** | **Screenshot / Evidence** |
 |:-:|:------------|:---------------|:---------------|:---------------|
 | **1** | **Catalog** | Created `Lab-Catalog-Entitlement` in Entra ID Governance. | Success | <img src="./Screenshots/catalog-created.png" width="180" height="120"/> |
@@ -57,14 +57,14 @@ By completing this lab, I was able to:
 | **GIF** | **Full Flow** | User request → approval → access → expiration. | Success | <img src="./Screenshots/demo-request-flow.gif" width="180" height="120"/> |
 
 ---
-## Step-by-Step Implementation Guide (Avoiding Pitfalls)
+## 📝 Step-by-Step Implementation Guide (Avoiding Pitfalls)
 
 ### 1. Create Catalog
 - **Path:** Entra Admin Center → **Identity Governance** → **Entitlement Management** → **Catalogs**
 - **Action:** `+ New catalog` → Name: `Lab-Catalog-Entitlement`
 - **Tip:** Enable **"Resources can be added by admins"**
 - **URL:** [Catalogs](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Catalogs)
-→ See: `catalog-created.png`
+→ 🖼️: `catalog-created.png`
 
 ### 2. Add Resources to Catalog
 - **Path:** Catalog → **Resources** → **+ Add resources**
@@ -73,7 +73,7 @@ By completing this lab, I was able to:
   - App: `Finance Analytics` (Enterprise App)
   - SharePoint: `https://practicecyber.sharepoint.com/sites/FinanceDocs`
 - **URL:** [Resources](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Catalogs/catalogId/~)
-→ See: `catalog-resources.png`
+→ 🖼️: `catalog-resources.png`
 
 ### 3. Create Access Package
 - **Path:** **Access packages** → **+ New access package**
@@ -82,7 +82,7 @@ By completing this lab, I was able to:
   - Catalog: `Lab-Catalog-Entitlement`
   - Add all 3 resources
 - **URL:** [Access Packages](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/AccessPackages)
-→ See: `access-package.png`
+→ 🖼️: `access-package.png`
 
 ### 4. Configure Policy
 - **Path:** Access Package → **Policies** → **+ Add policy**
@@ -91,7 +91,7 @@ By completing this lab, I was able to:
   - **Require approval**: `Yes` → Approver: You
   - **Expiration**: `30 days` (use `1 minute` for quick demo)
 - **URL:** [Policy Settings](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Policies)
-→ See: `policy-settings.png`
+→ 🖼️: `policy-settings.png`
 
 ### 5. User Submits Request (MyAccess)
 - **Action:**
@@ -100,13 +100,13 @@ By completing this lab, I was able to:
   3. Find **Finance Full Access Bundle**
   4. Click **Request** → Justification: "Q4 reporting access required"
 - **URL:** [MyAccess](https://myaccess.microsoft.com)
-→ See: `myaccess-request.png`
+→ 🖼️: `myaccess-request.png`
 
 ### 6. Admin Approves Request
 - **Path:** Entra → **Entitlement Management** → **Requests**
 - **Action:** Find request → **Approve** → Comment: "Approved for reporting"
 - **URL:** [Requests](https://entra.microsoft.com/#view/Microsoft_AAD_IG/EntitlementManagementMenuBlade/~/Requests)
-→ See: `approval-flow.png`
+→ 🖼️: `approval-flow.png`
 
 ### 7. Validate Access Granted
 - **Check:**
@@ -114,7 +114,7 @@ By completing this lab, I was able to:
   - App in **My Apps**
   - SharePoint site accessible
 - **URL:** [Azure AD Users](https://entra.microsoft.com/#view/Microsoft_AAD_Users/UserManagementMenuBlade/~/AllUsers)
-→ See: `access-assigned.png`
+→ 🖼️: `access-assigned.png`
 
 ### 8. Validate Auto-Revocation
 - **Action:** Wait for expiration (or force 1-min policy)
@@ -123,9 +123,9 @@ By completing this lab, I was able to:
   - Group membership gone
   - App/SharePoint inaccessible
 - **URL:** [MyAccess](https://myaccess.microsoft.com)
-→ See: `access-expired.png`
+→ S🖼️: `access-expired.png`
 
-### GIF: Full End-to-End Flow
+### 🎞️ GIF: Full End-to-End Flow
 > **File**: `Screenshots/demo-request-flow.gif`  
 > **Tool**: ScreenToGif  
 > **Duration**: 22s  
@@ -136,10 +136,10 @@ By completing this lab, I was able to:
 > 4. Access appears  
 > 5. Expires after 1 min → removed
 
-→ See: `demo-request-flow.gif`
+→ 🖼️: `demo-request-flow.gif`
 
 ---
-## Troubleshooting: Entitlement Management
+## 📊 Troubleshooting: Entitlement Management
 | Error / Symptom | Root Cause | Resolution Steps |
 |------------------|------------|------------------|
 | **Package not visible in MyAccess** | User not in policy scope | Add user to **"For users"** in policy |
@@ -149,11 +149,6 @@ By completing this lab, I was able to:
 | **SharePoint access denied** | Site permissions not inherited | Ensure site allows group members |
 
 ---
-## Personal Note
-After over a year out of formal employment, I’ve dedicated **300+ hours** to **hands-on IAM labs**, **SC-300 prep**, and **real-world simulations** like this one.  
-This project proves I can deliver **production-grade Identity Governance** — from policy design to user experience — even in self-directed environments.  
-I’m ready to bring **automation, compliance, and user-centric IAM** to your team.
-
 **Author:** **Yaz**  
 *Preparing: SC-300 (Dec 2025), SC-200 (Jan 2026), AWS Security Specialty*
 
