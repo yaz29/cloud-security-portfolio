@@ -46,15 +46,15 @@ By completing this lab, I was able to:
 ## 🎯 Full Implementation Workflow & Evidence
 | # | **Feature** | **Action** | **Status** | **Screenshot / Evidence** |
 |:-:|:------------|:---------------|:---------------|:---------------|
-| **1** | **Catalog** | Created `Lab-Catalog-Entitlement` in Entra ID Governance. | Success | <img src="./Screenshots/catalog-created.png" width="180" height="120"/> |
-| **2** | **Resources** | Added Group, App, and SharePoint site to catalog. | Success | <img src="./Screenshots/catalog-resources.png" width="180" height="120"/> |
-| **3** | **Access Package** | Created `Finance Full Access Bundle` with all 3 resources. | Success | <img src="./Screenshots/access-package.png" width="180" height="120"/> |
-| **4** | **Policy** | Configured: Specific user + 1-stage approval + 30-day expiration. | Success | <img src="./Screenshots/policy-settings.png" width="180" height="120"/> |
-| **5** | **User Request** | Test user submitted request via MyAccess portal. | Success | <img src="./Screenshots/myaccess-request.png" width="180" height="120"/> |
-| **6** | **Approval** | Admin approved request with comment. | Success | <img src="./Screenshots/approval-flow.png" width="180" height="120"/> |
-| **7** | **Access Granted** | Group membership, app, and SharePoint access validated. | Success | <img src="./Screenshots/access-assigned.png" width="180" height="120"/> |
-| **8** | **Auto-Revocation** | Access removed after policy expiration (1-min test). | Success | <img src="./Screenshots/access-expired.png" width="180" height="120"/> |
-| **GIF** | **Full Flow** | User request → approval → access → expiration. | Success | <img src="./Screenshots/demo-request-flow.gif" width="180" height="120"/> |
+| **1** | **Catalog** | Created `Lab-Catalog-Entitlement` in Entra ID Governance.| ✅ Success|<img src="./Screenshots/catalog-created.png" width="180" height="120"/> |
+| **2** | **Resources** | Added Group, App, and SharePoint site to catalog. |✅ Success | <img src="./Screenshots/catalog-resources.png" width="180" height="120"/> |
+| **3** | **Access Package** | Created `Finance Full Access Bundle` with all 3 resources. |✅ Success | <img src="./Screenshots/access-package.png" width="180" height="120"/> |
+| **4** | **Policy** | Configured: Specific user + 1-stage approval + 30-day expiration. | ✅ Success | <img src="./Screenshots/policy-settings.png" width="180" height="120"/> |
+| **5** | **User Request** | Test user submitted request via MyAccess portal. | ✅ Success | <img src="./Screenshots/myaccess-request.png" width="180" height="120"/> |
+| **6** | **Approval** | Admin approved request with comment. |✅ Success | <img src="./Screenshots/approval-flow.png" width="180" height="120"/> |
+| **7** | **Access Granted** | Group membership, app, and SharePoint access validated. |✅ Success | <img src="./Screenshots/access-assigned.png" width="180" height="120"/> |
+| **8** | **Auto-Revocation** | Access removed after policy expiration (1-min test). |✅ Success | <img src="./Screenshots/access-expired.png" width="180" height="120"/> |
+| **GIF** | **Full Flow** | User request → approval → access → expiration. |✅ Success | <img src="./Screenshots/demo-request-flow.gif" width="180" height="120"/> |
 
 ---
 ## 📝 Step-by-Step Implementation Guide (Avoiding Pitfalls)
