@@ -54,7 +54,6 @@ By completing this lab, I was able to:
 | **6** | **Approval** | Admin approved request with comment. |✅ Success | <img src="./Screenshots/approval-flow.png" width="180" height="120"/> |
 | **7** | **Access Granted** | Group membership, app, and SharePoint access validated. |✅ Success | <img src="./Screenshots/access-assigned.png" width="180" height="120"/> |
 | **8** | **Auto-Revocation** | Access removed after policy expiration (1-min test). |✅ Success | <img src="./Screenshots/access-expired.png" width="180" height="120"/> |
-| **GIF** | **Full Flow** | User request → approval → access → expiration. |✅ Success | <img src="./Screenshots/demo-request-flow.gif" width="180" height="120"/> |
 
 ---
 ## 📝 Step-by-Step Implementation Guide (Avoiding Pitfalls)
