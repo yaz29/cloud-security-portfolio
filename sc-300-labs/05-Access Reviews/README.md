@@ -123,7 +123,7 @@ demo_gif: "./Screenshots/AccessReview_Flow.gif"
 evidence_table: |
   | # | Action | Screenshot |
   |---|--------|------------|
-  | 1 | Access Reviews Dashboard | <img src="./Screenshots/step1_dashboard.png" width="180" height="120" /> |
+  | 1 | Access Reviews Dashboard | <img src="./Screenshots/step1_dashboard.png" width="280" height="120" /> |
   | 2 | Create Access Review | <img src="./Screenshots/step2_creation.png" width="180" height="120" /> |
   | 3 | Select Group | <img src="./Screenshots/step3_group_selection.png" width="180" height="120" /> |
   | 4 | Configure Recurrence & Duration | <img src="./Screenshots/step4_schedule.png" width="180" height="120" /> |
