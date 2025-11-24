@@ -120,16 +120,15 @@ demo_gif: "./Screenshots/AccessReview_Flow.gif"
 
 ## 🖼️ Evidence
 
-evidence_table: |
   | # | Action | Screenshot |
   |---|--------|------------|
   | 1 | Access Reviews Dashboard | <img src="./Screenshots/step1_dashboard.png" width="280" height="120" /> |
-  | 2 | Create Access Review | <img src="./Screenshots/step2_creation.png" width="180" height="120" /> |
-  | 3 | Select Group | <img src="./Screenshots/step3_group_selection.png" width="180" height="120" /> |
-  | 4 | Configure Recurrence & Duration | <img src="./Screenshots/step4_schedule.png" width="180" height="120" /> |
-  | 5 | Assign Reviewers | <img src="./Screenshots/step5_reviewers.png" width="180" height="120" /> |
-  | 6 | Access Review In Progress | <img src="./Screenshots/step6_in_progress.png" width="180" height="120" /> |
-  | 7 | Activity-Based Recommendations | <img src="./Screenshots/step7_activity.png" width="180" height="120" /> |
+  | 2 | Create Access Review | <img src="./Screenshots/step2_creation.png" width="280" height="120" /> |
+  | 3 | Select Group | <img src="./Screenshots/step3_group_selection.png" width="280" height="120" /> |
+  | 4 | Configure Recurrence & Duration | <img src="./Screenshots/step4_schedule.png" width="280" height="120" /> |
+  | 5 | Assign Reviewers | <img src="./Screenshots/step5_reviewers.png" width="280" height="120" /> |
+  | 6 | Access Review In Progress | <img src="./Screenshots/step6_in_progress.png" width="280" height="120" /> |
+  | 7 | Activity-Based Recommendations | <img src="./Screenshots/step7_activity.png" width="280" height="120" /> |
   | 8 | Apply Results | <img src="./Screenshots/step8_results.png" width="180" height="120" /> |
 
 ## 🚀 Step-by-Step Process
