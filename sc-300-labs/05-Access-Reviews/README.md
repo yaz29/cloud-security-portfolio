@@ -57,6 +57,37 @@
 ### 🎥 Full Access Review Flow
 demo_gif: "./Screenshots/AccessReview_Flow.gif"
 
+   ┌───────────────────────────────┐
+   │     PEOPLE WITH ACCESS        │
+   │ (employees + guests + vendors)│
+   └───────────────┬───────────────┘
+                   │
+                   ▼
+        ┌────────────────────┐
+        │   ACCESS REVIEW    │
+        │  (Access Checkup)  │
+        └───────────┬────────┘
+                    │ The system asks people
+                    │ to confirm who should stay
+                    ▼
+             ┌──────────────┐
+             │   REVIEWERS   │
+             │ (Managers / Owners)
+             └───────┬──────┘
+                     │
+       ┌─────────────┼────────────────┐
+       ▼             ▼                ▼
+  [APPROVE]      [REMOVE]      [NO RESPONSE]
+   Keep access   Access removed   Rule decides
+
+                     ▼
+        ┌──────────────────────────┐
+        │   FINAL RESULT           │
+        │ Access updated           │
+        │ + audit log saved        │
+        └──────────────────────────┘
+
+
 ## 🛠 Architecture Diagram
 <img width='800' src='./Screenshots/access_review_architecture.png' />
 
@@ -129,7 +160,7 @@ demo_gif: "./Screenshots/AccessReview_Flow.gif"
   | 5 | Assign Reviewers | <img src="./Screenshots/step5_reviewers.png" width="280" height="120" /> |
   | 6 | Access Review In Progress | <img src="./Screenshots/step6_in_progress.png" width="280" height="120" /> |
   | 7 | Activity-Based Recommendations | <img src="./Screenshots/step7_activity.png" width="280" height="120" /> |
-  | 8 | Apply Results | <img src="./Screenshots/step8_results.png" width="180" height="120" /> |
+  | 8 | Apply Results | <img src="./Screenshots/step8_results.png" width="280" height="120" /> |
 
 ## 🚀 Step-by-Step Process
   steps_header: "## 🧭 Step-by-Step"
