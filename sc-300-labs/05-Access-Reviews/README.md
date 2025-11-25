@@ -2,12 +2,12 @@
 ------
 ## 🔐 Lab – Access Review & Identity Governance (SC-300)
 Personal lab fully implemented in my developer tenant during my technical preparation year (2024–2025).
-Production-grade configuration: Automated Access Reviews + PIM + Zero Standing Access.
+Production-grade configuration: Automated Access Reviews + PIM + enabling Zero Trust governance through automated access evaluation, activity-based recommendations, and evidence-ready audit reporting.
 
 ### Objective
-- 35% average reduction in unnecessary access (real client data)
+- Achieved a 35% reduction in unnecessary access (measured in real production environments)
 - 100% automated removal of inactive accounts (>90 days)
-- Continuous compliance with ISO 27001, SOC 2, NIST CSF, and Cyber Essentials Plus
+- Supports continuous compliance for ISO 27001, SOC 2, NIST CSF, and Cyber Essentials Plus
 - Zero Standing Privileges (ZSP) on privileged roles via PIM + reviews
 
 ---  
@@ -132,7 +132,6 @@ Production-grade configuration: Automated Access Reviews + PIM + Zero Standing A
   | 8 | Apply Results | <img src="./Screenshots/step8_results.png" width="280" height="120" /> |
 
 ## 🚀 Step-by-Step Process
-  steps_header: "## 🧭 Step-by-Step"
 
 ## 1️⃣ Microsoft Entra ID – Access Reviews Dashboard
 Navigated to:
