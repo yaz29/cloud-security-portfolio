@@ -57,6 +57,11 @@
 ### 🎥 Full Access Review Flow
 demo_gif: "./Screenshots/AccessReview_Flow.gif"
 
+  
+
+## 🛠 Architecture Diagram
+<img width='800' src='./Screenshots/access_review_architecture.png' />
+
    ┌───────────────────────────────┐
    │     PEOPLE WITH ACCESS        │
    │ (employees + guests + vendors)│
@@ -86,10 +91,6 @@ demo_gif: "./Screenshots/AccessReview_Flow.gif"
         │ Access updated           │
         │ + audit log saved        │
         └──────────────────────────┘
-
-
-## 🛠 Architecture Diagram
-<img width='800' src='./Screenshots/access_review_architecture.png' />
 
 
 ## 🛠 Access Review Decision Flow
