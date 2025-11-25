@@ -58,58 +58,28 @@ Production-grade configuration: Automated Access Reviews + PIM + Zero Standing A
 ## 🛠 Architecture Diagram
 <img width='900' src='./Screenshots/access_review_architecture.png' />
 
-       ┌──────────────────────────┐
-       │    ADMIN CONFIGURES      │
-       │  What access to review   │
-       └───────────┬──────────────┘
-                   │
-                   ▼
-        ┌─────────────────────────────┐
-        │     SYSTEM (Azure Access    │
-        │        Reviews Engine)      │
-        │ Sends notifications/emails  │
-        └──────────┬───────────────────┘
-                   │
-                   ▼
-          ┌──────────────────────┐
-          │       REVIEWERS      │
-          │ (managers, app owners)
-          └──────────┬───────────┘
-                     │
-     ┌───────────────┼───────────────┐
-     ▼               ▼               ▼
- [APPROVE]       [REMOVE]      [NO ACTION]
-  Keep access    Remove access   System decides
-
-                     │
-                     ▼
-       ┌──────────────────────────────┐
-       │  SYSTEM UPDATES ACCESS       │
-       │  Removes users automatically │
-       │  Generates audit reports     │
-       └──────────────────────────────┘
-
-
----
-## 🛠 Access Review Decision Flow
-<img width='800' src='./Screenshots/access_review_decision_flow.png' />
-
 ## 🛠 Access Review Settings (JSON Exportable)
+> Archivo original: [`Access-Review-Settings.json`](./Exports/Access-Review-Settings.json)
+>
+> 
   ```json
-  {
-    "reviewType": "GroupMembership",
-    "recurrence": "monthly",
-    "durationInDays": 14,
-    "autoApplyResults": true,
-    "activityBasedRecommendations": true,
-    "reviewerType": "groupOwners",
-    "scope": "selectedGroup",
-    "groupId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "notifications": {
-      "enableReminders": true,
-      "notifyReviewers": true
-    }
-  }
+   {
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
+    "@microsoft.graph.tips": "This request only returns a subset of the resource's properties. Your app will need to use $select to return non-default properties. To find out what other properties are available for this resource see https://learn.microsoft.com/graph/api/resources/user",
+    "businessPhones": [
+        "0055555"
+    ],
+    "displayName": "Yasmina GP",
+    "givenName": "Yasmina",
+    "jobTitle": null,
+    "mail": null,
+    "mobilePhone": null,
+    "officeLocation": null,
+    "preferredLanguage": "en",
+    "surname": "GP",
+    "userPrincipalName": "Yasmina@PracticeCyber.onmicrosoft.com",
+    "id": "332d31b2-05c0-42f4-98cc-48fe4932372b"
+}
 ```
 
 
