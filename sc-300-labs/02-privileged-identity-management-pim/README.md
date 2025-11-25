@@ -46,7 +46,7 @@ PIM reduces:
 ---
 
 ## 🛠 Architecture Diagram  
-<img width="900" src="./Screenshots/pim_architecture_diagram.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
+<img width="400" src="./Screenshots/pim_architecture_diagram.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
 
 
 *Zero Standing Access (ZSA): No permanent privileges. JIT activation with MFA, approval, 4h limit, and monthly hygiene.*
@@ -56,31 +56,46 @@ PIM reduces:
 
 ## 🛠 PIM Activation Decision Flow  
 
-<img width="900" src="./Screenshots/pim_activation_decision.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
+<img width="600" src="./Screenshots/pim_activation_decision.png" alt="PIM JIT Architecture - Just-in-Time Access with MFA, Approval, and Access Reviews" />
 
 ---
 
 ## 🛠 PIM Role Settings (JSON Exportable)  
 ```json
 {
+  "role": "Global Administrator",
   "roleDefinitionId": "62e90394-69f5-4237-9190-012177145e10",
-  "displayName": "Global Administrator",
-  "eligibleSettings": {
-    "requireMfaOnActivation": true,
-    "requireJustificationOnActivation": true,
-    "requireApprovalToActivate": true,
-    "maximumActivationDuration": "PT4H",
-    "approvers": ["Aaron@PracticeCyber.onmicrosoft.com"]
+  "policyId": "Directory_a940ddaa-a956-4e0d-9a43-796ec70ec001_4616d433-e12e-4e1a-afda-aad003f835f5",
+  "activationPolicy": {
+    "maximumActivationDuration": "PT8H",
+    "requireMfa": true,
+    "requireJustification": true,
+    "requireTicket": true,
+    "requireApproval": true,
+    "approvalMode": "SingleStage",
+    "approvers": [
+      {
+        "id": "eca99e3e-6cb1-4cb9-92ad-1fbe1571755b",
+        "displayName": "Aaron",
+        "userPrincipalName": "approver@PracticeCyber.onmicrosoft.com"
+      }
+    ]
   },
-  "accessReviews": {
-    "frequency": "monthly",
-    "autoApplyResults": true,
-    "reviewerType": "designated",
-    "reviewers": ["Arianne@PracticeCyber.onmicrosoft.com"]
-  }
+  "eligibilityPolicy": {
+    "isExpirationRequired": false,
+    "maxEligibility": "P365D"
+  },
+  "assignmentPolicy": {
+    "isExpirationRequired": false,
+    "maxAssignment": "P180D",
+    "requireJustificationOnAssignment": true
+  },
+  "source": "Microsoft Graph /beta roleManagementPolicies rules"
 }
 
 ```
+
+
 ----
 
 ## 🖼️  Evidence 
