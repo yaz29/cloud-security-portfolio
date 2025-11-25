@@ -56,7 +56,7 @@ Production-grade configuration: Automated Access Reviews + PIM + Zero Standing A
   - Created demo GIF showing the full workflow
 ---
 ## 🛠 Architecture Diagram
-<img width='900' src='./Screenshots/access_review_architecture.png' />
+<img width='400' src='./Screenshots/access_review_architecture.png' />
 
 ## 🛠 Access Review Settings (JSON Exportable)
 > Archivo original: [`Access-Review-Settings.json`](./Exports/Access-Review-Settings.json)
