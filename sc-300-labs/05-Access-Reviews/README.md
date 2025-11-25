@@ -53,12 +53,7 @@
   - Generated exportable governance evidence (CSV, JSON)
   - Documented audit trail of Access Review results
   - Created demo GIF showing the full workflow
-
-### 🎥 Full Access Review Flow
-demo_gif: "./Screenshots/AccessReview_Flow.gif"
-
-  
-
+---
 ## 🛠 Architecture Diagram
 <img width='900' src='./Screenshots/access_review_architecture.png' />
 
@@ -94,7 +89,7 @@ demo_gif: "./Screenshots/AccessReview_Flow.gif"
        └──────────────────────────────┘
 
 
-
+---
 ## 🛠 Access Review Decision Flow
 <img width='800' src='./Screenshots/access_review_decision_flow.png' />
 
@@ -217,30 +212,10 @@ screenshot: "./Screenshots/step7_activity.png"
 - Exported results for audit and compliance.
 screenshot: "./Screenshots/step8_results.png"
 
-
-## 🧠 SC-300 Skills Demonstrated
-### 🛡️ Identity Governance"
-- Access Review lifecycle configuration
-- Governance for groups, applications, and privileged roles
-- External/guest access management
-
-### 🔧 Automation & Scripting
-- Azure Portal configuration
-- Microsoft Graph API automation
-- PowerShell scripting
-
-### 🏛️ Compliance & Zero Trust
-
-- ISO 27001 / SOC2 / SOX alignment
-- Audit-ready access certifications
-- Least privilege enforcement
-
-### 📊 Monitoring & Reporting
- 
-- Exporting Access Review results
-- Governance reporting
-- Remediation documentation
-
+### 🎥 Full Access Review Flow
+> ![Access Review](./Screenshots/AccessReview_Flow.gif)
+>
+> ------
 
 ## ✅ Tools Result
   - Zero Standing Access (ZSA) maintained  
