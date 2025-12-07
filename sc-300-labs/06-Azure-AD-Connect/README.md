@@ -36,6 +36,10 @@ A correct hybrid identity approach aligns with **Zero Trust** and **Identity Gov
 - Complete lab cleanup  
 
 ---
+### 🎥 Full Flow Demo (On-Prem User Creation → Sync to Azure AD)
+![MFA Demo](./Screenshot/demo_On-Prem.gif)
+
+--
 
 ## Hybrid Identity Diagram
 *(Replace with your actual image)*
