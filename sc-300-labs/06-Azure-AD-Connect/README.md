@@ -91,63 +91,63 @@ A correct hybrid identity approach aligns with **Zero Trust** and **Identity Gov
 ## Detailed Step-by-Step Breakdown
 
 ## 1. On-Prem Active Directory Setup
-Installed Active Directory Domain Services (AD DS).
-Created the domain: corp.contoso.local.
-Configured DNS to support the new domain.
-Created the following OU structure:
-OU=Corp
-OU=Users
-OU=Groups
-Evidence: ./Screenshot/OUs.png.
+- Installed Active Directory Domain Services (AD DS).
+- Created the domain: corp.contoso.local.
+- Configured DNS to support the new domain.
+- Created the following OU structure:
+  - OU=Corp
+  - OU=Users
+  - OU=Groups
+- Evidence: ./Screenshot/OUs.png.
 
 ## 2. User Creation in On-Prem AD
-Created test user accounts in OU=Users, for example:
-John Doe (jdoe)
-Jane Smith (jsmith)
-Assigned strong initial passwords.
-Evidence: ./Screenshot/AD-Users.png.
+- Created test user accounts in OU=Users, for example:
+  - John Doe (jdoe)
+  - Jane Smith (jsmith)
+- Assigned strong initial passwords.
+- Evidence: ./Screenshot/AD-Users.png.
 
 ## 3. UPN Suffix Configuration
-Added public UPN suffix contoso.com in Active Directory Domains and Trusts.
-Updated user accounts so their UPN matches the public domain (for Azure sign-in), e.g. jdoe@contoso.com.
-Evidence: ./Screenshot/UPN-Suffix.png.
+- Added public UPN suffix contoso.com in Active Directory Domains and Trusts.
+- Updated user accounts so their UPN matches the public domain (for Azure sign-in), e.g. jdoe@contoso.com.
+- Evidence: ./Screenshot/UPN-Suffix.png.
 
 ## 4. Azure AD Connect Installation
-Joined a Windows Server to the corp.contoso.local domain to host Azure AD Connect.
-Downloaded and installed Azure AD Connect.
-Chose the Customize option during setup.
-Selected Password Hash Sync as the sign-in method.
-Provided:
-Azure AD Global Administrator credentials.
-On-prem AD DS Enterprise/Domain Admin credentials.
-Evidence: ./Screenshot/AADConnect-Install.png.
+- Joined a Windows Server to the corp.contoso.local domain to host Azure AD Connect.
+- Downloaded and installed Azure AD Connect.
+- Chose the Customize option during setup.
+- Selected Password Hash Sync as the sign-in method.
+- Provided:
+- Azure AD Global Administrator credentials.
+- On-prem AD DS Enterprise/Domain Admin credentials.
+- Evidence: ./Screenshot/AADConnect-Install.png.
 
 ## 5. OU Filtering Configuration
-In the Azure AD Connect wizard, limited synchronization to lab-specific OUs:
-OU=Users
-OU=Groups
-This avoids syncing system accounts or unwanted objects.
-Evidence: ./Screenshot/OU-Filtering.png.
+- In the Azure AD Connect wizard, limited synchronization to lab-specific OUs:
+  - OU=Users
+  - OU=Groups
+- This avoids syncing system accounts or unwanted objects.
+- Evidence: ./Screenshot/OU-Filtering.png.
 
 ## 6. Initial Sync Execution
-Completed the Azure AD Connect wizard and triggered the initial synchronization.
-Verified that synchronization profiles (Import → Sync → Export) ran successfully.
-Evidence: ./Screenshot/Initial-Sync.png.
+- Completed the Azure AD Connect wizard and triggered the initial synchronization.
+- Verified that synchronization profiles (Import → Sync → Export) ran successfully.
+- Evidence: ./Screenshot/Initial-Sync.png.
 
 ## 7. Cloud Identity Verification
-In the Microsoft Entra admin center, navigated to:
-Azure Active Directory → Users
-Confirmed that on-prem users appeared as:
-Source: Windows Server AD
-Correct UPN: e.g. jdoe@contoso.com
-Evidence: ./Screenshot/AzureAD-Users.png.
+- In the Microsoft Entra admin center, navigated to:
+- Azure Active Directory → Users
+- Confirmed that on-prem users appeared as:
+- Source: Windows Server AD
+- Correct UPN: e.g. jdoe@contoso.com
+- Evidence: ./Screenshot/AzureAD-Users.png.
 
 ## 8. Login Test with Synced User
-Opened a private browser session.
-Browsed to https://portal.office.com (or another cloud app).
-Signed in using the synced user, e.g. jdoe@contoso.com with the on-prem AD password.
-Confirmed successful authentication.
-Evidence: ./Screenshot/Login-Test.png.
+- Opened a private browser session.
+- Browsed to https://portal.office.com (or another cloud app).
+- Signed in using the synced user, e.g. jdoe@contoso.com with the on-prem AD password.
+- Confirmed successful authentication.
+- Evidence: ./Screenshot/Login-Test.png.
 
 ## Tools Used
 - Windows Server (Active Directory Domain Services)
@@ -166,12 +166,12 @@ This lab demonstrates a complete hybrid identity solution with:
 - The lab provides practical, job-ready experience for roles in Identity & Access Management, Cloud Engineering, and Security Engineering.
 
 ## Troubleshooting Tip
-If users synchronize with a .local UPN or cannot sign in:
-Verify that the public domain (for example, contoso.com) is added and verified in Microsoft Entra ID.
-Ensure the public UPN suffix is configured and applied to users in on-prem AD.
-Run a delta sync using PowerShell on the Azure AD Connect server:
-Import-Module ADSync
-Start-ADSyncSyncCycle -PolicyType Delta
+- If users synchronize with a .local UPN or cannot sign in:
+  Verify that the public domain (for example, contoso.com) is added and verified in Microsoft Entra ID.
+- Ensure the public UPN suffix is configured and applied to users in on-prem AD.
+- Run a delta sync using PowerShell on the Azure AD Connect server:
+  - Import-Module ADSync
+  - Start-ADSyncSyncCycle -PolicyType Delta
 
 
 ## 👩‍💻 *Author:* [Yaz.](https://www.linkedin.com/in/yasmina-g-p-227576a)
