@@ -71,18 +71,17 @@ A correct hybrid identity approach aligns with **Zero Trust** and **Identity Gov
 
 ---
 
-| # | Action                   | Screenshot                                                  |
-| - | ------------------------ | ----------------------------------------------------------- |
-| 1 | Create on-prem AD OUs    | ![OUs](./Screenshot/OUs.png)                                |
-| 2 | Create on-prem users     | ![AD Users](./Screenshot/AD-Users.png)                      |
-| 3 | Configure UPN suffix     | ![UPN Suffix](./Screenshot/UPN-Suffix.png)                  |
-| 4 | Install Azure AD Connect | ![AAD Connect Install](./Screenshot/AADConnect-Install.png) |
-| 5 | Configure OU Filtering   | ![OU Filtering](./Screenshot/OU-Filtering.png)              |
-| 6 | Initial Sync Completed   | ![Initial Sync](./Screenshot/Initial-Sync.png)              |
-| 7 | Cloud identities appear  | ![AzureAD Users](./Screenshot/AzureAD-Users.png)            |
-| 8 | User login test          | ![Login Test](./Screenshot/Login-Test.png)                  |
+| # | Action | Screenshot |
+|---|---------|-------------|
+| 1 | Create on-prem AD OUs | <img src="./Screenshot/OUs.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 2 | Create on-prem users | <img src="./Screenshot/AD-Users.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 3 | Configure UPN suffix | <img src="./Screenshot/UPN-Suffix.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 4 | Install Azure AD Connect | <img src="./Screenshot/AADConnect-Install.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 5 | Configure OU Filtering  | <img src="./Screenshot/OU-Filtering.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 6 | Initial Sync Completed | <img src="./Screenshot/Initial-Sync.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 7 | Cloud identities appear | <img src="./Screenshot/AzureAD-Users.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
+| 8 | User login test | <img src="./Screenshot/Login-Test.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 
-----
 
 ## Detailed Step-by-Step Breakdown
 
