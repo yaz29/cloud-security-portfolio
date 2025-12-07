@@ -86,6 +86,7 @@ A correct hybrid identity approach aligns with **Zero Trust** and **Identity Gov
 | 7 | Cloud identities appear | <img src="./Screenshot/AzureAD-Users.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 | 8 | User login test | <img src="./Screenshot/Login-Test.png" width="180" height="120" style="object-fit: cover; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"/> |
 
+---
 
 ## Detailed Step-by-Step Breakdown
 
