@@ -1,4 +1,4 @@
-# Azure AD Connect – Hybrid Identity Sync (On-Prem AD → Azure AD)
+# Lab 06 Azure AD Connect – Hybrid Identity Sync (On-Prem AD → Azure AD)
 
 ---
 
@@ -166,3 +166,9 @@ If users synchronize with a .local UPN or cannot sign in:
 Verify that the public domain (for example, contoso.com) is added and verified in Microsoft Entra ID.
 Ensure the public UPN suffix is configured and applied to users in on-prem AD.
 Run a delta sync using PowerShell on the Azure AD Connect server:
+Import-Module ADSync
+Start-ADSyncSyncCycle -PolicyType Delta
+
+
+## 👩‍💻 *Author:* [Yaz.](https://www.linkedin.com/in/yasmina-g-p-227576a)
+
