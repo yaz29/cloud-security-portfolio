@@ -50,12 +50,12 @@ Traditional MFA still relies on passwords, which means:
 ---
 
 ## 🛠 Architecture Diagram
-<img src="./Screenshot/FIDO2-Architecture.png" width="900"/>
+<img src="./Screenshot/FIDO2-Architecture.png" width="400"/>
 
 ---
 
 ## 🛠 Authentication Decision Flow
-<img src="./Screenshot/FIDO2-Auth-Flow.png" width="900"/>
+<img src="./Screenshot/FIDO2-Auth-Flow.png" width="400"/>
 
 ---
 
