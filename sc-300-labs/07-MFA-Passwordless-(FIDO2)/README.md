@@ -50,12 +50,12 @@ Traditional MFA still relies on passwords, which means:
 ---
 
 ## 🛠 Architecture Diagram
-<img src="./Screenshot/FIDO2-Architecture.png" width="400"/>
+<img src="./Screenshots/FIDO2-Architecture.png" width="400"/>
 
 ---
 
 ## 🛠 Authentication Decision Flow
-<img src="./Screenshot/FIDO2-Auth-Flow.png" width="400"/>
+<img src="./Screenshots/FIDO2-Auth-Flow.png" width="400"/>
 
 ---
 
@@ -129,13 +129,13 @@ Traditional MFA still relies on passwords, which means:
 
 | # | Action                            | Screenshot                                                                              |
 | - | --------------------------------- | --------------------------------------------------------------------------------------- |
-| 1 | Create cloud-only users           | <img src="./Screenshot/Users.png" width="180" style="border-radius:6px;"/>              |
-| 2 | Create security group             | <img src="./Screenshot/Group.png" width="180" style="border-radius:6px;"/>              |
-| 3 | Enable FIDO2 authentication       | <img src="./Screenshot/FIDO2-enabled.png" width="180" style="border-radius:6px;"/>      |
-| 4 | Register FIDO2 security key       | <img src="./Screenshot/FIDO2-registration.png" width="180" style="border-radius:6px;"/> |
-| 5 | Configure Conditional Access      | <img src="./Screenshot/Conditional-Access.png" width="180" style="border-radius:6px;"/> |
-| 6 | Passwordless sign-in test         | <img src="./Screenshot/Passwordless-login.png" width="180" style="border-radius:6px;"/> |
-| 7 | Access granted (no password used) | <img src="./Screenshot/Access-granted.png" width="180" style="border-radius:6px;"/>     |
+| 1 | Create cloud-only users           | <img src="./Screenshots/Users.png" width="180" style="border-radius:6px;"/>              |
+| 2 | Create security group             | <img src="./Screenshots/Group.png" width="180" style="border-radius:6px;"/>              |
+| 3 | Enable FIDO2 authentication       | <img src="./Screenshots/FIDO2-enabled.png" width="180" style="border-radius:6px;"/>      |
+| 4 | Register FIDO2 security key       | <img src="./Screenshots/FIDO2-registration.png" width="180" style="border-radius:6px;"/> |
+| 5 | Configure Conditional Access      | <img src="./Screenshots/Conditional-Access.png" width="180" style="border-radius:6px;"/> |
+| 6 | Passwordless sign-in test         | <img src="./Screenshots/Passwordless-login.png" width="180" style="border-radius:6px;"/> |
+| 7 | Access granted (no password used) | <img src="./Screenshots/Access-granted.png" width="180" style="border-radius:6px;"/>     |
 
 
 ----
@@ -158,7 +158,7 @@ Cloud-only identities remove on-prem dependencies and reflect modern cloud-first
   - Users appear in Entra ID
 No hybrid or directory sync attributes present
 
-📸 Screenshot: Users.png
+📸 Screenshot: User.png
 
 ## 2️⃣ Create IAM Security Group
 Purpose (IAM reasoning):
