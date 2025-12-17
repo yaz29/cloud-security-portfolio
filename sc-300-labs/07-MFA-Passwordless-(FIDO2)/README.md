@@ -101,52 +101,113 @@ Traditional MFA still relies on passwords, which means:
 ----
 
 ## 🔎 IAM Implementation Details
-## 1️⃣ Identity Creation 
-- Created two cloud-only identities:
+
+## 1️⃣ Create Cloud-Only Identities
+Purpose (IAM reasoning):
+Cloud-only identities remove on-prem dependencies and reflect modern cloud-first IAM architectures.
+Actions:
+- Navigate to Microsoft Entra ID → Users
+- Create two users:
     Jasmine Demo
     Aaron Demo
-No on-prem or hybrid identity dependency, reflecting modern cloud-first IAM.
-📸 Users.png
+- Set strong temporary passwords (for initial sign-in only)
+- Mark users as cloud-only
+Validation:
+  - Users appear in Entra ID
+No hybrid or directory sync attributes present
+📸 Screenshot: Users.png
 
-## 2️⃣ Group-Based Access Control
-- Created security group: Passwordless-FIDO2-Users
-- Used group membership to scope:
-- Authentication methods
-- Conditional Access policies
-- Demonstrates scalable IAM design.
-📸 Group.png
+## 2️⃣ Create IAM Security Group
+Purpose (IAM reasoning):
+Groups enable scalable policy enforcement and reduce administrative overhead.
+Actions:
+  - Go to Microsoft Entra ID → Groups
+  - Create security group:
+    Name: Passwordless-FIDO2-Users
+    Type: Security
+    Add Jasmine and Aaron as members
+Validation:
+- Group membership confirmed
+- Group ready for Conditional Access & auth method scoping
+📸 Screenshot: Group.png
 
-## 3️⃣ Authentication Methods Governance (FIDO2)
-- Enabled FIDO2 Security Keys under Authentication Methods
-- Scoped registration and usage to the IAM-controlled group
-- Allowed self-service registration with controlled policy boundaries
-📸 FIDO2-enabled.png
+## 3️⃣ Enable FIDO2 Authentication Method
+Purpose (IAM reasoning):
+Authentication Methods policy defines which credentials are allowed, where, and for whom.
+Actions:
+  - Navigate to Microsoft Entra ID → Security → Authentication methods
+  - Select FIDO2 Security Keys
+Enable the method
+Configure:
+  - Allow self-service registration
+  - Restrict usage to Passwordless-FIDO2-Users
+  - Enforce key restrictions (recommended defaults)
+Validation:
+  - FIDO2 enabled
+  - Scoped to IAM-controlled group only
+📸 Screenshot: FIDO2-enabled.png
 
-## 4️⃣ Passwordless Credential Registration
-- Registered a FIDO2 security key via My Security Info
-- Completed user verification using:
-- PIN
-- Physical security key challenge
-- Verified credential binding to user identity
-📸 FIDO2-registration.png
+## 4️⃣ Register FIDO2 Security Key
+Purpose (IAM reasoning):
+Credential registration binds a cryptographic key pair to a user identity.
+Actions:
+  - Sign in as Jasmine
+  - Go to My Security Info
+  - Register a FIDO2 security key
+Complete:
+  - PIN setup
+  - Physical key challenge
+Validation:
+  - Security key appears under authentication methods
+  - No password involved in authentication
+📸 Screenshot: FIDO2-registration.png
 
-## 5️⃣ Conditional Access Policy Enforcement
-- Targeted Passwordless-FIDO2-Users
-- Applied to All cloud apps
-- Required Multi-Factor Authentication
-- Validated that FIDO2 satisfies MFA requirements
-- Enabled policy and confirmed enforcement
-📸 Conditional-Access.png
+## 5️⃣ Configure Conditional Access Policy
+Purpose (IAM reasoning):
+Conditional Access enforces policy-based authentication decisions at runtime.
+Actions:
+  - Navigate to Microsoft Entra ID → Security → Conditional Access
+Create policy:
+  - Name: IAM - Require Passwordless MFA (FIDO2)
+Assign:
+  - Users: Passwordless-FIDO2-Users
+Apps: All cloud apps
+  Grant:
+  - Require multi-factor authentication
+  - Enable policy
+Validation:
+  - Policy appears as enabled
+  - Scoped correctly to group
+📸 Screenshot: Conditional-Access.png
 
-## 6️⃣ Authentication Validation (IAM Perspective)
-Performed clean sign-in tests
-Observed authentication sequence:
-- Username
-- FIDO2 challenge
-- No password prompt
-- Access granted
-Confirmed phishing-resistant MFA flow
-📸 Passwordless-login.png
+## 6️⃣ Validate Passwordless Authentication Flow
+Purpose (IAM reasoning):
+Verification ensures that FIDO2 satisfies MFA requirements and removes password dependency.
+Actions:
+  - Sign out completely
+  - Start a new sign-in as Jasmine
+Observe authentication flow:
+  - Username entered
+  - FIDO2 challenge presented
+  - No password prompt
+  - Access granted
+Validation:
+  - MFA satisfied via FIDO2
+  - Passwordless authentication confirmed
+📸 Screenshot: Passwordless-login.png
+
+## 7️⃣ Access Validation & Policy Enforcement
+Purpose (IAM reasoning):
+Final confirmation that Conditional Access is enforcing intended controls.
+Actions:
+  - Access a cloud application
+  - Confirm no bypass or fallback to password
+Validation:
+  - Access granted only after phishing-resistant MFA
+📸 Screenshot: Access-granted.png
+
+
+-----
 
 ## 🔐 License Assignment & IAM Validation
 To enable Conditional Access and advanced authentication methods, Microsoft Entra ID P2 licenses were assigned.
