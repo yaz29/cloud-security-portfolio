@@ -166,6 +166,7 @@ Credential registration binds a cryptographic key pair to a user identity.
 Complete:
   - PIN setup
   - Physical key challenge
+    
 **Validation:**
   - Security key appears under authentication methods
   - No password involved in authentication
@@ -179,6 +180,7 @@ Conditional Access enforces policy-based authentication decisions at runtime.
   - Navigate to Microsoft Entra ID → Security → Conditional Access
 Create policy:
   - Name: IAM - Require Passwordless MFA (FIDO2)
+    
 **Assign:**
   - Users: Passwordless-FIDO2-Users
 Apps: All cloud apps
@@ -198,11 +200,13 @@ Verification ensures that FIDO2 satisfies MFA requirements and removes password 
 **Actions:**
   - Sign out completely
   - Start a new sign-in as Jasmine
-Observe authentication flow:
+    
+**Observe authentication flow:**
   - Username entered
   - FIDO2 challenge presented
   - No password prompt
   - Access granted
+    
 **Validation:**
   - MFA satisfied via FIDO2
   - Passwordless authentication confirmed
@@ -211,9 +215,11 @@ Observe authentication flow:
 ## 7️⃣ Access Validation & Policy Enforcement
 Purpose (IAM reasoning):
 Final confirmation that Conditional Access is enforcing intended controls.
+
 **Actions:**
   - Access a cloud application
   - Confirm no bypass or fallback to password
+    
 **Validation:**
   - Access granted only after phishing-resistant MFA
 📸 Screenshot: Access-granted.png
