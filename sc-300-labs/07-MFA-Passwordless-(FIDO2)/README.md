@@ -45,8 +45,7 @@ Traditional MFA still relies on passwords, which means:
 ---
 
 ## 🎥 Full Authentication Flow Demo (Passwordless Sign-In)
-![Passwordless Demo](./Screenshot/demo_FIDO2.gif)
-
+<img src="./Screenshots/demo_FIDO2.gif" width="600"/>
 ---
 
 ## 🛠 Architecture Diagram
