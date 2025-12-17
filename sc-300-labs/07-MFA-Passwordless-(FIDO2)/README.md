@@ -62,25 +62,65 @@ Traditional MFA still relies on passwords, which means:
 ## 🔐 Conditional Access Policy (JSON – Exportable)
 
 ```json
-{
-  "displayName": "Require Passwordless MFA (FIDO2)",
-  "state": "enabled",
-  "conditions": {
-    "clientAppTypes": ["all"],
-    "applications": {
-      "includeApplications": ["All"]
-    },
-    "users": {
-      "includeGroups": ["<GROUP_GUID_PASSWORDLESS_USERS>"]
-    }
-  },
-  "grantControls": {
-    "operator": "OR",
-    "builtInControls": ["mfa"]
-  }
-}
-
-
+  "authenticationStrength@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/conditionalAccess/policies('a3f20e81-d502-4a97-8e25-c45060c5a634')/grantControls/authenticationStrength/$entity",
+                "authenticationStrength": null
+        {
+            "id": "410bf431-a878-4543-b99e-b661291ded9a",
+            "templateId": null,
+            "displayName": "IAM - Require Passwordless MFA (Passkey / FIDO2)",
+            "createdDateTime": "2025-12-17T13:28:07.5314132Z",
+            "modifiedDateTime": null,
+            "state": "enabled",
+            "sessionControls": null,
+            "conditions": {
+                "userRiskLevels": [],
+                "signInRiskLevels": [],
+                "clientAppTypes": [
+                    "all"
+                ],
+                "servicePrincipalRiskLevels": [],
+                "insiderRiskLevels": null,
+                "platforms": null,
+                "locations": null,
+                "devices": null,
+                "clientApplications": null,
+                "authenticationFlows": null,
+                "applications": {
+                    "includeApplications": [
+                        "All"
+                    ],
+                    "excludeApplications": [],
+                    "includeUserActions": [],
+                    "includeAuthenticationContextClassReferences": [],
+                    "applicationFilter": null
+                },
+                "users": {
+                    "includeUsers": [],
+                    "excludeUsers": [
+                        "ef9e7ac1-dc0f-4f8d-8a3a-da364c47514b",
+                        "332d31b2-05c0-42f4-98cc-48fe4932372b"
+                    ],
+                    "includeGroups": [
+                        "b8afb51e-4309-427a-a1fd-6f46444bcfcd"
+                    ],
+                    "excludeGroups": [],
+                    "includeRoles": [],
+                    "excludeRoles": [],
+                    "includeGuestsOrExternalUsers": null,
+                    "excludeGuestsOrExternalUsers": null
+                }
+            },
+            "grantControls": {
+                "operator": "OR",
+                "builtInControls": [
+                    "mfa"
+                ],
+                "customAuthenticationFactors": [],
+                "termsOfUse": [],
+                "authenticationStrength@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/conditionalAccess/policies('410bf431-a878-4543-b99e-b661291ded9a')/grantControls/authenticationStrength/$entity",
+                "authenticationStrength": null
+            }
+        
 ```
 ----
 
@@ -139,65 +179,80 @@ Groups enable scalable policy enforcement and reduce administrative overhead.
   
 📸 Screenshot: Group.png
 
-## 3️⃣ Enable FIDO2 Authentication Method
-Purpose (IAM reasoning):
-Authentication Methods policy defines which credentials are allowed, where, and for whom.
+### 3️⃣ Enable FIDO2 Authentication Method
+
+**Purpose (IAM reasoning):**  
+Authentication Methods define which credential types are permitted in the tenant and control who can use them.  
+Enabling FIDO2 at the method level establishes passwordless authentication as an approved credential while maintaining centralized governance and least-privilege access.
 
 **Actions:**
-  - Navigate to Microsoft Entra ID → Security → Authentication methods
-  - Select FIDO2 Security Keys
-Enable the method
+- Navigated to **Microsoft Entra ID → Authentication methods**
+- Selected **FIDO2 Security Keys**
+- Enabled the FIDO2 authentication method
+- Scoped the method to **Selected groups** only
+- Assigned access to the IAM-controlled group `Passwordless-FIDO2-Users`
+- Enabled **self-service registration** for security keys
+- Key restriction enforcement was intentionally not enabled, as AAGUID-based restrictions are typically applied in environments with standardized FIDO2 hardware.
 
-**Configure:**
-  - Allow self-service registration
-  - Restrict usage to Passwordless-FIDO2-Users
-  - Enforce key restrictions (recommended defaults)
-    
+
 **Validation:**
-  - FIDO2 enabled
-  - Scoped to IAM-controlled group only
-    
-📸 Screenshot: FIDO2-enabled.png
+- FIDO2 Security Keys authentication is enabled
+- Usage is restricted to the `Passwordless-FIDO2-Users` group
+- No tenant-wide exposure of passwordless credentials
+
+📸 Screenshot: `FIDO2-enabled.png`
 
 ## 4️⃣ Register FIDO2 Security Key
-Purpose (IAM reasoning):
-Credential registration binds a cryptographic key pair to a user identity.
+
+**Purpose (IAM reasoning):**  
+Credential registration is a user-driven process that binds a cryptographic key pair to a specific identity.  
+Authentication methods are governed by administrators, while credential enrollment is performed by end users.
 
 **Actions:**
-  - Sign in as Jasmine
-  - Go to My Security Info
-  - Register a FIDO2 security key
-Complete:
-  - PIN setup
-  - Physical key challenge
-    
+- Signed in as **Jasmine Demo** (standard user)
+- Navigated to **My Security Info**:
+  - https://mysignins.microsoft.com/security-info
+- Selected **Add sign-in method**
+- Chose **Security key (FIDO2)**
+- Completed registration:
+  - Configured a local PIN
+  - Performed the physical security key challenge
+
 **Validation:**
-  - Security key appears under authentication methods
-  - No password involved in authentication
-    
-📸 Screenshot: FIDO2-registration.png
+- FIDO2 security key appears under Jasmine’s registered authentication methods
+- Registration completed without requiring administrative access
+- No password was used during the authentication flow
 
-## 5️⃣ Configure Conditional Access Policy
-Purpose (IAM reasoning):
-Conditional Access enforces policy-based authentication decisions at runtime.
+📸 Screenshot: `FIDO2-registration.png`
+
+
+## 5️⃣ Configure Conditional Access Policy (Require Passwordless MFA)
+
+**Purpose (IAM reasoning):**  
+Conditional Access evaluates authentication context in real time and enforces access decisions based on identity, group membership, and approved authentication strength.  
+This policy ensures that only passwordless, phishing-resistant authentication is permitted for scoped users.
 
 **Actions:**
-  - Navigate to Microsoft Entra ID → Security → Conditional Access
-Create policy:
-  - Name: IAM - Require Passwordless MFA (FIDO2)
-    
-**Assign:**
-  - Users: Passwordless-FIDO2-Users
-Apps: All cloud apps
-  Grant:
+- Navigated to **Microsoft Entra ID → Conditional Access**
+- Created a new Conditional Access policy
+
+**Policy configuration:**
+- **Name:** `IAM - Require Passwordless MFA (Passkey / FIDO2)`
+- **Users:** Assigned to the IAM-controlled group `Passwordless-FIDO2-Users`
+- **Target resources:** All cloud apps
+- **Grant controls:**
   - Require multi-factor authentication
-  - Enable policy
-    
+- **Policy state:** Enabled
+
 **Validation:**
-  - Policy appears as enabled
-  - Scoped correctly to group
-    
-📸 Screenshot: Conditional-Access.png
+- Conditional Access policy is enabled
+- Policy scope is limited to `Passwordless-FIDO2-Users`
+- Authentication enforcement relies on passwordless credentials governed by Authentication Methods
+- Administrative access was excluded at the user scope level to safely validate passwordless enforcement without impacting tenant management.
+
+
+📸 Screenshot: `Conditional-Access.png`
+
 
 ## 6️⃣ Validate Passwordless Authentication Flow
 Purpose (IAM reasoning):
@@ -229,6 +284,10 @@ Final confirmation that Conditional Access is enforcing intended controls.
     
 **Validation:**
   - Access granted only after phishing-resistant MFA
+  - Access was granted only after successful Passkey-based authentication, with no password or legacy MFA fallback available.
+  - Access validation was performed using a representative Microsoft cloud application. Because Conditional Access is evaluated per sign-in, successful enforcement on a single application confirms correct policy behavior across all scoped resources.
+
+
     
 📸 Screenshot: Access-granted.png
 
