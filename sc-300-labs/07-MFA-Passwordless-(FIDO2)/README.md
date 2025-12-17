@@ -156,7 +156,8 @@ Steps performed:
     Jasmine@PracticeCyber.onmicrosoft.com
     Aaron@PracticeCyber.onmicrosoft.com
   - Verified license assignment in Entra Admin Center
-IAM Validation Results:
+    
+## IAM Validation Results:
   - Conditional Access policy successfully enforced
   - FIDO2 accepted as phishing-resistant MFA
   - Passwordless authentication confirmed
@@ -176,5 +177,8 @@ From an IAM perspective, this solution:
   - Reduces credential-based risk
   - Scales through group-based governance
   - Aligns with Zero Trust and compliance frameworks
-🔐 IAM Key Takeaway:
+    
+## 🔐 IAM Key Takeaway:
 Passwordless FIDO2 authentication is a core IAM capability, not an optional enhancement — it is essential for modern identity security.
+
+## 👩‍💻 *Author:* [Yaz.](https://www.linkedin.com/in/yasmina-g-p-227576a)
