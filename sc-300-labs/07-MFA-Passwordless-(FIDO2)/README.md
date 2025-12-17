@@ -105,14 +105,16 @@ Traditional MFA still relies on passwords, which means:
 ## 1️⃣ Create Cloud-Only Identities
 Purpose (IAM reasoning):
 Cloud-only identities remove on-prem dependencies and reflect modern cloud-first IAM architectures.
-Actions:
-- Navigate to Microsoft Entra ID → Users
-- Create two users:
-    Jasmine Demo
-    Aaron Demo
-- Set strong temporary passwords (for initial sign-in only)
-- Mark users as cloud-only
-Validation:
+
+**Actions:**
+  - Navigate to Microsoft Entra ID → Users
+  - Create two users:
+      Jasmine Demo
+      Aaron Demo
+  - Set strong temporary passwords (for initial sign-in only)
+  - Mark users as cloud-only
+  - 
+**Validation:**
   - Users appear in Entra ID
 No hybrid or directory sync attributes present
 📸 Screenshot: Users.png
@@ -120,13 +122,16 @@ No hybrid or directory sync attributes present
 ## 2️⃣ Create IAM Security Group
 Purpose (IAM reasoning):
 Groups enable scalable policy enforcement and reduce administrative overhead.
-Actions:
+
+**Actions:**
     - Go to Microsoft Entra ID → Groups
     - Create security group
     - Name: Passwordless-FIDO2-Users
-Type: Security
+    
+**Type:** Security
     Add Jasmine and Aaron as members
-Validation:
+    
+**Validation:**
 - Group membership confirmed
 - Group ready for Conditional Access & auth method scoping
 📸 Screenshot: Group.png
@@ -134,15 +139,18 @@ Validation:
 ## 3️⃣ Enable FIDO2 Authentication Method
 Purpose (IAM reasoning):
 Authentication Methods policy defines which credentials are allowed, where, and for whom.
-Actions:
+
+**Actions:**
   - Navigate to Microsoft Entra ID → Security → Authentication methods
   - Select FIDO2 Security Keys
 Enable the method
-Configure:
+
+**Configure:**
   - Allow self-service registration
   - Restrict usage to Passwordless-FIDO2-Users
   - Enforce key restrictions (recommended defaults)
-Validation:
+    
+**Validation:**
   - FIDO2 enabled
   - Scoped to IAM-controlled group only
 📸 Screenshot: FIDO2-enabled.png
@@ -150,14 +158,15 @@ Validation:
 ## 4️⃣ Register FIDO2 Security Key
 Purpose (IAM reasoning):
 Credential registration binds a cryptographic key pair to a user identity.
-Actions:
+
+**Actions:**
   - Sign in as Jasmine
   - Go to My Security Info
   - Register a FIDO2 security key
 Complete:
   - PIN setup
   - Physical key challenge
-Validation:
+**Validation:**
   - Security key appears under authentication methods
   - No password involved in authentication
 📸 Screenshot: FIDO2-registration.png
@@ -165,17 +174,19 @@ Validation:
 ## 5️⃣ Configure Conditional Access Policy
 Purpose (IAM reasoning):
 Conditional Access enforces policy-based authentication decisions at runtime.
-Actions:
+
+**Actions:**
   - Navigate to Microsoft Entra ID → Security → Conditional Access
 Create policy:
   - Name: IAM - Require Passwordless MFA (FIDO2)
-Assign:
+**Assign:**
   - Users: Passwordless-FIDO2-Users
 Apps: All cloud apps
   Grant:
   - Require multi-factor authentication
   - Enable policy
-Validation:
+    
+**Validation:**
   - Policy appears as enabled
   - Scoped correctly to group
 📸 Screenshot: Conditional-Access.png
@@ -183,7 +194,8 @@ Validation:
 ## 6️⃣ Validate Passwordless Authentication Flow
 Purpose (IAM reasoning):
 Verification ensures that FIDO2 satisfies MFA requirements and removes password dependency.
-Actions:
+
+**Actions:**
   - Sign out completely
   - Start a new sign-in as Jasmine
 Observe authentication flow:
@@ -191,7 +203,7 @@ Observe authentication flow:
   - FIDO2 challenge presented
   - No password prompt
   - Access granted
-Validation:
+**Validation:**
   - MFA satisfied via FIDO2
   - Passwordless authentication confirmed
 📸 Screenshot: Passwordless-login.png
@@ -199,10 +211,10 @@ Validation:
 ## 7️⃣ Access Validation & Policy Enforcement
 Purpose (IAM reasoning):
 Final confirmation that Conditional Access is enforcing intended controls.
-Actions:
+**Actions:**
   - Access a cloud application
   - Confirm no bypass or fallback to password
-Validation:
+**Validation:**
   - Access granted only after phishing-resistant MFA
 📸 Screenshot: Access-granted.png
 
