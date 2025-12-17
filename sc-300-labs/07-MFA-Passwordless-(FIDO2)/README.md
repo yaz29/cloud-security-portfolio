@@ -113,10 +113,11 @@ Cloud-only identities remove on-prem dependencies and reflect modern cloud-first
       Aaron Demo
   - Set strong temporary passwords (for initial sign-in only)
   - Mark users as cloud-only
-  - 
+    
 **Validation:**
   - Users appear in Entra ID
 No hybrid or directory sync attributes present
+
 📸 Screenshot: Users.png
 
 ## 2️⃣ Create IAM Security Group
@@ -124,9 +125,10 @@ Purpose (IAM reasoning):
 Groups enable scalable policy enforcement and reduce administrative overhead.
 
 **Actions:**
-    - Go to Microsoft Entra ID → Groups
-    - Create security group
-    - Name: Passwordless-FIDO2-Users
+  - Go to Microsoft Entra ID → Groups
+    
+  - Create security group
+  - Name: Passwordless-FIDO2-Users
     
 **Type:** Security
     Add Jasmine and Aaron as members
@@ -134,6 +136,7 @@ Groups enable scalable policy enforcement and reduce administrative overhead.
 **Validation:**
 - Group membership confirmed
 - Group ready for Conditional Access & auth method scoping
+  
 📸 Screenshot: Group.png
 
 ## 3️⃣ Enable FIDO2 Authentication Method
@@ -153,6 +156,7 @@ Enable the method
 **Validation:**
   - FIDO2 enabled
   - Scoped to IAM-controlled group only
+    
 📸 Screenshot: FIDO2-enabled.png
 
 ## 4️⃣ Register FIDO2 Security Key
@@ -170,6 +174,7 @@ Complete:
 **Validation:**
   - Security key appears under authentication methods
   - No password involved in authentication
+    
 📸 Screenshot: FIDO2-registration.png
 
 ## 5️⃣ Configure Conditional Access Policy
@@ -191,6 +196,7 @@ Apps: All cloud apps
 **Validation:**
   - Policy appears as enabled
   - Scoped correctly to group
+    
 📸 Screenshot: Conditional-Access.png
 
 ## 6️⃣ Validate Passwordless Authentication Flow
@@ -210,6 +216,7 @@ Verification ensures that FIDO2 satisfies MFA requirements and removes password 
 **Validation:**
   - MFA satisfied via FIDO2
   - Passwordless authentication confirmed
+    
 📸 Screenshot: Passwordless-login.png
 
 ## 7️⃣ Access Validation & Policy Enforcement
@@ -222,11 +229,10 @@ Final confirmation that Conditional Access is enforcing intended controls.
     
 **Validation:**
   - Access granted only after phishing-resistant MFA
+    
 📸 Screenshot: Access-granted.png
 
-
------
-
+----
 ## 🔐 License Assignment & IAM Validation
 To enable Conditional Access and advanced authentication methods, Microsoft Entra ID P2 licenses were assigned.
 Steps performed:
