@@ -129,7 +129,7 @@ Traditional MFA still relies on passwords, which means:
 
 | # | Action                            | Screenshot                                                                              |
 | - | --------------------------------- | --------------------------------------------------------------------------------------- |
-| 1 | Create cloud-only users           | <img src="./Screenshots/Users.png" width="180" style="border-radius:6px;"/>              |
+| 1 | Create cloud-only users           | <img src="./Screenshots/User.png" width="180" style="border-radius:6px;"/>              |
 | 2 | Create security group             | <img src="./Screenshots/Group.png" width="180" style="border-radius:6px;"/>              |
 | 3 | Enable FIDO2 authentication       | <img src="./Screenshots/FIDO2-enabled.png" width="180" style="border-radius:6px;"/>      |
 | 4 | Register FIDO2 security key       | <img src="./Screenshots/FIDO2-registration.png" width="180" style="border-radius:6px;"/> |
