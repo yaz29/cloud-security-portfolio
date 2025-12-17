@@ -35,8 +35,6 @@ This approach aligns with Zero Trust principles verifying every access attempt b
 ### 🎥 Full Flow Demo (MFA Prompt → Access Granted)
 ![MFA Demo](./Screenshot/demo_MFA.gif)
 
-📜 [View Real Conditional Access Policy (JSON)](./Screenshot/Policy.json)
-
 
 - ## 🛠 Diagram
 <img width="800" height="1150" src="https://github.com/user-attachments/assets/11a662b5-87e5-42f5-9a4b-49928c27009f" />
@@ -47,26 +45,9 @@ This approach aligns with Zero Trust principles verifying every access attempt b
 
 
 ## Conditional Access Policy (JSON exportable)
+📜 [View Real Conditional Access Policy (JSON)](./Screenshot/Policy.json)
 
-``` json
-{
-  "displayName": "Require MFA for all users",
-  "state": "enabled",
-  "conditions": {
-    "clientAppTypes": ["all"],
-    "applications": {
-      "includeUserActions": ["urn:user:registerdevice"]
-    },
-    "users": {
-      "includeGroups": ["<GROUP_GUID_MFA_REQUIRED_USERS>"],
-      "includeUsers": ["<USER_GUID_OPTIONAL>"]
-    }
-  },
-  "grantControls": { "operator": "OR", "builtInControls": ["mfa"] }
-}
-
-
-```
+-----
 Step-by-Step Evidence
 
 ## Step-by-Step Evidence
