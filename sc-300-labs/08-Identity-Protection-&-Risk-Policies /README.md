@@ -39,6 +39,9 @@ The purpose of this lab is to showcase hands-on knowledge of **identity risk det
 
 ---
 
+## 🎞️ GIF Flow: `identity-protection-mfa-enforcement.gif`
+
+
 ## 📐 Architecture & Flow Diagrams
 
 The following diagrams provide architectural context, risk evaluation logic, and enforcement outcomes.
@@ -72,58 +75,91 @@ The following diagrams provide architectural context, risk evaluation logic, and
 | 1 | Create cloud-only users           | <img src="./Screenshots/protec-dashboard.png" width="180" style="border-radius:6px;"/>  |
 | 2 | Create security group             | <img src="./Screenshots/risk-detected.png" width="180" style="border-radius:6px;"/>     |
 | 3 | Enable FIDO2 authentication       | <img src="./Screenshots/risk-events.png" width="180" style="border-radius:6px;"/>      |
-| 4 | Register FIDO2 security key       | <img src="./Screenshots/policy-configuration.png" width="180" style="border-radius:6px;"/> |
-| 5 | Configure Conditional Access      | <img src="./Screenshots/risk-policy-configuration.png" width="180" style="border-radius:6px;"/> |
+| 4 | Register FIDO2 security key       | <img src="./Screenshots/user-risk-policy.png" width="180" style="border-radius:6px;"/> |
+| 5 | Configure Conditional Access      | <img src="./Screenshots/sign-in-risk-policy.png" width="180" style="border-radius:6px;"/> |
 | 6 | Passwordless sign-in test         | <img src="./Screenshots/enforcement-test.png" width="180" style="border-radius:6px;"/> |
 
 ----
+
+
 ## 🧪 Lab Steps
 
-### Step 1 – Access Identity Protection
-- Navigate to **Microsoft Entra ID**
-- Open **Identity Protection**
+### Step 1 – Access Identity Protection Dashboard
+- Sign in to the Azure Portal with a security administrator account.
+- Navigate to **Microsoft Entra ID** and select **Identity Protection**.
+- Review the dashboard to understand current identity risk posture, including:
+  - User risk detections
+  - Risky sign-in events
+  - Risk trends
 
 📸 Screenshot: `dashboard.png`
 
+**Purpose:** Establish baseline visibility of identity-related risks across the tenant.
+
 ---
 
-### Step 2 – Review User Risk Detections
-- Identify users marked as risky
-- Analyze risk level and detection type
+### Step 2 – Analyze User Risk Detections
+- Open **User risk detections** within Identity Protection.
+- Identify users flagged with **Medium** or **High** risk levels.
+- Review detection details such as:
+  - Risk level
+  - Detection type (e.g., leaked credentials, atypical behavior)
+  - Detection time and status
 
 📸 Screenshot: `risk-detected.png`
 
+**Purpose:** Assess the likelihood that a user account has been compromised and requires remediation.
+
 ---
 
-### Step 3 – Review Sign-in Risk Events
-- Analyze risky sign-in attempts
-- Review IP address, location, and behavior
+### Step 3 – Review Risky Sign-in Events
+- Navigate to **Sign-in risk detections**.
+- Examine sign-in attempts marked as risky.
+- Analyze contextual signals including:
+  - IP address and geolocation
+  - Client and application used
+  - Risk level assigned to the sign-in
 
 📸 Screenshot: `risk-events.png`
+
+**Purpose:** Identify suspicious authentication attempts that may indicate credential misuse or adversary activity.
 
 ---
 
 ### Step 4 – Configure User Risk Policy
-- Create a policy targeting **Medium and High user risk**
-- Enforce **Require password change**
+- Navigate to **User risk policy** under Identity Protection.
+- Create a policy targeting users with **Medium** and **High** user risk.
+- Configure the control to **Require password change**.
+- Scope the policy to appropriate users or groups.
 
-📸 Screenshot: `policy-configuration.png`
+📸 Screenshot: `user-risk-policy.png`
+
+**Purpose:** Automatically remediate potentially compromised accounts by forcing credential reset.
 
 ---
 
 ### Step 5 – Configure Sign-in Risk Policy
-- Create a policy for risky sign-ins
-- Enforce **Require MFA**
+- Navigate to **Sign-in risk policy**.
+- Create a policy targeting **Medium** and **High** sign-in risk levels.
+- Configure access control to **Require multi-factor authentication (MFA)**.
+- Validate policy assignment and exclusions.
 
-📸 Screenshot: `risk-policy-configuration.png`
+📸 Screenshot: `sign-in-risk-policy.png`
+
+**Purpose:** Mitigate risky authentication attempts by enforcing strong authentication challenges.
 
 ---
 
-### Step 6 – Test Policy Enforcement
-- Simulate a risky sign-in scenario
-- Verify MFA or password reset enforcement
+### Step 6 – Validate Policy Enforcement
+- Perform or simulate a risky sign-in scenario.
+- Confirm that the sign-in triggers the configured controls:
+  - MFA challenge for risky sign-ins
+  - Password reset for high-risk users
+- Review sign-in logs and Identity Protection status updates.
 
-📸 Screenshot: `enforcement-test.png`
+📸 Screenshot: `policy-enforcement.png`  
+
+**Purpose:** Verify that identity risk detection and remediation are functioning as designed.
 
 ---
 
