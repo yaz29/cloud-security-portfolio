@@ -121,10 +121,10 @@ No hybrid or directory sync attributes present
 Purpose (IAM reasoning):
 Groups enable scalable policy enforcement and reduce administrative overhead.
 Actions:
-  - Go to Microsoft Entra ID → Groups
-  - Create security group:
-    Name: Passwordless-FIDO2-Users
-    Type: Security
+    - Go to Microsoft Entra ID → Groups
+    - Create security group
+    - Name: Passwordless-FIDO2-Users
+Type: Security
     Add Jasmine and Aaron as members
 Validation:
 - Group membership confirmed
