@@ -38,10 +38,10 @@ The purpose of this lab is to showcase hands-on knowledge of **identity risk det
 - **Entra ID P2** license (or trial)
 
 ---
+## 🎥 Full Authentication Flow identity-protection-mfa-enforcement.gif
+<img src="./Screenshots/demo_FIDO2.gif" width="600"/>
 
-## 🎞️ GIF Flow: `identity-protection-mfa-enforcement.gif`
-
-
+---
 ## 📐 Architecture & Flow Diagrams
 
 The following diagrams provide architectural context, risk evaluation logic, and enforcement outcomes.
