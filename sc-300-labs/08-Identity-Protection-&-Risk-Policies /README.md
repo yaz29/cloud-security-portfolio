@@ -67,15 +67,14 @@ The following diagrams provide architectural context, risk evaluation logic, and
 
 ## 📊 Evidence Summary (Screenshots)
 
-| Step | Description | Screenshot Name |
-|---|---|---|
-| 1 | Identity Protection Dashboard | `01-entra-id-identity-protection-dashboard.png` |
-| 2 | User Risk Detection | `02-user-risk-detected.png` |
-| 3 | Sign-in Risk Events | `03-sign-in-risk-events.png` |
-| 4 | User Risk Policy Configuration | `04-user-risk-policy-configuration.png` |
-| 5 | Sign-in Risk Policy Configuration | `05-sign-in-risk-policy-configuration.png` |
-| 6 | Policy Enforcement Test | `06-policy-enforcement-test.png` |
-
+| # | Action                            | Screenshot                                                                              |
+| - | --------------------------------- | --------------------------------------------------------------------------------------- |
+| 1 | Create cloud-only users           | <img src="./Screenshots/protec-dashboard.png" width="180" style="border-radius:6px;"/>  |
+| 2 | Create security group             | <img src="./Screenshots/risk-detected.png" width="180" style="border-radius:6px;"/>     |
+| 3 | Enable FIDO2 authentication       | <img src="./Screenshots/risk-events.png" width="180" style="border-radius:6px;"/>      |
+| 4 | Register FIDO2 security key       | <img src="./Screenshots/policy-configuration.png" width="180" style="border-radius:6px;"/> |
+| 5 | Configure Conditional Access      | <img src="./Screenshots/risk-policy-configuration.png" width="180" style="border-radius:6px;"/> |
+| 6 | Passwordless sign-in test         | <img src="./Screenshots/enforcement-test.png" width="180" style="border-radius:6px;"/> |
 
 ----
 ## 🧪 Lab Steps
@@ -84,7 +83,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 - Navigate to **Microsoft Entra ID**
 - Open **Identity Protection**
 
-📸 Screenshot: `01-entra-id-identity-protection-dashboard.png`
+📸 Screenshot: `dashboard.png`
 
 ---
 
@@ -92,7 +91,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 - Identify users marked as risky
 - Analyze risk level and detection type
 
-📸 Screenshot: `02-user-risk-detected.png`
+📸 Screenshot: `risk-detected.png`
 
 ---
 
@@ -100,7 +99,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 - Analyze risky sign-in attempts
 - Review IP address, location, and behavior
 
-📸 Screenshot: `03-sign-in-risk-events.png`
+📸 Screenshot: `risk-events.png`
 
 ---
 
@@ -108,7 +107,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 - Create a policy targeting **Medium and High user risk**
 - Enforce **Require password change**
 
-📸 Screenshot: `04-user-risk-policy-configuration.png`
+📸 Screenshot: `policy-configuration.png`
 
 ---
 
@@ -116,7 +115,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 - Create a policy for risky sign-ins
 - Enforce **Require MFA**
 
-📸 Screenshot: `05-sign-in-risk-policy-configuration.png`
+📸 Screenshot: `risk-policy-configuration.png`
 
 ---
 
@@ -124,7 +123,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 - Simulate a risky sign-in scenario
 - Verify MFA or password reset enforcement
 
-📸 Screenshot: `06-policy-enforcement-test.png`
+📸 Screenshot: `enforcement-test.png`
 
 ---
 
