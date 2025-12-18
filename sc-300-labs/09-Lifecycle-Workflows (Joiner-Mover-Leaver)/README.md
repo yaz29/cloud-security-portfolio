@@ -122,22 +122,21 @@ flowchart LR
     end
     style Joiner fill:#d4edda,stroke:#28a745
     style Leaver fill:#f8d7da,stroke:#dc3545
-
-
-
+----
 
 ## 📊 Evidence Summary (Screenshots)
 
 | # | Action | Screenshot |
-|---|--------|------------|
-| 1 | Lifecycle Workflows Dashboard | `01-lifecycle-workflows-dashboard.png` |
-| 2 | Template Selection | `02-template-selection.png` |
-| 3 | Joiner Workflow Configuration | `03-joiner-workflow-configuration.png` |
-| 4 | Mover Workflow Tasks | `04-mover-workflow-tasks.png` |
-| 5 | Leaver Workflow (Disable Account) | `05-leaver-workflow-disable-account.png` |
-| 6 | On-Demand Run & Success | `06-on-demand-run-success.png` |
-| 7 | Audit Logs Verification | `07-audit-logs-verification.png` |
+| - | ------ | ---------- |
+| 1 | Lifecycle Workflows Dashboard | <img src="./Screenshots/01-lifecycle-workflows-dashboard.png" width="180" style="border-radius:6px;"/> |
+| 2 | Template Selection | <img src="./Screenshots/02-template-selection.png" width="180" style="border-radius:6px;"/> |
+| 3 | Joiner Workflow Configuration | <img src="./Screenshots/03-joiner-workflow-configuration.png" width="180" style="border-radius:6px;"/> |
+| 4 | Mover Workflow Tasks | <img src="./Screenshots/04-mover-workflow-tasks.png" width="180" style="border-radius:6px;"/> |
+| 5 | Leaver Workflow (Disable Account) | <img src="./Screenshots/05-leaver-workflow-disable-account.png" width="180" style="border-radius:6px;"/> |
+| 6 | On-Demand Run & Success | <img src="./Screenshots/06-on-demand-run-success.png" width="180" style="border-radius:6px;"/> |
+| 7 | Audit Logs Verification | <img src="./Screenshots/07-audit-logs-verification.png" width="180" style="border-radius:6px;"/> |
 
+----
 
 ## 🧪 Step-by-Step Implementation
 ## 1️⃣ Access Lifecycle Workflows Dashboard
