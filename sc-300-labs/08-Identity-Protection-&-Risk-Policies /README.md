@@ -51,19 +51,9 @@ Full cleanup performed (policies disabled, no persistent artifacts)
 
 ## 📐 Architecture & Risk Diagrams (Mermaid)
 
-> These diagrams are included to document the **identity risk lifecycle** end-to-end:  
-> **where Identity Protection fits**, **how risk is evaluated**, and **what enforcement actions are applied**.
-
----
-
 ### Diagram 01 – High-Level Identity Architecture
 
 > **Description:** This diagram shows how a user sign-in request reaches **Microsoft Entra ID**, where **Identity Protection** evaluates risk signals and **Conditional Access** enforces access controls before granting access to cloud applications.
-
-## 📐 Architecture & Flow Diagrams (Mermaid)
-
-### Diagram 01 – High-Level Identity Architecture
-
 
 flowchart LR
     subgraph UserSide [User Environment]
@@ -102,7 +92,7 @@ flowchart LR
     style Apps fill:#fff3e0,stroke:#ffb74d
 
 
-📸 Screenshot: Identity.png.
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./diagrams/Identity.png" width="520"/> </details> 
 ---
 
 ### Diagram 02 – Risk Detection & Policy Evaluation Flow
@@ -130,6 +120,8 @@ flowchart TD
     style Challenge fill:#f8d7da,stroke:#dc3545
     style Grant fill:#d1ecf1,stroke:#17a2b8
 
+
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./diagrams/Risk-Detection.png" width="520"/> </details>
 ---
 
 ### Diagram 03 – Enforcement & Remediation Actions
@@ -170,6 +162,8 @@ flowchart TD
     style Success3 fill:#d4edda,stroke:#28a745
     style Success4 fill:#d4edda,stroke:#28a745
 
+
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./diagrams/Enforcement.png" width="520"/> </details>
 ---
 
 
