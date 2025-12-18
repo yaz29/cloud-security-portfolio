@@ -208,6 +208,40 @@ Purpose (IAM reasoning): Verify automation reliability and maintain audit trail.
 
 📸 Screenshots: run-success.png, audit-logs.png
 
+## 6️⃣ Run Workflows On-Demand & Verify Execution Success
+ **Purpose (IAM reasoning):** Confirm that workflows execute correctly in a controlled manner and produce the expected changes on user objects before enabling scheduled runs.
+ 
+## Actions:
+
+- Select one of your created workflows (Joiner, Mover, or Leaver)
+- Click Run on demand
+- Choose 1–2 test users (ensure they meet scope conditions)
+- Start the run
+- Navigate to the Runs tab of the workflow
+- Wait for processing (usually a few minutes) and refresh until status shows Succeeded
+
+## Validation:
+
+- Run history shows "Succeeded" with no failed tasks
+- Check the test user(s): e.g., groups added (Joiner), groups updated (Mover), or account disabled (Leaver)
+
+📸 Screenshot: run-success.png (capture the "Runs" tab showing successful completion)
+
+## 7️⃣ Verify Changes & Review Audit Logs
+**Purpose (IAM reasoning):** Ensure full traceability and compliance by confirming automated actions are logged for governance and auditing purposes.
+
+## Actions:
+
+- Open the affected test user(s) in Users > All users
+- Verify changes: e.g., new group memberships, license assignments, or sign-in blocked status
+- Go to Identity Governance > Audit logs
+- Filter by Activity: "Lifecycle Workflows" or specific task names
+- Review entries for workflow execution, task completion, and user attribute modifications
+
+**Validation:** Audit logs show detailed entries for each task executed (e.g., "User added to group", "User account disabled")
+
+📸 Screenshot: audit-logs.png (capture filtered audit log entries related to your workflow runs)
+
 ## ✅ Expected Results
 
 - Automated JML processes with zero manual intervention
