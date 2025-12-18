@@ -2,9 +2,9 @@
 
 ## 📌 Overview
 
-This lab demonstrates the implementation and configuration of **Identity Protection** and **risk-based policies** using **:contentReference[oaicite:0]{index=0}** (formerly Azure Active Directory).
-
-The purpose of this lab is to showcase hands-on knowledge of **identity risk detection, automated remediation, and conditional access**, which are critical skills for roles in **Cloud Security, IAM, SOC, and Azure Administration**.
+This lab demonstrates the configuration and implementation of Microsoft Entra ID Identity Protection, including risk detection and risk-based Conditional Access policies.
+The goal is to showcase hands-on expertise in detecting compromised identities using machine learning signals and automatically enforcing remediation controls — a critical capability for modern Zero Trust security architectures.
+This implementation aligns with enterprise requirements for automated identity threat response and is highly relevant for roles in  **Cloud Security, IAM, SOC, and Azure Administration**.
 
 ---
 
@@ -17,25 +17,31 @@ The purpose of this lab is to showcase hands-on knowledge of **identity risk det
 - Validate policy enforcement through testing
 
 ---
+## ⚠️ Real-World Risk
+81% of breaches involve weak, stolen, or reused credentials (Verizon DBIR 2024).
+Traditional authentication relies on static signals that adversaries can bypass. Identity Protection uses AI/ML-driven risk detection to identify anomalies in real time, enabling proactive remediation.
 
-## 🧠 Key Concepts Covered
+## This lab mitigates:
 
-| Concept | Description |
-|------|-------------|
-| Identity Protection | Detects compromised identities using ML signals |
-| User Risk | Probability that a user account is compromised |
-| Sign-in Risk | Risk associated with a specific authentication attempt |
-| Conditional Access | Policy-based access control |
-| MFA | Multi-Factor Authentication as a mitigation control |
+Account takeover (ATO) via leaked credentials
+Impossible travel or anomalous sign-in patterns
+Credential stuffing and spray attacks
+Lateral movement from compromised accounts
 
----
+## Security alignment:
 
-## 🛠️ Prerequisites
+Zero Trust principles
+NIST 800-63B (risk-based authentication)
+Microsoft recommended identity security practices
 
-- Active Azure tenant
-- Access to Microsoft Entra ID
-- User with **Global Administrator** or **Security Administrator** role
-- **Entra ID P2** license (or trial)
+
+## 🛠 What I Built
+
+Reviewed Identity Protection dashboard and risk detections
+Configured User Risk policy (remediate High/Medium risk with password reset)
+Configured Sign-in Risk policy (require MFA for High/Medium risk sign-ins)
+Validated automated enforcement through simulated risky scenarios
+Full cleanup performed (policies disabled, no persistent artifacts)
 
 ---
 ## 🎥 Full Authentication Flow identity-protection-mfa-enforcement.gif
@@ -72,7 +78,7 @@ The following diagrams provide architectural context, risk evaluation logic, and
 
 | # | Action                            | Screenshot                                                                              |
 | - | --------------------------------- | --------------------------------------------------------------------------------------- |
-| 1 | Create cloud-only users           | <img src="./Screenshots/protec-dashboard.png" width="180" style="border-radius:6px;"/>  |
+| 1 | Create cloud-only users           | <img src="./Screenshots/dashboard.png" width="180" style="border-radius:6px;"/>  |
 | 2 | Create security group             | <img src="./Screenshots/risk-detected.png" width="180" style="border-radius:6px;"/>     |
 | 3 | Enable FIDO2 authentication       | <img src="./Screenshots/risk-events.png" width="180" style="border-radius:6px;"/>      |
 | 4 | Register FIDO2 security key       | <img src="./Screenshots/user-risk-policy.png" width="180" style="border-radius:6px;"/> |
@@ -82,85 +88,76 @@ The following diagrams provide architectural context, risk evaluation logic, and
 ----
 
 
-## 🧪 Lab Steps
+## 🧪 Step-by-Step Implementation 
+## 1️⃣ Access Identity Protection Dashboard
+Purpose (Security reasoning):
+Gain visibility into current identity risk posture using ML-powered detections.
+## Actions:
 
-### Step 1 – Access Identity Protection Dashboard
-- Sign in to the Azure Portal with a security administrator account.
-- Navigate to **Microsoft Entra ID** and select **Identity Protection**.
-- Review the dashboard to understand current identity risk posture, including:
-  - User risk detections
-  - Risky sign-in events
-  - Risk trends
+Sign in to Microsoft Entra admin center
+Navigate to Identity Protection > Overview
 
-📸 Screenshot: `dashboard.png`
+## Validation:
 
-**Purpose:** Establish baseline visibility of identity-related risks across the tenant.
+Dashboard shows risk summary, trends, and flagged users/sign-ins
+📸 Screenshot: dashboard.pngç
 
----
+## 2️⃣ Review Risky Users
+Purpose (Security reasoning):
+Identify accounts likely compromised (e.g., leaked credentials detected on dark web).
+## Actions:
 
-### Step 2 – Analyze User Risk Detections
-- Open **User risk detections** within Identity Protection.
-- Identify users flagged with **Medium** or **High** risk levels.
-- Review detection details such as:
-  - Risk level
-  - Detection type (e.g., leaked credentials, atypical behavior)
-  - Detection time and status
+Go to Identity Protection > Risky users
+Filter for Medium/High risk
+Review detection details and risk factors
 
-📸 Screenshot: `risk-detected.png`
+📸 Screenshot: risky-users.png
 
-**Purpose:** Assess the likelihood that a user account has been compromised and requires remediation.
+## 3️⃣ Review Risky Sign-ins
+Purpose (Security reasoning):
+Detect anomalous authentication attempts in real time.
+## Actions:
 
----
+Go to Identity Protection > Risky sign-ins
+Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 
-### Step 3 – Review Risky Sign-in Events
-- Navigate to **Sign-in risk detections**.
-- Examine sign-in attempts marked as risky.
-- Analyze contextual signals including:
-  - IP address and geolocation
-  - Client and application used
-  - Risk level assigned to the sign-in
+📸 Screenshot: risky-signins.png
 
-📸 Screenshot: `risk-events.png`
+## 4️⃣ Configure User Risk Policy
+Purpose (Security reasoning):
+Automatically remediate compromised accounts by forcing secure password reset.
+## Actions:
 
-**Purpose:** Identify suspicious authentication attempts that may indicate credential misuse or adversary activity.
+Navigate to Identity Protection > User risk policy
+Set policy to Medium and High risk
+Control: Require password change
+Scope: All users (or pilot group)
 
----
+📸 Screenshot: user-risk-policy.png
 
-### Step 4 – Configure User Risk Policy
-- Navigate to **User risk policy** under Identity Protection.
-- Create a policy targeting users with **Medium** and **High** user risk.
-- Configure the control to **Require password change**.
-- Scope the policy to appropriate users or groups.
+## 5️⃣ Configure Sign-in Risk Policy
+Purpose (Security reasoning):
+Dynamically challenge suspicious sign-in attempts without blocking legitimate access.
+## Actions:
 
-📸 Screenshot: `user-risk-policy.png`
+Navigate to Identity Protection > Sign-in risk policy
+Set policy to Medium and High risk
+Control: Require multi-factor authentication
+Scope: All users (or selected apps/groups)
 
-**Purpose:** Automatically remediate potentially compromised accounts by forcing credential reset.
+📸 Screenshot: signin-risk-policy.png
 
----
+## 6️⃣ Validate Policy Enforcement
+Purpose (Security reasoning):
+Confirm automated controls trigger correctly in response to risk signals.
+## Actions:
 
-### Step 5 – Configure Sign-in Risk Policy
-- Navigate to **Sign-in risk policy**.
-- Create a policy targeting **Medium** and **High** sign-in risk levels.
-- Configure access control to **Require multi-factor authentication (MFA)**.
-- Validate policy assignment and exclusions.
+Simulate risky sign-in (e.g., via VPN from unusual location or Tor)
+Observe MFA challenge for medium/high sign-in risk
+Trigger user risk (if possible via leaked credentials simulation)
+Review updated risk status and sign-in logs
 
-📸 Screenshot: `sign-in-risk-policy.png`
-
-**Purpose:** Mitigate risky authentication attempts by enforcing strong authentication challenges.
-
----
-
-### Step 6 – Validate Policy Enforcement
-- Perform or simulate a risky sign-in scenario.
-- Confirm that the sign-in triggers the configured controls:
-  - MFA challenge for risky sign-ins
-  - Password reset for high-risk users
-- Review sign-in logs and Identity Protection status updates.
-
-📸 Screenshot: `policy-enforcement.png`  
-
-**Purpose:** Verify that identity risk detection and remediation are functioning as designed.
-
+📸 Screenshot: enforcement-test.png
 ---
 
 ## ✅ Expected Results
@@ -172,32 +169,23 @@ The following diagrams provide architectural context, risk evaluation logic, and
 
 ---
 
-## 🧩 Real-World Use Cases
+## 🔐 License Requirement
+This lab requires Microsoft Entra ID P2 licenses (or EMS E5) to enable:
 
-- Preventing Account Takeover (ATO)
-- Blocking or challenging suspicious sign-ins
-- Enforcing Zero Trust security principles
-- Automating IAM incident response
+Identity Protection risk detections
+Risk-based Conditional Access policies
+Automated remediation controls
 
----
-
-## 🧠 Skills Demonstrated
-
-- Identity & Access Management (IAM)
-- Cloud Security (Azure)
-- Risk-based Authentication
-- Conditional Access Policies
-- Zero Trust Architecture
+Licenses were assigned temporarily for lab purposes and removed during cleanup.
 
 ---
-## 🛠️ Tools Used
+## 🧰 Tools & Services Used
 
- Identity Protection & IAM 
- Configuration & monitoring 
- Risk detection  Risk-based enforcement 
- Remediation control 
- Risk validation
-
+Microsoft Entra ID (formerly Azure AD)
+Identity Protection
+Risk-based Conditional Access policies
+Microsoft Entra admin center
+Sign-in and audit logs
 
 
 
