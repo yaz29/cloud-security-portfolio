@@ -106,9 +106,9 @@ flowchart TD
 | - | ------ | ---------- |
 | 1 | External Identities Dashboard | <img src="./Screenshots/dashboard.png" width="180" style="border-radius:6px;"/> |
 | 2 | External Collaboration Settings | <img src="./Screenshots/collab-settings.png" width="180" style="border-radius:6px;"/> |
-| 3 | Inviting B2B Guest User | <img src="./Screenshots/invite-guest.png" width="180" style="border-radius:6px;"/> |
-| 4 | Guest User Object (#EXT#) | <img src="./Screenshots/guest-user.png" width="180" style="border-radius:6px;"/> |
-| 5 | Customer User Flow Creation | <img src="./Screenshots/user-flow.png" width="180" style="border-radius:6px;"/> |
+| 3 | Inviting B2B Guest User | <img src="./Screenshots/invite-guest.png" width="180" style="border-radius:6px;"/> , <img src="./Screenshots/guest-user.png" width="180" style="border-radius:6px;"/> |
+| 4 | Guest User Object (#EXT#) | <img src="./Screenshots/user-flow.png" width="180" style="border-radius:6px;"/> |
+| 5 | Customer User Flow Creation | <img src="./Screenshots/branding-idps.png" width="180" style="border-radius:6px;"/> |
 | 6 | Branding & Identity Providers | <img src="./Screenshots/branding-idps.png" width="180" style="border-radius:6px;"/> |
 | 7 | Test Sign-Up & Audit Logs | <img src="./Screenshots/test-signup-audit.png" width="180" style="border-radius:6px;"/> |
 
