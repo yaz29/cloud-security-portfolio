@@ -101,6 +101,8 @@ flowchart LR
     style EntraID fill:#e8f5e8,stroke:#81c784
     style Apps fill:#fff3e0,stroke:#ffb74d
 
+
+📸 Screenshot: Identity.png.
 ---
 
 ### Diagram 02 – Risk Detection & Policy Evaluation Flow
