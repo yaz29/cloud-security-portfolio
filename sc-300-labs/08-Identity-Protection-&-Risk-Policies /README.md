@@ -93,20 +93,19 @@ The following diagrams provide architectural context, risk evaluation logic, and
 Purpose (Security reasoning):
 Gain visibility into current identity risk posture using ML-powered detections.
 ## Actions:
-
 Sign in to Microsoft Entra admin center
 Navigate to Identity Protection > Overview
 
 ## Validation:
-
 Dashboard shows risk summary, trends, and flagged users/sign-ins
 📸 Screenshot: dashboard.pngç
 
+---
 ## 2️⃣ Review Risky Users
 Purpose (Security reasoning):
 Identify accounts likely compromised (e.g., leaked credentials detected on dark web).
-## Actions:
 
+## Actions:
 Go to Identity Protection > Risky users
 Filter for Medium/High risk
 Review detection details and risk factors
@@ -116,8 +115,8 @@ Review detection details and risk factors
 ## 3️⃣ Review Risky Sign-ins
 Purpose (Security reasoning):
 Detect anomalous authentication attempts in real time.
-## Actions:
 
+## Actions:
 Go to Identity Protection > Risky sign-ins
 Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 
@@ -126,8 +125,8 @@ Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 ## 4️⃣ Configure User Risk Policy
 Purpose (Security reasoning):
 Automatically remediate compromised accounts by forcing secure password reset.
-## Actions:
 
+## Actions:
 Navigate to Identity Protection > User risk policy
 Set policy to Medium and High risk
 Control: Require password change
@@ -138,8 +137,8 @@ Scope: All users (or pilot group)
 ## 5️⃣ Configure Sign-in Risk Policy
 Purpose (Security reasoning):
 Dynamically challenge suspicious sign-in attempts without blocking legitimate access.
-## Actions:
 
+## Actions:
 Navigate to Identity Protection > Sign-in risk policy
 Set policy to Medium and High risk
 Control: Require multi-factor authentication
@@ -150,8 +149,8 @@ Scope: All users (or selected apps/groups)
 ## 6️⃣ Validate Policy Enforcement
 Purpose (Security reasoning):
 Confirm automated controls trigger correctly in response to risk signals.
-## Actions:
 
+## Actions:
 Simulate risky sign-in (e.g., via VPN from unusual location or Tor)
 Observe MFA challenge for medium/high sign-in risk
 Trigger user risk (if possible via leaked credentials simulation)
