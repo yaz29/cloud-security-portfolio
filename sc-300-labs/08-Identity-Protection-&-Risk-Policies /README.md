@@ -207,7 +207,7 @@ Go to Identity Protection > Risky users
 Filter for Medium/High risk
 Review detection details and risk factors
 
-📸 Screenshot: risky-users.png
+📸 Screenshot: risk-detected.png
 
 ## 3️⃣ Review Risky Sign-ins
 Purpose (Security reasoning):
@@ -217,7 +217,7 @@ Detect anomalous authentication attempts in real time.
 Go to Identity Protection > Risky sign-ins
 Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 
-📸 Screenshot: risky-signins.png
+📸 Screenshot: risk-events.png
 
 ## 4️⃣ Configure User Risk Policy
 Purpose (Security reasoning):
@@ -230,7 +230,7 @@ Conditions → Sign-in risk → Yes → Medium and above
 Access controls → Grant → Require multi-factor authentication
 Enable policy
 
-📸 Screenshot: signin-risk-policy.png
+📸 Screenshot: signin-risk-policy.png, user-risk-policy.png
 
 ## 5️⃣ Create User Risk Conditional Access Policy
 Purpose (Security reasoning):
@@ -246,7 +246,7 @@ Under Access controls → Grant → Select Require risk remediation
 Set policy to On (or Report-only for initial testing)
 Save and enable the policy
 
-📸 Screenshot: user-risk-policy.png
+📸 Screenshot: sign-in-risk-policy.png
 ## 6️⃣ Validate Policy Enforcement
 Purpose (Security reasoning):
 Confirm adaptive controls activate correctly based on risk signals.
