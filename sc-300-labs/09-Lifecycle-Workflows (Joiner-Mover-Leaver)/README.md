@@ -128,13 +128,13 @@ flowchart LR
 
 | # | Action | Screenshot |
 | - | ------ | ---------- |
-| 1 | Lifecycle Workflows Dashboard | <img src="./Screenshots/01-lifecycle-workflows-dashboard.png" width="180" style="border-radius:6px;"/> |
-| 2 | Template Selection | <img src="./Screenshots/02-template-selection.png" width="180" style="border-radius:6px;"/> |
-| 3 | Joiner Workflow Configuration | <img src="./Screenshots/03-joiner-workflow-configuration.png" width="180" style="border-radius:6px;"/> |
-| 4 | Mover Workflow Tasks | <img src="./Screenshots/04-mover-workflow-tasks.png" width="180" style="border-radius:6px;"/> |
-| 5 | Leaver Workflow (Disable Account) | <img src="./Screenshots/05-leaver-workflow-disable-account.png" width="180" style="border-radius:6px;"/> |
-| 6 | On-Demand Run & Success | <img src="./Screenshots/06-on-demand-run-success.png" width="180" style="border-radius:6px;"/> |
-| 7 | Audit Logs Verification | <img src="./Screenshots/07-audit-logs-verification.png" width="180" style="border-radius:6px;"/> |
+| 1 | Lifecycle Workflows Dashboard | <img src="./Screenshots/dashboard.png" width="180" style="border-radius:6px;"/> |
+| 2 | Template Selection | <img src="./Screenshots/templates.png" width="180" style="border-radius:6px;"/> ,<img src="./Screenshots/joiner-config.png" width="180" style="border-radius:6px;"/> |
+| 3 | Joiner Workflow Configuration | <img src="./Screenshots/mover-tasks.png" width="180" style="border-radius:6px;"/> |
+| 4 | Mover Workflow Tasks | <img src="./Screenshots/leaver-disable.png" width="180" style="border-radius:6px;"/>   |
+| 5 | Leaver Workflow (Disable Account) | <img src="./Screenshots/run-success.png" width="180" style="border-radius:6px;"/> |
+| 6 | On-Demand Run & Success | <img src="./Screenshots/demand-run-success.png" width="180" style="border-radius:6px;"/> |
+| 7 | Audit Logs Verification | <img src="./Screenshots/audit-logs.png" width="180" style="border-radius:6px;"/> |
 
 ----
 
@@ -193,7 +193,7 @@ Purpose (IAM reasoning): Rapid de-provisioning to minimize ex-employee risk.
 
 **Validation:** Test user account disabled, access revoked.
 
-📸 Screenshots: leaver-disable.png, run-success.png
+📸 Screenshots: leaver-disable.png
 
 ## 5️⃣ Test & Monitor Execution
 Purpose (IAM reasoning): Verify automation reliability and maintain audit trail.
@@ -206,7 +206,7 @@ Purpose (IAM reasoning): Verify automation reliability and maintain audit trail.
 
 **Validation:** Successful runs, user modifications confirmed.
 
-📸 Screenshots: run-success.png, audit-logs.png
+📸 Screenshots: run-success.png
 
 ## 6️⃣ Run Workflows On-Demand & Verify Execution Success
  **Purpose (IAM reasoning):** Confirm that workflows execute correctly in a controlled manner and produce the expected changes on user objects before enabling scheduled runs.
@@ -225,7 +225,7 @@ Purpose (IAM reasoning): Verify automation reliability and maintain audit trail.
 - Run history shows "Succeeded" with no failed tasks
 - Check the test user(s): e.g., groups added (Joiner), groups updated (Mover), or account disabled (Leaver)
 
-📸 Screenshot: run-success.png (capture the "Runs" tab showing successful completion)
+📸 Screenshot: demand-run-success.png (capture the "Runs" tab showing successful completion)
 
 ## 7️⃣ Verify Changes & Review Audit Logs
 **Purpose (IAM reasoning):** Ensure full traceability and compliance by confirming automated actions are logged for governance and auditing purposes.
