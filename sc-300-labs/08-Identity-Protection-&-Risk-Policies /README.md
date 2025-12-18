@@ -252,9 +252,25 @@ Purpose (Security reasoning):
 Confirm adaptive controls activate correctly based on risk signals.
 **Actions:**
 
-Simulate risky sign-in (e.g., VPN from unusual country or Tor browser)
-Observe automatic MFA challenge
-Review sign-in logs showing risk level and policy enforcement
+- Use a test user account with some sign-in history (ideally 10+ logins or 14 days old for reliable risk detection).
+**Simulate a risky sign-in to trigger Sign-in Risk (most reliable for labs):**
+- Download and open the Tor Browser (official way to simulate anonymous IP address).
+- Navigate to https://myapps.microsoft.com or https://office.com.
+- Sign in with your test user credentials.
+**Observe:** The system should detect "Anonymous IP" risk and prompt for multi-factor authentication (MFA) automatically.
+
+**Alternative simulation for Sign-in Risk (Atypical/Impossible Travel):**
+- Sign in normally from your usual location/IP.
+- Immediately change your IP (using a VPN to a distant country) and optionally change user agent (in browser Dev Tools F12).
+- Sign in again quickly — this may trigger "impossible travel".
+
+**For User Risk testing (if needed):**
+Use Microsoft Graph Explorer to manually mark the test user as compromised (requires IdentityRiskEvent.ReadWrite permissions).
+
+**After the risky sign-in:**
+- Wait 5-15 minutes for risk processing.
+- Check Identity Protection > Risky sign-ins or Risky users for the detection.
+- Review Sign-in logs (Entra ID > Sign-in logs) — filter by the user and look for "Conditional Access" status showing your policy applied, risk level (Medium/High), and enforced control (e.g., MFA required).
 
 📸 Screenshot: enforcement-test.png
 
