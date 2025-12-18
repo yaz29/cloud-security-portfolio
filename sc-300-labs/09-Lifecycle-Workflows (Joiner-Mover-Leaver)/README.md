@@ -85,6 +85,8 @@ flowchart LR
     style EntraID fill:#e8f5e8,stroke:#81c784
     style User fill:#fff3e0,stroke:#ffb74d
 
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Lifecycle.png" width="520"/> </details> ```
+----
 ## Diagram 02 – Workflow Execution Flow
 Description: Step-by-step automation pipeline from trigger to task completion.  
 
@@ -100,6 +102,10 @@ flowchart TD
     style Tasks fill:#e3f2fd,stroke:#2196f3
     style End fill:#d4edda,stroke:#28a745
 
+
+
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Workflow.png" width="520"/> </details> ```
+----
 
 
 ## Diagram 03 – Joiner vs. Leaver Task Comparison
@@ -122,7 +128,10 @@ flowchart LR
     end
     style Joiner fill:#d4edda,stroke:#28a745
     style Leaver fill:#f8d7da,stroke:#dc3545
-----
+
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Comparison.png" width="520"/> </details> ```
+----    
+
 
 ## 📊 Evidence Summary (Screenshots)
 
