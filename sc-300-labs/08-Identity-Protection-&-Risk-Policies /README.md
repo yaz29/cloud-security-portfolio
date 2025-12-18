@@ -48,28 +48,125 @@ Full cleanup performed (policies disabled, no persistent artifacts)
 <img src="./Screenshots/demo_FIDO2.gif" width="600"/>
 
 ---
-## 📐 Architecture & Flow Diagrams
 
-The following diagrams provide architectural context, risk evaluation logic, and enforcement outcomes.
+## 📐 Architecture & Risk Diagrams (Mermaid)
+
+> These diagrams are included to document the **identity risk lifecycle** end-to-end:  
+> **where Identity Protection fits**, **how risk is evaluated**, and **what enforcement actions are applied**.
+
+---
 
 ### Diagram 01 – High-Level Identity Architecture
-**Description:** Shows where Identity Protection fits within the Azure identity architecture.
 
-📸 File: `diagram-01-identity-architecture.png`
+> **Description:** This diagram shows how a user sign-in request reaches **Microsoft Entra ID**, where **Identity Protection** evaluates risk signals and **Conditional Access** enforces access controls before granting access to cloud applications.
+
+## 📐 Architecture & Flow Diagrams (Mermaid)
+
+### Diagram 01 – High-Level Identity Architecture
+
+
+flowchart LR
+    subgraph UserSide [User Environment]
+        U[User / Device]
+        Browser[Browser / App]
+    end
+
+    subgraph Global [Microsoft Global Network]
+        Edge[Edge Network]
+    end
+
+    subgraph EntraID [Microsoft Entra ID]
+        direction TB
+        Auth[Authentication Service]
+        IP[Identity Protection<br/>ML Risk Engine]
+        CA[Conditional Access<br/>Policy Engine]
+    end
+
+    subgraph Apps [Protected Resources]
+        M365[Microsoft 365]
+        Azure[Azure Resources]
+        SaaS[SaaS Applications]
+    end
+
+    U --> Browser
+    Browser --> Edge
+    Edge --> Auth
+    Auth --> IP
+    Auth --> CA
+    IP --> CA
+    CA --> Apps
+
+    style UserSide fill:#e3f2fd,stroke:#90caf9
+    style Global fill:#f3e5f5,stroke:#ce93d8
+    style EntraID fill:#e8f5e8,stroke:#81c784
+    style Apps fill:#fff3e0,stroke:#ffb74d
 
 ---
 
 ### Diagram 02 – Risk Detection & Policy Evaluation Flow
-**Description:** Illustrates how sign-in signals are evaluated and mapped to risk policies.
+**Description:** This diagram illustrates the decision pipeline: a sign-in attempt generates signals (IP, location, device, behavior), Identity Protection assigns a risk level, and then risk policies + Conditional Access determine what controls must be applied.
 
-📸 File: `diagram-02-risk-policy-flow.png`
+flowchart TD
+    Start[Sign-in Attempt] --> Signals[Signal Collection<br/>IP Address • Location • Device<br/>User Agent • Behavior • Credentials]
+
+    Signals --> IP{Identity Protection<br/>Real-time ML Evaluation}
+
+    IP -->|Low / No Risk| Low[Risk Level: Low]
+    IP -->|Medium Risk| Med[Risk Level: Medium]
+    IP -->|High Risk| High[Risk Level: High]
+
+    Low --> CA[Conditional Access<br/>Policy Evaluation]
+    Med --> CA
+    High --> CA
+
+    CA --> Grant[Grant Access]
+    CA --> Challenge[Enforce Controls]
+
+    style Low fill:#d4edda,stroke:#28a745,color:#155724
+    style Med fill:#fff3cd,stroke:#ffc107,color:#856404
+    style High fill:#f8d7da,stroke:#dc3545,color:#721c24
+    style Challenge fill:#f8d7da,stroke:#dc3545
+    style Grant fill:#d1ecf1,stroke:#17a2b8
 
 ---
 
 ### Diagram 03 – Enforcement & Remediation Actions
-**Description:** Displays enforcement actions based on risk level (MFA, password reset, or block).
+**Description:** This diagram maps risk levels to security outcomes. Medium risk sign-ins are challenged with MFA, high-risk users are remediated by forcing a password reset, and critical risk events can result in access being blocked.
 
-📸 File: `diagram-03-enforcement-remediation.png`
+flowchart TD
+
+    Eval[Risk Evaluation Complete] --> Type{Which Risk?}
+
+    Type -->|Sign-in Risk| SignIn[Sign-in Risk Level]
+    Type -->|User Risk| UserR[User Risk Level]
+
+    SignIn --> SMed[Medium]
+    SignIn --> SHigh[High]
+
+    UserR --> UMed[Medium]
+    UserR --> UHigh[High]
+
+    SMed --> MFA[Require Multi-Factor<br/>Authentication]
+    SHigh --> MFAHigh[Require MFA<br/>(or Block Access)]
+
+    UMed --> Remed[Require Risk Remediation<br/>(Self-remediation flow)]
+    UHigh --> RemedHigh[Require Risk Remediation<br/>(Immediate action)]
+
+    MFA --> Success1[Access Granted<br/>after MFA]
+    MFAHigh --> Success2[Access Granted<br/>or Blocked]
+    Remed --> Success3[Access Granted<br/>after Remediation]
+    RemedHigh --> Success4[Access Granted<br/>after Remediation]
+
+    style SMed fill:#fff3cd,stroke:#ffc107
+    style SHigh fill:#f8d7da,stroke:#dc3545
+    style UMed fill:#fff3cd,stroke:#ffc107
+    style UHigh fill:#f8d7da,stroke:#dc3545
+    style MFA fill:#e3f2fd,stroke:#2196f3
+    style Remed fill:#e1bee7,stroke:#9c27b0
+    style Success1 fill:#d4edda,stroke:#28a745
+    style Success2 fill:#d4edda,stroke:#28a745
+    style Success3 fill:#d4edda,stroke:#28a745
+    style Success4 fill:#d4edda,stroke:#28a745
 
 ---
 
@@ -98,7 +195,7 @@ Navigate to Identity Protection > Overview
 
 ## Validation:
 Dashboard shows risk summary, trends, and flagged users/sign-ins
-📸 Screenshot: dashboard.pngç
+📸 Screenshot: dashboard.png.
 
 ---
 ## 2️⃣ Review Risky Users
@@ -124,39 +221,43 @@ Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 
 ## 4️⃣ Configure User Risk Policy
 Purpose (Security reasoning):
-Automatically remediate compromised accounts by forcing secure password reset.
+Dynamically require stronger authentication for suspicious sign-in attempts.
+**Actions:**
 
-## Actions:
-Navigate to Identity Protection > User risk policy
-Set policy to Medium and High risk
-Control: Require password change
-Scope: All users (or pilot group)
-
-📸 Screenshot: user-risk-policy.png
-
-## 5️⃣ Configure Sign-in Risk Policy
-Purpose (Security reasoning):
-Dynamically challenge suspicious sign-in attempts without blocking legitimate access.
-
-## Actions:
-Navigate to Identity Protection > Sign-in risk policy
-Set policy to Medium and High risk
-Control: Require multi-factor authentication
-Scope: All users (or selected apps/groups)
+Navigate to Protection > Conditional Access > Policies
+Create new policy (or use template: "Require MFA for medium+ sign-in risk")
+Conditions → Sign-in risk → Yes → Medium and above
+Access controls → Grant → Require multi-factor authentication
+Enable policy
 
 📸 Screenshot: signin-risk-policy.png
 
+## 5️⃣ Create User Risk Conditional Access Policy
+Purpose (Security reasoning):
+Force secure remediation for accounts likely compromised.
+**Actions:**
+
+Navigate to Protection > Conditional Access > Policies
+Create a new policy (recommended: use the built-in template "Require remediation for medium or high user risk")
+Under Conditions → User risk → Select Yes
+Choose risk levels: High and Medium (or High only for stricter enforcement)
+Under Access controls → Grant → Select Require risk remediation
+(Optional) Scope to All users or a pilot group
+Set policy to On (or Report-only for initial testing)
+Save and enable the policy
+
+📸 Screenshot: user-risk-policy.png
 ## 6️⃣ Validate Policy Enforcement
 Purpose (Security reasoning):
-Confirm automated controls trigger correctly in response to risk signals.
+Confirm adaptive controls activate correctly based on risk signals.
+**Actions:**
 
-## Actions:
-Simulate risky sign-in (e.g., via VPN from unusual location or Tor)
-Observe MFA challenge for medium/high sign-in risk
-Trigger user risk (if possible via leaked credentials simulation)
-Review updated risk status and sign-in logs
+Simulate risky sign-in (e.g., VPN from unusual country or Tor browser)
+Observe automatic MFA challenge
+Review sign-in logs showing risk level and policy enforcement
 
 📸 Screenshot: enforcement-test.png
+
 ---
 
 ## ✅ Expected Results
