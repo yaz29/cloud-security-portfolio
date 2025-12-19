@@ -288,7 +288,7 @@ The sign-in is evaluated as **atypical or impossible travel**, triggering risk-b
   - Conditional Access policy applied
   - Enforcement action (MFA, password reset, or block)
 
-📸 Screenshot: `06-policy-enforcement-test.png`
+📸 Screenshot: `enforcement-test.png`
 
 ---
 
