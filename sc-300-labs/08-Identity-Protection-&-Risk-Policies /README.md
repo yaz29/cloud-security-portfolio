@@ -218,6 +218,7 @@ Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 ## 4️⃣ Configure User Risk Policy
 Purpose (Security reasoning):
 Dynamically require stronger authentication for suspicious sign-in attempts.
+
 **Actions:**
 
 Navigate to Protection > Conditional Access > Policies
@@ -226,7 +227,7 @@ Conditions → Sign-in risk → Yes → Medium and above
 Access controls → Grant → Require multi-factor authentication
 Enable policy
 
-📸 Screenshot: signin-risk-policy.png, user-risk-policy.png
+📸 Screenshot: user-risk-policy.png
 
 ## 5️⃣ Create User Risk Conditional Access Policy
 Purpose (Security reasoning):
