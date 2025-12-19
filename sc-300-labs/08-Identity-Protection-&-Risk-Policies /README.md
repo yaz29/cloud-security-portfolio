@@ -243,32 +243,52 @@ Set policy to On (or Report-only for initial testing)
 Save and enable the policy
 
 📸 Screenshot: sign-in-risk-policy.png
+
 ## 6️⃣ Validate Policy Enforcement
-Purpose (Security reasoning):
-Confirm adaptive controls activate correctly based on risk signals.
-**Actions:**
 
-- Use a test user account with some sign-in history (ideally 10+ logins or 14 days old for reliable risk detection).
-**Simulate a risky sign-in to trigger Sign-in Risk (most reliable for labs):**
-- Download and open the Tor Browser (official way to simulate anonymous IP address).
-- Navigate to https://myapps.microsoft.com or https://office.com.
-- Sign in with your test user credentials.
-**Observe:** The system should detect "Anonymous IP" risk and prompt for multi-factor authentication (MFA) automatically.
+### Security Objective
+Validate that **identity risk signals** are correctly detected and that **risk-based Conditional Access controls** are automatically enforced, aligning with Zero Trust principles.
 
-**Alternative simulation for Sign-in Risk (Atypical/Impossible Travel):**
-- Sign in normally from your usual location/IP.
-- Immediately change your IP (using a VPN to a distant country) and optionally change user agent (in browser Dev Tools F12).
-- Sign in again quickly — this may trigger "impossible travel".
+#### Test User Preparation
+- Use a dedicated test account with established sign-in activity  
+  *(accounts with historical sign-ins produce more reliable risk evaluations).*
 
-**For User Risk testing (if needed):**
-Use Microsoft Graph Explorer to manually mark the test user as compromised (requires IdentityRiskEvent.ReadWrite permissions).
 
-**After the risky sign-in:**
-- Wait 5-15 minutes for risk processing.
-- Check Identity Protection > Risky sign-ins or Risky users for the detection.
-- Review Sign-in logs (Entra ID > Sign-in logs) — filter by the user and look for "Conditional Access" status showing your policy applied, risk level (Medium/High), and enforced control (e.g., MFA required).
+#### Primary Validation Scenario – Anonymous IP Detection
+This scenario is the most reliable method for validating **Sign-in Risk** in a lab environment.
 
-📸 Screenshot: enforcement-test.png
+- Initiate a sign-in using an **anonymous network** (e.g., Tor Browser).
+- Access a Microsoft resource such as:
+  - https://myapps.microsoft.com  
+  - https://www.office.com
+- Authenticate with the test user credentials.
+
+**Expected Behavior:**  
+Identity Protection detects an **Anonymous IP** sign-in and enforces the configured Conditional Access control (e.g., **MFA challenge**).
+
+#### Secondary Validation Scenario – Atypical Sign-in Behavior (Optional)
+- Perform an initial sign-in from a known location.
+- Immediately change network location to a geographically distant region.
+- Attempt a second sign-in within a short timeframe.
+
+**Expected Behavior:**  
+The sign-in is evaluated as **atypical or impossible travel**, triggering risk-based enforcement.
+
+#### User Risk Validation (If Applicable)
+- Manually flag the test user as compromised using **Microsoft Graph Explorer**.
+- Requires elevated permissions (e.g., `IdentityRiskEvent.ReadWrite`).
+
+#### Verification and Evidence Collection
+- Allow **5–15 minutes** for risk processing.
+- Review **Identity Protection** for:
+  - Risky sign-ins
+  - Risky users
+- Inspect **Entra ID > Sign-in logs** to confirm:
+  - Risk level classification
+  - Conditional Access policy applied
+  - Enforcement action (MFA, password reset, or block)
+
+📸 Screenshot: `06-policy-enforcement-test.png`
 
 ---
 
