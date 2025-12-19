@@ -18,30 +18,31 @@ This implementation aligns with enterprise requirements for automated identity t
 
 ---
 ## ⚠️ Real-World Risk
-81% of breaches involve weak, stolen, or reused credentials (Verizon DBIR 2024).
-Traditional authentication relies on static signals that adversaries can bypass. Identity Protection uses AI/ML-driven risk detection to identify anomalies in real time, enabling proactive remediation.
+- 81% of breaches involve weak, stolen, or reused credentials (Verizon DBIR 2024).
+- Traditional authentication relies on static signals that adversaries can bypass.
+- Identity Protection uses AI/ML-driven risk detection to identify anomalies in real time, enabling proactive remediation.
 
 ## This lab mitigates:
 
-Account takeover (ATO) via leaked credentials
-Impossible travel or anomalous sign-in patterns
-Credential stuffing and spray attacks
-Lateral movement from compromised accounts
+- Account takeover (ATO) via leaked credentials
+- Impossible travel or anomalous sign-in patterns
+- Credential stuffing and spray attacks
+- Lateral movement from compromised accounts
 
 ## Security alignment:
 
-Zero Trust principles
-NIST 800-63B (risk-based authentication)
-Microsoft recommended identity security practices
+- Zero Trust principles
+- NIST 800-63B (risk-based authentication)
+- Microsoft recommended identity security practices
 
 
 ## 🛠 What I Built
 
-Reviewed Identity Protection dashboard and risk detections
-Configured User Risk policy (remediate High/Medium risk with password reset)
-Configured Sign-in Risk policy (require MFA for High/Medium risk sign-ins)
-Validated automated enforcement through simulated risky scenarios
-Full cleanup performed (policies disabled, no persistent artifacts)
+- Reviewed Identity Protection dashboard and risk detections
+- Configured User Risk policy (remediate High/Medium risk with password reset)
+- Configured Sign-in Risk policy (require MFA for High/Medium risk sign-ins)
+- Validated automated enforcement through simulated risky scenarios
+- Full cleanup performed (policies disabled, no persistent artifacts)
 
 ---
 ## 🎥 Full Authentication Flow identity-protection-mfa-enforcement.gif
@@ -92,7 +93,7 @@ flowchart LR
     style Apps fill:#fff3e0,stroke:#ffb74d
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./diagrams/Identity.png" width="520"/> </details> 
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Identity.png" width="520"/> </details> 
 ---
 
 ### Diagram 02 – Risk Detection & Policy Evaluation Flow
@@ -121,7 +122,7 @@ flowchart TD
     style Grant fill:#d1ecf1,stroke:#17a2b8
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./diagrams/Risk-Detection.png" width="520"/> </details>
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Risk-Detection.png" width="520"/> </details>
 ---
 
 ### Diagram 03 – Enforcement & Remediation Actions
@@ -163,7 +164,7 @@ flowchart TD
     style Success4 fill:#d4edda,stroke:#28a745
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./diagrams/Enforcement.png" width="520"/> </details>
+<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Enforcement.png" width="520"/> </details>
 ---
 
 
@@ -185,12 +186,14 @@ flowchart TD
 ## 1️⃣ Access Identity Protection Dashboard
 Purpose (Security reasoning):
 Gain visibility into current identity risk posture using ML-powered detections.
+
 ## Actions:
-Sign in to Microsoft Entra admin center
-Navigate to Identity Protection > Overview
+- Sign in to Microsoft Entra admin center
+- Navigate to Identity Protection > Overview
 
 ## Validation:
 Dashboard shows risk summary, trends, and flagged users/sign-ins
+
 📸 Screenshot: dashboard.png.
 
 ---
