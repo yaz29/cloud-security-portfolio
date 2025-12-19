@@ -46,7 +46,7 @@ This implementation aligns with enterprise requirements for automated identity t
 
 ---
 ## 🎥 Full Authentication Flow identity-protection-mfa-enforcement.gif
-<img src="./Screenshots/demo_FIDO2.gif" width="600"/>
+<img src="./Screenshots/Enforcement_FIDO2.gif" width="600"/>
 
 ---
 
