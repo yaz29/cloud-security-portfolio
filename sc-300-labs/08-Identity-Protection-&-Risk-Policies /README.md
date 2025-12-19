@@ -93,7 +93,8 @@ flowchart LR
     style Apps fill:#fff3e0,stroke:#ffb74d
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Identity.png" width="520"/> </details> 
+<img width="600" src="./Screenshots/Identity.png" />
+
 ---
 
 ### Diagram 02 – Risk Detection & Policy Evaluation Flow
@@ -122,7 +123,8 @@ flowchart TD
     style Grant fill:#d1ecf1,stroke:#17a2b8
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Risk-Detection.png" width="520"/> </details>
+<img width="600" src="./Screenshots/Risk-Detection.png" />
+
 ---
 
 ### Diagram 03 – Enforcement & Remediation Actions
@@ -164,7 +166,8 @@ flowchart TD
     style Success4 fill:#d4edda,stroke:#28a745
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/Enforcement.png" width="520"/> </details>
+<img width="600" src="./Screenshots/Enforcement.png" />
+
 ---
 
 
@@ -198,53 +201,53 @@ Dashboard shows risk summary, trends, and flagged users/sign-ins
 
 ---
 ## 2️⃣ Review Risky Users
-Purpose (Security reasoning):
-Identify accounts likely compromised (e.g., leaked credentials detected on dark web).
+## Purpose (Security reasoning):
+- Identify accounts likely compromised (e.g., leaked credentials detected on dark web).
 
 ## Actions:
-Go to Identity Protection > Risky users
-Filter for Medium/High risk
-Review detection details and risk factors
+- Go to Identity Protection > Risky users
+- Filter for Medium/High risk
+- Review detection details and risk factors
 
 📸 Screenshot: risk-detected.png
 
 ## 3️⃣ Review Risky Sign-ins
-Purpose (Security reasoning):
+## Purpose (Security reasoning):
 Detect anomalous authentication attempts in real time.
 
 ## Actions:
-Go to Identity Protection > Risky sign-ins
-Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
+- Go to Identity Protection > Risky sign-ins
+- Analyze signals: unfamiliar location, impossible travel, anonymous IP, etc.
 
 📸 Screenshot: risk-events.png
 
 ## 4️⃣ Configure User Risk Policy
-Purpose (Security reasoning):
-Dynamically require stronger authentication for suspicious sign-in attempts.
+## Purpose (Security reasoning):
+- Dynamically require stronger authentication for suspicious sign-in attempts.
 
 **Actions:**
 
-Navigate to Protection > Conditional Access > Policies
-Create new policy (or use template: "Require MFA for medium+ sign-in risk")
-Conditions → Sign-in risk → Yes → Medium and above
-Access controls → Grant → Require multi-factor authentication
-Enable policy
+- Navigate to Protection > Conditional Access > Policies
+- Create new policy (or use template: "Require MFA for medium+ sign-in risk")
+- Conditions → Sign-in risk → Yes → Medium and above
+- Access controls → Grant → Require multi-factor authentication
+- Enable policy
 
 📸 Screenshot: user-risk-policy.png
 
 ## 5️⃣ Create User Risk Conditional Access Policy
-Purpose (Security reasoning):
-Force secure remediation for accounts likely compromised.
+## Purpose (Security reasoning):
+- Force secure remediation for accounts likely compromised.
 **Actions:**
 
-Navigate to Protection > Conditional Access > Policies
-Create a new policy (recommended: use the built-in template "Require remediation for medium or high user risk")
-Under Conditions → User risk → Select Yes
-Choose risk levels: High and Medium (or High only for stricter enforcement)
-Under Access controls → Grant → Select Require risk remediation
-(Optional) Scope to All users or a pilot group
-Set policy to On (or Report-only for initial testing)
-Save and enable the policy
+- Navigate to Protection > Conditional Access > Policies
+- Create a new policy (recommended: use the built-in template "Require remediation for medium or high user risk")
+- Under Conditions → User risk → Select Yes
+- Choose risk levels: High and Medium (or High only for stricter enforcement)
+- Under Access controls → Grant → Select Require risk remediation
+- (Optional) Scope to All users or a pilot group
+- Set policy to On (or Report-only for initial testing)
+- Save and enable the policy
 
 📸 Screenshot: sign-in-risk-policy.png
 
@@ -308,20 +311,19 @@ The sign-in is evaluated as **atypical or impossible travel**, triggering risk-b
 ## 🔐 License Requirement
 This lab requires Microsoft Entra ID P2 licenses (or EMS E5) to enable:
 
-Identity Protection risk detections
-Risk-based Conditional Access policies
-Automated remediation controls
-
-Licenses were assigned temporarily for lab purposes and removed during cleanup.
+- Identity Protection risk detections
+- Risk-based Conditional Access policies
+- Automated remediation controls
+- Licenses were assigned temporarily for lab purposes and removed during cleanup.
 
 ---
 ## 🧰 Tools & Services Used
 
-Microsoft Entra ID (formerly Azure AD)
-Identity Protection
-Risk-based Conditional Access policies
-Microsoft Entra admin center
-Sign-in and audit logs
+- Microsoft Entra ID (formerly Azure AD)
+- Identity Protection
+- Risk-based Conditional Access policies
+- Microsoft Entra admin center
+- Sign-in and audit logs
 
 
 
