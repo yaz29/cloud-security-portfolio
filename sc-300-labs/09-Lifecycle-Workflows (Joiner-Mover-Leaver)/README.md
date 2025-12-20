@@ -153,8 +153,8 @@ Purpose (IAM reasoning): Gain visibility into automated lifecycle processes and 
 
 **Actions:**
 
-Sign in to Microsoft Entra admin center
-Navigate to Identity Governance > Lifecycle workflows > Overview/Insights
+- Sign in to Microsoft Entra admin center
+- Navigate to Identity Governance > Lifecycle workflows > Overview/Insights
 
 **Validation:** Dashboard shows workflow runs, success rates, and trends.
 
