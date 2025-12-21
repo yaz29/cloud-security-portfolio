@@ -85,7 +85,7 @@ flowchart TD
     style Invite fill:#fff3cd,stroke:#ffc107
     style Trust fill:#d4edda,stroke:#28a745
 
-<img src="./Screenshots/B2B-Direct.png" width="520"/> 
+<img src="./Screenshots/B2B-Directs.png" width="520"/> 
 
 
 ## Diagram 03 – Customer CIAM Authentication Flow
