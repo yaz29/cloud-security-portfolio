@@ -7,6 +7,12 @@ Key concepts include the difference between App Registrations (template) and Ent
 
 This hands-on work proves production-level expertise in application identity management, highly relevant for **Identity Engineer, Application Security Architect, Cloud Developer, and Zero Trust roles**.
 
+This lab focuses on Microsoft Entra ID application identities, including app registrations and enterprise applications.
+Validation is performed through configuration review and token-based access, not end-user interaction.
+
+This lab focuses on application identity configuration and backend validation.
+Interactive user flows were demonstrated in Lab 10; therefore, static screenshots were used here.
+
 ---
 ## 🎯 Lab Objectives
 - Understand App Registration vs. Enterprise Application vs. Service Principal
@@ -138,8 +144,8 @@ flowchart LR
 
 | # | Action | Screenshot |
 | - | ------ | ---------- |
-| 1 | App Registrations Dashboard | <img src="./Screenshots/dashboard.png" width="180" style="border-radius:6px;"/> |
-| 2 | New App Registration Creation | <img src="./Screenshots/app-registration.png" width="180" style="border-radius:6px;"/> |
+| 1 | App Registrations Dashboard | <img src="./Screenshots/App-Registrations.png" width="180" style="border-radius:6px;"/> |
+| 2 | New App Registration Creation | <img src="./Screenshots/new-app-registration.png" width="180" style="border-radius:6px;"/> |
 | 3 | Authentication & Redirect URIs | <img src="./Screenshots/auth-config.png" width="180" style="border-radius:6px;"/> |
 | 4 | API Permissions (Graph) | <img src="./Screenshots/permissions.png" width="180" style="border-radius:6px;"/> |
 | 5 | Certificates & Secrets | <img src="./Screenshots/secrets.png" width="180" style="border-radius:6px;"/> |
@@ -154,11 +160,11 @@ flowchart LR
 Purpose: Overview of registered applications and service principals.
 ## Actions:
 
-Microsoft Entra admin center → Identity → Applications → App registrations
+Microsoft Entra admin center → Microsoft Entra ID → App registrations
 
 **Validation:** List of existing apps.
 
-📸 Screenshot: dashboard.png
+📸 Screenshot: App-Registrations.png
 
 ## 2️⃣ Create New App Registration
 Purpose: Define the application template.
@@ -171,45 +177,63 @@ Redirect URI: Web → https://jwt.ms (for testing)
 
 **Validation:** App created with Application (client) ID.
 
-📸 Screenshot: app-registration.png
+📸 Screenshot: new-app-registration.png
 
 ## 3️⃣ Configure Authentication & Platform
-Purpose: Enable OAuth2 Authorization Code Flow.
 
-## Actions:
+**Purpose:**  
+Configure application authentication settings to support OAuth 2.0 flows in Microsoft Entra ID.
 
-- Authentication → Add platform → Web
-- Redirect URI: https://jwt.ms
-- Enable ID tokens & Access tokens
-- Front-channel logout URL (optional)
+### Actions
+- Navigate to **Microsoft Entra ID > App registrations**
+- Select the target application
+- Open **Authentication**
+- Add a **Web** platform
+- Configure **Redirect URI** as: https://jwt.ms
+- Save the configuration
 
-📸 Screenshot: auth-config.png
+📸 **Screenshot:** `auth-config.png`
+
+### Validation
+- The application has a Web platform configured
+- The redirect URI is correctly set
+
 
 ## 4️⃣ Configure API Permissions
-Purpose: Apply least-privilege access to Microsoft Graph.
 
-## Actions:
+**Purpose:**  
+Apply least-privilege access to Microsoft Graph by configuring only the required delegated permissions.
 
-- API permissions → Add a permission → Microsoft Graph
-- Delegated: User.Read, Mail.Read
-- Application: User.Read.All
-- Click Grant admin consent for [tenant]
+### Actions
+- Navigate to **Microsoft Entra ID > App registrations**
+- Select the target application
+- Open **API permissions**
+- Add **Microsoft Graph** delegated permission:
+  - **User.Read**
+- Save the configuration
 
-**Validation:** Consent granted, no pending requests.
+> **Note:**  
+> Additional permissions such as Mail.Read are not available in this tenant because Exchange Online is not provisioned.
 
-📸 Screenshot: permissions.png
+### Validation
+- Required Microsoft Graph permissions are configured
+- No excessive permissions are assigned
+
+**📸 Screenshot:** permissions.png
 
 ## 5️⃣ Manage Certificates & Secrets
 Purpose: Secure app authentication.
 
 ## Actions:
 
-Certificates & secrets → New client secret (description, expiry 6 months)
-(Optional) Upload certificate for production
+Microsoft Entra admin center → Microsoft Entra ID → App registrations → (tu app) → Certificates & secrets
 
-**Validation:** Secret value copied (never visible again).
+**Validation:** 
+- A client secret was created for the application to enable secure authentication.
+- The secret value was copied at creation time and is not retrievable afterward,
+- following Microsoft Entra ID security best practices.
 
-📸 Screenshot: secrets.png
+**📸 Screenshot:** secrets.png
 
 ## 6️⃣ Edit Application Manifest
 Purpose: Advanced configuration not exposed in UI.
@@ -220,20 +244,32 @@ Purpose: Advanced configuration not exposed in UI.
 - "signInAudience": "AzureADMultipleOrgs"
 
 
-**Validation:** Changes saved.
-
+**Validation:** 
+- The application manifest was updated to enable v2.0 access tokens and allow multi-tenant sign-in.
+- Changes were successfully saved in the Microsoft Entra ID application manifest.
+ 
 📸 Screenshot: manifest.png
 
 ## 7️⃣ View Enterprise Application & Test
-Purpose: Verify service principal and token flow.
-## Actions:
 
-- Enterprise applications → Find your app → Grant admin consent if needed
-- Test: Open https://jwt.ms → Sign in → Observe decoded token claims Or use Microsoft Graph Explorer with your app
+**Purpose:**  
+Verify that the enterprise application (service principal) exists and that token issuance works correctly.
 
-**Validation:** Valid access token with correct scopes.
+### Actions
+- Navigate to **Microsoft Entra ID > Enterprise applications**
+- Locate and open the application
+- Confirm the service principal is present and enabled
+- Open **https://jwt.ms** and sign in
+- Review decoded token claims
 
-📸 Screenshots: graph-explorer.png
+### Validation
+- Enterprise application is visible
+- Microsoft Graph Explorer was used to validate token issuance and Graph access.
+- A successful `/me` request returned HTTP 200, confirming delegated permissions and authentication flow in the tenant sample environment.
+
+
+📸 **Screenshot:** `graph-explorer.png`
+
 
 ## ✅ Expected Results
 
