@@ -127,97 +127,139 @@ sequenceDiagram
 
 | # | Action | Screenshot |
 | - | ------ | ---------- |
-| 1 | User Consent Settings (Blocked) | <img src="./Screenshots/01-user-consent-settings-blocked.png" width="180" style="border-radius:6px;"/> |
-| 2 | Enable Admin Consent Workflow | <img src="./Screenshots/02-enable-admin-consent-workflow.png" width="180" style="border-radius:6px;"/> |
-| 3 | Create New Workflow Policy | <img src="./Screenshots/03-create-workflow-policy.png" width="180" style="border-radius:6px;"/> |
-| 4 | Policy Configuration & Reviewers | <img src="./Screenshots/04-policy-configuration-reviewers.png" width="180" style="border-radius:6px;"/> 
-| 5 | User Blocked – Consent Prompt | <img src="./Screenshots/05-user-blocked-consent-prompt.png" width="180" style="border-radius:6px;"/> |
-| 6 | Submit Admin Consent Request | <img src="./Screenshots/06-submit-admin-consent-request.png" width="180" style="border-radius:6px;"/> |
-| 7 | Admin Review & Approval | <img src="./Screenshots/07-admin-review-approval.png" width="180" style="border-radius:6px;"/> |
-| 8 | Audit Logs – Consent Events | <img src="./Screenshots/08-audit-logs-consent-events.png" width="180" style="border-radius:6px;"/> |
+| 1 | User Consent Settings (Blocked) | <img src="./Screenshots/user-consent-settings.png" width="180" style="border-radius:6px;"/> |
+| 2 | Enable Admin Consent Workflow | <img src="./Screenshots/admin-consent-workflow.png" width="180" style="border-radius:6px;"/> |
+| 3 | Create New Workflow Policy | <img src="./Screenshots/create-workflow-policy.png" width="180" style="border-radius:6px;"/> |
+| 4 | Policy Configuration & Reviewers | <img src="./Screenshots/policy-configuration-reviewers.png" width="180" style="border-radius:6px;"/> 
+| 5 | User Blocked – Consent Prompt | <img src="./Screenshots/user-blocked-consent.png" width="180" style="border-radius:6px;"/> |
+| 6 | Submit Admin Consent Request | <img src="./Screenshots/submit-admin-consent-request.png" width="180" style="border-radius:6px;"/> |
+| 7 | Admin Review & Approval | <img src="./Screenshots/admin-review-approval.png" width="180" style="border-radius:6px;"/> |
+| 8 | Audit Logs – Consent Events | <img src="./Screenshots/audit-logs-consent.png" width="180" style="border-radius:6px;"/> |
 
-
-
-
-
+---
  ## 🧪 Step-by-Step Implementation
+
 ## 1️⃣ Block User Consent
-Purpose: Eliminate the highest-risk consent vector.
-## Actions:
+**Purpose:**  
+Eliminate the highest-risk consent vector by preventing standard users from granting application permissions.
 
-- Entra admin center → Identity → Applications → Enterprise applications
-- Consent and permissions → User consent settings
-- Set Users can consent to apps accessing company data → Do not allow user consent
+### Actions
+- Navigate to **Microsoft Entra admin center**
+- Go to **Identity > Applications > Enterprise applications**
+- Select **Consent and permissions**
+- Set **Users can consent to apps accessing company data** → **Do not allow user consent**
 
-**Validation:** Standard users can no longer accept consent prompts.
+### Validation
+- Standard users can no longer approve consent prompts
 
-📸 Screenshot: 01-user-consent-blocked.png
+📸 **Screenshot:** `user-consent-settings.png`
+
+---
 
 ## 2️⃣ Enable Admin Consent Workflow
-Purpose: Activate the governance engine for controlled approvals.
+**Purpose:**  
+Activate governance controls for managed and auditable permission approvals.
 
-## Actions:
+### Actions
+- In **Consent and permissions**, open **Admin consent workflow**
+- Set **Enable admin consent workflow** → **Yes**
 
-- In Consent and permissions → Admin consent workflow
-- Toggle Enable admin consent workflow → Yes
+### Validation
+- The **Admin consent requests** blade becomes available
 
-**Validation:** New "Admin consent requests" blade appears.
-📸 Screenshot: 02-enable-workflow.png
+📸 **Screenshot:** `admin-consent-workflow.png`
+
+---
 
 ## 3️⃣ Create Workflow Policy for High-Risk Permissions
-Purpose: Target only dangerous permissions for approval.
-## Actions:
+**Purpose:**  
+Ensure high-impact permissions require explicit administrative approval.
 
-- Admin consent workflow → New workflow
-- Name: "Require Approval for .All Application Permissions"
-- Permission type: Application permissions
-- Classification: All
-- Require justification: Yes
-- Add reviewers: Select a security group (e.g., "IAM Approvers")
-- Enable notifications and reminders
+### Actions
+- Go to **Admin consent workflow**
+- Select **New workflow**
+- Configure:
+  - **Name:** Require Approval for .All Application Permissions
+  - **Permission type:** Application permissions
+  - **Classification:** All
+  - **Require justification:** Yes
+  - **Reviewers:** Security group (e.g., *IAM Approvers*)
+  - **Notifications & reminders:** Enabled
+- Save the policy
 
-**Validation:** Policy listed as Enabled.
+### Validation
+- Workflow policy is listed as **Enabled**
 
-📸 Screenshots: 03-new-workflow.png, 04-policy-details.png
+📸 **Screenshots:**  
+- `create-workflow-policy.png`  
+- `policy-configuration-reviewers.png`
+
+---
 
 ## 4️⃣ Simulate Consent Request (End-User View)
-Purpose: Test the blocked experience and request submission.
-## Actions:
+**Purpose:**  
+Validate the blocked consent experience and request submission flow.
 
-- As a non-admin user, open Microsoft Graph Explorer
-- Attempt a query requiring app permission (e.g., GET /users → needs User.Read.All)
-- Click "Consent" → Blocked → Click Request admin approval
-- Fill in justification and submit
+### Actions
+- Sign in as a **non-admin user**
+- Open **Microsoft Graph Explorer**
+- Attempt a query requiring admin-level permissions  
+  (e.g., `GET /users` → requires `User.Read.All`)
+- Observe the blocked consent prompt
+- Select **Request admin approval**
+- Enter justification and submit the request
 
-**Validation:** Request appears in admin portal.
+### Validation
+- Consent request is successfully submitted
 
-📸 Screenshots: 05-consent-blocked.png, 06-request-submitted.png
+📸 **Screenshots:**  
+- `user-blocked-consent.png`  
+- `submit-admin-consent-request.png`
+
+---
 
 ## 5️⃣ Review and Approve Request (Admin View)
-Purpose: Validate governance review process.
-## Actions:
+**Purpose:**  
+Validate the administrative review and approval process.
 
-- Go to Admin consent requests → Select pending request
-- Review: App publisher, requested permissions, business justification, risk indicators
-- Approve (or Deny) with optional comment
+### Actions
+- Navigate to **Admin consent requests**
+- Open the pending request
+- Review:
+  - Application details
+  - Requested permissions
+  - Business justification
+  - Risk indicators
+- Approve (or deny) the request with an optional comment
 
-**Validation:** Status changes to Approved; user can now run the query.
+### Validation
+- Request status changes to **Approved**
+- User can successfully execute the previously blocked query
 
-📸 Screenshot: 07-admin-approval.png
+📸 **Screenshot:** `admin-review-approval.png`
+
+---
 
 ## 6️⃣ Verify Audit Trail
-Purpose: Ensure compliance and traceability.
-## Actions:
+**Purpose:**  
+Ensure full traceability and compliance through audit logging.
 
-- Identity → Audit logs
-- Filter by:
-- Category: ApplicationManagement
-- Activity: "Consent to application", "Admin consent request updated"
+### Actions
+- Navigate to **Identity > Audit logs**
+- Apply filters:
+  - **Category:** ApplicationManagement
+  - **Activity:**  
+    - Consent to application  
+    - Admin consent request updated
 
+### Validation
+- Audit logs show the full lifecycle:
+  request creation, review, and approval decision
 
-**Validation:** Full log of request creation, review, and decision.
+📸 **Screenshot:** `audit-logs-consent.png`
 
-📸 Screenshot: 08-audit-logs.png
+---
+
 
 ## ✅ Expected Results
 
