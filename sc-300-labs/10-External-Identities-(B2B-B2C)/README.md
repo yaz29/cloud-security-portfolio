@@ -113,13 +113,23 @@ flowchart TD
 | 2 | External Collaboration Settings | <img src="./Screenshots/collab-settings.png" width="180" style="border-radius:6px;"/> |
 | 3 | Inviting B2B Guest User | <img src="./Screenshots/invite-guest.png" width="180" style="border-radius:6px;"/> |
 | 4 | Guest User Object (#EXT#) | <img src="./Screenshots/user-flow.png" width="180" style="border-radius:6px;"/> |
-| 5 | Customer User Flow Creation | <img src="./Screenshots/branding-idps.png" width="180" style="border-radius:6px;"/> |
+| 5 | Customer User Flow Creation | <img src="./Screenshots/UserFlow-creation.png" width="180" style="border-radius:6px;"/> |
 | 6 | Branding & Identity Providers | <img src="./Screenshots/branding-idps.png" width="180" style="border-radius:6px;"/> |
 | 7 | Test Sign-Up & Audit Logs | <img src="./Screenshots/test-signup-audit.png" width="180" style="border-radius:6px;"/> |
 
-
+| # | Action | Screenshot |
+| - | ------ | ---------- |
+| 1 | External Identities Dashboard | <img src="./Screenshots/ External-Identities.png" width="180" style="border-radius:6px;"/> |
+| 2 | External Collaboration Settings | <img src="./Screenshots/collab-settings.png" width="180" style="border-radius:6px;"/> |
+| 3 | Inviting B2B Guest User | <img src="./Screenshots/invite-guest.png" width="180" style="border-radius:6px;"/> |
+| 4 | Customer User Flow Creation | <img src="./Screenshots/user-flow.png" width="180" style="border-radius:6px;"/> |
+| 5 | Branding & Identity Providers | <img src="./Screenshots/branding-idps.png" width="180" style="border-radius:6px;"/> |
+| 6 | Monitor & Audit External Access log | <img src="./Screenshots/Audit-logs.png" width="180" style="border-radius:6px;"/> |
+| 7 | Test Sign-Up Logs | <img src="./Screenshots/test-signup-audit.png" width="180" style="border-radius:6px;"/> |
+ 
 ---
 ## 🧪 Step-by-Step Implementation
+
 ## 1️⃣ Access External Identities Settings
 Purpose (IAM reasoning): Centralize control over external access and invitations.
 ## Actions:
