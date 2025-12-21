@@ -109,7 +109,7 @@ flowchart TD
 
 | # | Action | Screenshot |
 | - | ------ | ---------- |
-| 1 | External Identities Dashboard | <img src="./Screenshots/dashboard.png" width="180" style="border-radius:6px;"/> |
+| 1 | External Identities Dashboard | <img src="./Screenshots/ External-Identities" width="180" style="border-radius:6px;"/> |
 | 2 | External Collaboration Settings | <img src="./Screenshots/collab-settings.png" width="180" style="border-radius:6px;"/> |
 | 3 | Inviting B2B Guest User | <img src="./Screenshots/invite-guest.png" width="180" style="border-radius:6px;"/> , <img src="./Screenshots/guest-user.png" width="180" style="border-radius:6px;"/> |
 | 4 | Guest User Object (#EXT#) | <img src="./Screenshots/user-flow.png" width="180" style="border-radius:6px;"/> |
@@ -129,7 +129,7 @@ Purpose (IAM reasoning): Centralize control over external access and invitations
 
 **Validation:** Review current allow/block lists and guest invite restrictions.
 
-📸 Screenshot: dashboard.png
+📸 Screenshot: External-Identities.png
 
 ## 2️⃣ Configure B2B Collaboration Settings
 Purpose (IAM reasoning): Enforce least-privilege for external partners.
@@ -141,7 +141,10 @@ Purpose (IAM reasoning): Enforce least-privilege for external partners.
 - Review Cross-tenant access settings for specific partners
 
 **Validation:** Settings applied; test restricted invitation.
-
+- Reviewed External Collaboration Settings and Cross-tenant Access Settings to enforce least-privilege B2B collaboration.
+- Guest invitation permissions were restricted to specific admin roles.
+- Domain-based allow/block lists are no longer configured directly; external access is governed through cross-tenant access policies.
+  
 📸 Screenshot: collab-settings.png
 
 ## 3️⃣ Invite and Manage B2B Guest Users
@@ -153,45 +156,75 @@ Purpose (IAM reasoning): Securely onboard partners using their own credentials.
 - Assign groups/apps as needed
 - Guest redeems invitation via email
 
-**Validation:** Guest appears with #EXT# in UPN; test access to assigned resources.
+**Validation:** 
 
-📸 Screenshots: invite-guest.png, guest-user.png
+- Microsoft Entra admin center → Users → All users → (usuario invitado)
+
+📸 Screenshots: invite-guest.png
 
 ## 4️⃣ Enable Self-Service Sign-Up (B2B or CIAM)
 Purpose (IAM reasoning): Allow controlled external access without manual invites.
+
 ## Actions:
 
 - External Identities > User flows > Create new user flow (Sign up and sign in)
 - Add identity providers (Google, Microsoft account)
 - Configure user attributes and claims
 
-**Validation:** External user signs up via app link.
+**Validation:**
+
+- A self-service sign-up and sign-in user flow was created using Microsoft Entra External Identities.
+- Azure Active Directory sign-up was configured as the identity provider to allow controlled external user registration without manual invitations.
 
 📸 Screenshot: user-flow.png
 
 ## 5️⃣ Customize Branding & Test Customer Flow
 Purpose (IAM reasoning): Deliver trusted, branded consumer experiences.
+
 ## Actions:
 
-- External Identities > Company branding
-- Upload logo, customize sign-in page
-- Run user flow to test sign-up with local/social accounts
+- Navigate to Microsoft Entra ID > Company branding
+- Upload a company logo and customize the sign-in page appearance (colors, background, text)
+- Save the branding configuration
+- Run the previously created User Flow to validate the sign-in experience
+  
+Note: In Enterprise Entra ID tenants, branding is applied at the tenant level. Per-user-flow branding is only available in dedicated Entra External ID (CIAM) tenants.
 
-**Validation:** Branded page displayed; successful authentication.
+**Validation:**
 
-📸 Screenshots: branding-idps.png, test-signup-audit.png
+- Company branding customization options were reviewed.
+- In this Microsoft Entra ID Enterprise tenant, branding settings are available in read-only mode.
+- Full branding customization (logo, backgrounds, per-flow UI) is supported only in dedicated Entra External ID (CIAM) tenants.
+- The objective of this step was to validate awareness of sign-in experience management and tenant capability differences.
+
+**📸 Screenshots:** branding-idps.png
 
 ## 6️⃣ Monitor & Audit External Access
 Purpose (IAM reasoning): Maintain visibility and compliance for external identities.
+
 ## Actions:
 
-- Check Users for guest objects
-- Review Audit logs filtered by external activities
-- Monitor Sign-in logs for external users
+- Navigate to **Monitoring > Sign-in logs**
+- Apply filters such as:
+  - **User type:** Guest
+  - **Status:** Success
+  - **Time range:** Last 7 days (or broader if needed)
+- Review an external user authentication event
 
-**Validation:** Logs show invitation redemptions and sign-ins.
+## Validate that the sign-in log shows:
+- External or guest user
+- Application or user flow
+- Authentication method
+- Successful sign-in result
 
-📸 Screenshot: test-signup-audit.png
+### Validation
+- Guest users are visible in the directory and correctly identified as external
+- Audit logs show external user lifecycle activities (invitation or creation)
+- Sign-in logs provide visibility into external authentication events
+
+📸 **Screenshot:** `test-signup-audit.png`  
+*(Capture either the Audit Logs or Sign-in Logs page showing an external user event with filters applied.)*
+
 
 ## ✅ Expected Results
 
