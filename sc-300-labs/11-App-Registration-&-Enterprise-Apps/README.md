@@ -1,17 +1,12 @@
 # 🔐 Lab 11 – Microsoft Entra ID App Registrations & Enterprise Applications
 
 ## 📌 Overview
-This lab demonstrates core **Identity and Access Management (IAM)** skills by configuring **App Registrations** and **Enterprise Applications** in Microsoft Entra ID. It covers registering custom applications, exposing APIs, configuring OAuth2 flows, granting Microsoft Graph permissions, and managing service principals.
 
-Key concepts include the difference between App Registrations (template) and Enterprise Applications (service principal instances), least privilege API permissions, and secrets/certificates for authentication, essential for secure application integration and API access in cloud environments.
-
-This hands-on work proves production-level expertise in application identity management, highly relevant for **Identity Engineer, Application Security Architect, Cloud Developer, and Zero Trust roles**.
-
-This lab focuses on Microsoft Entra ID application identities, including app registrations and enterprise applications.
-Validation is performed through configuration review and token-based access, not end-user interaction.
-
-This lab focuses on application identity configuration and backend validation.
-Interactive user flows were demonstrated in Lab 10; therefore, static screenshots were used here.
+This lab focuses on application identity management in Microsoft Entra ID, covering App Registrations and Enterprise Applications (service principals).
+It demonstrates how to register applications, configure authentication settings, manage Microsoft Graph API permissions using the principle of least privilege, secure applications with client secrets, and apply advanced configuration through the application manifest. The lab also validates application identity behavior by reviewing enterprise applications and confirming token-based access using Microsoft Graph.
+Key concepts include the distinction between App Registrations (application definitions) and Enterprise Applications (service principal instances), OAuth 2.0 and OpenID Connect fundamentals, and secure authentication mechanisms required for cloud-based application integration.
+Validation is performed through configuration review and token-based access, rather than end-user interaction. Interactive user flows were intentionally excluded, as they were demonstrated in Lab 10, allowing this lab to remain focused on backend application identity configuration.
+This lab demonstrates production-relevant skills applicable to roles such as Identity Engineer, Application Security Architect, Cloud Engineer, and Zero Trust-focused positions.
 
 ---
 ## 🎯 Lab Objectives
@@ -45,14 +40,7 @@ Aligned with Zero Trust, NIST 800-63, and Microsoft identity best practices.
 - Cleanup: Removed secrets, deleted app registration
 
 ---
-## 🎥 Suggested Demo Animation
-Create a GIF (e.g., `app-reg-demo.gif`) showing:
-- App registration creation → API permissions → Grant admin consent → Token acquisition
 
-Example placeholder (replace with yours):
-<img src="./Screenshots/app-reg-demo.gif" width="800"/>
-
----
 ## 📐 Architecture & Flow Diagrams (Mermaid)
 
 ### Diagram 01 – App Registration vs. Enterprise Application vs. Service Principal
@@ -73,6 +61,9 @@ flowchart TD
     style Global fill:#e3f2fd,stroke:#90caf9
     style Tenant fill:#e8f5e8,stroke:#81c784
 
+<img src="./Screenshots/Diagram-App-Registrations.png" width="180" style="border-radius:6px;"/> 
+
+----
 ## Diagram 02 – OAuth 2.0 Authorization Code Flow
 **Description:** Standard flow used for server-side web apps.
 
@@ -93,7 +84,7 @@ sequenceDiagram
     Entra->>Resource: Token valid
     Resource->>App: Protected data
 
-
+<img src="./Screenshots/Diagram-Code-Flow.png" width="180" style="border-radius:6px;"/> 
 
 ## Diagram 03 (Microsoft Graph Permissions Example)
 **Description:** Delegated vs. Application permissions scope.
@@ -112,30 +103,119 @@ flowchart LR
     style Delegated fill:#d4edda,stroke:#28a745
     style Application fill:#fff3cd,stroke:#ffc107
 
+ <img src="./Screenshots/Diagram-Graph.png" width="180" style="border-radius:6px;"/> 
+
+ ----
+
 ## Example App Manifest Snippet (Key Sections)
 **Description:** Critical manifest properties. 
 
 ```
-  "accessTokenAcceptedVersion": 2,
-  "signInAudience": "AzureADMultipleOrgs",
-  "optionalClaims": {
-    "idToken": [
-      { "name": "preferred_username" },
-      { "name": "email" }
-    ]
-  },
-  "requiredResourceAccess": [
-    {
-      "resourceAppId": "00000003-0000-0000-c000-000000000000",
-      "resourceAccess": [
-        { "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d", "type": "Scope" }, // User.Read
-        { "id": "64a6cdd6-aab1-4aaf-94b8-3cc8ce4a5506", "type": "Role" }   // User.Read.All
-      ]
-    }
-  ]
+  {
+	"id": "4e5c920a-2cce-45fb-a29a-7b696c0f0506",
+	"deletedDateTime": null,
+	"appId": "a23a2e11-fcfd-4b76-a185-0d4646f7e4b1",
+	"applicationTemplateId": null,
+	"disabledByMicrosoftStatus": null,
+	"createdDateTime": "2025-12-21T18:21:43Z",
+	"displayName": "Lab11-Demo-WebApp",
+	"description": null,
+	"groupMembershipClaims": null,
+	"identifierUris": [],
+	"isDeviceOnlyAuthSupported": null,
+	"isFallbackPublicClient": null,
+	"nativeAuthenticationApisEnabled": null,
+	"notes": null,
+	"publisherDomain": "PracticeCyber.onmicrosoft.com",
+	"serviceManagementReference": null,
+	"signInAudience": "AzureADMultipleOrgs",
+	"tags": [],
+	"tokenEncryptionKeyId": null,
+	"samlMetadataUrl": null,
+	"defaultRedirectUri": null,
+	"certification": null,
+	"optionalClaims": null,
+	"requestSignatureVerification": null,
+	"addIns": [],
+	"api": {
+		"acceptMappedClaims": null,
+		"knownClientApplications": [],
+		"requestedAccessTokenVersion": 2,
+		"oauth2PermissionScopes": [],
+		"preAuthorizedApplications": []
+	},
+	"appRoles": [],
+	"info": {
+		"logoUrl": null,
+		"marketingUrl": null,
+		"privacyStatementUrl": null,
+		"supportUrl": null,
+		"termsOfServiceUrl": null
+	},
+	"keyCredentials": [],
+	"parentalControlSettings": {
+		"countriesBlockedForMinors": [],
+		"legalAgeGroupRule": "Allow"
+	},
+	"passwordCredentials": [
+		{
+			"customKeyIdentifier": null,
+			"displayName": "Lab client secret",
+			"endDateTime": "2026-06-19T18:24:42.529Z",
+			"hint": "AR2",
+			"keyId": "8faa26e5-993f-4846-8081-b0c03bbe7b65",
+			"secretText": null,
+			"startDateTime": "2025-12-21T19:24:42.529Z"
+		}
+	],
+	"publicClient": {
+		"redirectUris": []
+	},
+	"requiredResourceAccess": [
+		{
+			"resourceAppId": "00000003-0000-0000-c000-000000000000",
+			"resourceAccess": [
+				{
+					"id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+					"type": "Scope"
+				}
+			]
+		}
+	],
+	"verifiedPublisher": {
+		"displayName": null,
+		"verifiedPublisherId": null,
+		"addedDateTime": null
+	},
+	"web": {
+		"homePageUrl": null,
+		"logoutUrl": null,
+		"redirectUris": [
+			"https://jwt.ms"
+		],
+		"implicitGrantSettings": {
+			"enableAccessTokenIssuance": false,
+			"enableIdTokenIssuance": false
+		},
+		"redirectUriSettings": [
+			{
+				"uri": "https://jwt.ms",
+				"index": null
+			}
+		]
+	},
+	"servicePrincipalLockConfiguration": {
+		"isEnabled": true,
+		"allProperties": true,
+		"credentialsWithUsageVerify": true,
+		"credentialsWithUsageSign": true,
+		"identifierUris": false,
+		"tokenEncryptionKeyId": true
+	},
+	"spa": {
+		"redirectUris": []
+	}
 }
-
-
 
 
 ```
