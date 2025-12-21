@@ -1,8 +1,11 @@
 ## 🔐 Lab 10 – Microsoft Entra External Identities (B2B Collaboration & Customer CIAM)
 ## 📌 Overview
-This hands-on lab explores Microsoft Entra External ID, the unified platform for managing external identities, including B2B collaboration (partners/guests) and customer identity and access management (CIAM) scenarios.
-The lab covers inviting external guests, configuring collaboration settings, and setting up basic customer authentication flows — demonstrating secure, scalable access for partners and consumers while maintaining control and compliance.
-This implementation highlights advanced IAM skills in external identity governance, highly relevant for Identity Architect, Cloud Security Engineer, CIAM Developer, and Zero Trust Specialist roles.
+
+This hands-on lab focuses on external identity management using Microsoft Entra External Identities, covering both B2B collaboration (partners and guest users) and customer identity (CIAM) scenarios.
+The lab demonstrates how to invite and manage external users, configure B2B collaboration settings, and design customer-facing sign-up and sign-in user flows using supported identity providers. Emphasis is placed on controlling external access while maintaining security, compliance, and governance across organizational boundaries.
+Key concepts include external user lifecycle management, identity providers, user flows, and the distinction between workforce and customer identity scenarios. Validation is performed through interactive authentication flows and user experience testing, highlighting how Microsoft Entra enables scalable and secure access for partners and consumers.
+This lab showcases practical IAM skills related to external identity governance and CIAM, providing a strong foundation that is later extended in Lab 11, which shifts focus to application identities, app registrations, and backend authentication.
+
 
 ## 🎯 Lab Objectives
 
