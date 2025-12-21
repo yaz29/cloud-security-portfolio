@@ -3,9 +3,13 @@
 ## 📌 Overview
 
 This lab focuses on application identity management in Microsoft Entra ID, covering App Registrations and Enterprise Applications (service principals).
+
 It demonstrates how to register applications, configure authentication settings, manage Microsoft Graph API permissions using the principle of least privilege, secure applications with client secrets, and apply advanced configuration through the application manifest. The lab also validates application identity behavior by reviewing enterprise applications and confirming token-based access using Microsoft Graph.
+
 Key concepts include the distinction between App Registrations (application definitions) and Enterprise Applications (service principal instances), OAuth 2.0 and OpenID Connect fundamentals, and secure authentication mechanisms required for cloud-based application integration.
+
 Validation is performed through configuration review and token-based access, rather than end-user interaction. Interactive user flows were intentionally excluded, as they were demonstrated in Lab 10, allowing this lab to remain focused on backend application identity configuration.
+
 This lab demonstrates production-relevant skills applicable to roles such as Identity Engineer, Application Security Architect, Cloud Engineer, and Zero Trust-focused positions.
 
 ---
@@ -61,7 +65,7 @@ flowchart TD
     style Global fill:#e3f2fd,stroke:#90caf9
     style Tenant fill:#e8f5e8,stroke:#81c784
 
-<img src="./Screenshots/Diagram-App-Registrations.png" width="180" style="border-radius:6px;"/> 
+<img src="./Screenshots/Diagram-App-Registrations.png" width="480" style="border-radius:6px;"/> 
 
 ----
 ## Diagram 02 – OAuth 2.0 Authorization Code Flow
@@ -84,7 +88,7 @@ sequenceDiagram
     Entra->>Resource: Token valid
     Resource->>App: Protected data
 
-<img src="./Screenshots/Diagram-Code-Flow.png" width="180" style="border-radius:6px;"/> 
+<img src="./Screenshots/Diagram-Code-Flow.png" width="480" style="border-radius:6px;"/> 
 
 ## Diagram 03 (Microsoft Graph Permissions Example)
 **Description:** Delegated vs. Application permissions scope.
@@ -103,7 +107,7 @@ flowchart LR
     style Delegated fill:#d4edda,stroke:#28a745
     style Application fill:#fff3cd,stroke:#ffc107
 
- <img src="./Screenshots/Diagram-Graph.png" width="180" style="border-radius:6px;"/> 
+ <img src="./Screenshots/Diagram-Graph.png" width="480" style="border-radius:6px;"/> 
 
  ----
 
@@ -251,9 +255,9 @@ Purpose: Define the application template.
 ## Actions:
 
 ## Click New registration
-Name: "Lab11-Demo-WebApp"
-Supported account types: Accounts in any organizational directory (Multitenant)
-Redirect URI: Web → https://jwt.ms (for testing)
+- Name: "Lab11-Demo-WebApp"
+- Supported account types: Accounts in any organizational directory (Multitenant)
+- Redirect URI: Web → https://jwt.ms (for testing)
 
 **Validation:** App created with Application (client) ID.
 
@@ -306,7 +310,7 @@ Purpose: Secure app authentication.
 
 ## Actions:
 
-Microsoft Entra admin center → Microsoft Entra ID → App registrations → (tu app) → Certificates & secrets
+- Microsoft Entra admin center → Microsoft Entra ID → App registrations → (tu app) → Certificates & secrets
 
 **Validation:** 
 - A client secret was created for the application to enable secure authentication.
