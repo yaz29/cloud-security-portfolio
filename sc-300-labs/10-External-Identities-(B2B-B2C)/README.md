@@ -70,7 +70,7 @@ flowchart LR
     style ResourceTenant fill:#e8f5e8,stroke:#81c784
 
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/B2B.png" width="520"/> </details> ```
+<img src="./Screenshots/B2B-1.png" width="520"/> 
 
 ## Diagram 02 – B2B Direct Connect vs. Standard Collaboration
 Description: Direct connect for seamless Teams shared channels (no guest object) vs. traditional guest invitation.
@@ -85,7 +85,7 @@ flowchart TD
     style Invite fill:#fff3cd,stroke:#ffc107
     style Trust fill:#d4edda,stroke:#28a745
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/B2B-Direct.png" width="520"/> </details> ```
+<img src="./Screenshots/B2B-Direct.png" width="520"/> 
 
 
 ## Diagram 03 – Customer CIAM Authentication Flow
@@ -103,7 +103,7 @@ flowchart TD
     style Flow fill:#e3f2fd,stroke:#2196f3
     style Token fill:#d4edda,stroke:#28a745
 
-<details> <summary>📷 Visual Diagram (PNG)</summary> <img src="./Screenshots/CIAM.png" width="520"/> </details> ```
+<img src="./Screenshots/CIAMS.png" width="520"/> 
 
 ## 📊 Evidence Summary (Screenshots)
 
