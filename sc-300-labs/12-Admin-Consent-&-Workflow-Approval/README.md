@@ -128,13 +128,15 @@ sequenceDiagram
 | # | Action | Screenshot |
 | - | ------ | ---------- |
 | 1 | User Consent Settings (Blocked) | <img src="./Screenshots/user-consent-settings.png" width="180" style="border-radius:6px;"/> |
-| 2 | Enable Admin Consent Workflow | <img src="./Screenshots/admin-consent-workflow.png" width="180" style="border-radius:6px;"/> |
-| 3 | Create New Workflow Policy | <img src="./Screenshots/create-workflow-policy.png" width="180" style="border-radius:6px;"/> |
-| 4 | Policy Configuration & Reviewers | <img src="./Screenshots/policy-configuration-reviewers.png" width="180" style="border-radius:6px;"/> 
+| 2 | Admin Consent Workflow Enabled | <img src="./Screenshots/admin-consent-workflow.png" width="180" style="border-radius:6px;"/> |
+| 3 | Admin Consent Workflow (Default Policy) | <img src="./Screenshots/admin-consent-workflow.png" width="180" style="border-radius:6px;"/> |
+| 4 | Workflow Review Configuration (Default Behavior) | <img src="./Screenshots/admin-consent-workflow.png" width="180" style="border-radius:6px;"/> |
 | 5 | User Blocked – Consent Prompt | <img src="./Screenshots/user-blocked-consent.png" width="180" style="border-radius:6px;"/> |
 | 6 | Submit Admin Consent Request | <img src="./Screenshots/submit-admin-consent-request.png" width="180" style="border-radius:6px;"/> |
 | 7 | Admin Review & Approval | <img src="./Screenshots/admin-review-approval.png" width="180" style="border-radius:6px;"/> |
 | 8 | Audit Logs – Consent Events | <img src="./Screenshots/audit-logs-consent.png" width="180" style="border-radius:6px;"/> |
+
+
 
 ---
  ## 🧪 Step-by-Step Implementation
