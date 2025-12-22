@@ -145,7 +145,7 @@ Eliminate the highest-risk consent vector by preventing standard users from gran
 
 ### Actions
 - Navigate to **Microsoft Entra admin center**
-- Go to **Identity > Applications > Enterprise applications**
+- Go to **Enterprise applications**
 - Select **Consent and permissions**
 - Set **Users can consent to apps accessing company data** → **Do not allow user consent**
 
@@ -171,30 +171,27 @@ Activate governance controls for managed and auditable permission approvals.
 
 ---
 
-## 3️⃣ Create Workflow Policy for High-Risk Permissions
+## 3️⃣ Admin Consent Workflow Policy (Default – Tenant Limitation)
+
 **Purpose:**  
-Ensure high-impact permissions require explicit administrative approval.
+Ensure that high-impact permissions require explicit administrative approval.
 
 ### Actions
-- Go to **Admin consent workflow**
-- Select **New workflow**
-- Configure:
-  - **Name:** Require Approval for .All Application Permissions
-  - **Permission type:** Application permissions
-  - **Classification:** All
-  - **Require justification:** Yes
-  - **Reviewers:** Security group (e.g., *IAM Approvers*)
-  - **Notifications & reminders:** Enabled
-- Save the policy
+- Navigate to **Admin consent workflow**
+- Verify that the admin consent workflow is enabled at the tenant level
+
+> **Note:**  
+> This tenant does not support creating custom admin consent workflow policies.
+> As a result, the **New workflow** option is not available.
+> The default admin consent workflow is used to enforce approval for high-risk permissions.
 
 ### Validation
-- Workflow policy is listed as **Enabled**
+- Admin consent workflow is enabled
+- Admin consent requests can be submitted and reviewed
 
-📸 **Screenshots:**  
-- `create-workflow-policy.png`  
-- `policy-configuration-reviewers.png`
+📸 **Screenshot:**  
+- `enable-admin-consent-workflow.png`
 
----
 
 ## 4️⃣ Simulate Consent Request (End-User View)
 **Purpose:**  
@@ -210,7 +207,10 @@ Validate the blocked consent experience and request submission flow.
 - Enter justification and submit the request
 
 ### Validation
+- A standard user attempted to access Microsoft Graph permissions requiring admin consent.
+- The request was blocked and submitted through the admin consent workflow, validating the governance control.
 - Consent request is successfully submitted
+
 
 📸 **Screenshots:**  
 - `user-blocked-consent.png`  
@@ -235,6 +235,11 @@ Validate the administrative review and approval process.
 ### Validation
 - Request status changes to **Approved**
 - User can successfully execute the previously blocked query
+
+## note:
+Once admin consent was approved for Microsoft Graph Explorer, permissions were granted tenant-wide. Subsequent users were able 
+to access the application without additional consent prompts, which is expected behavior in Microsoft Entra ID.
+
 
 📸 **Screenshot:** `admin-review-approval.png`
 
