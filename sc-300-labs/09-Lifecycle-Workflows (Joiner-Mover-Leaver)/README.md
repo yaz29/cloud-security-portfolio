@@ -137,13 +137,13 @@ flowchart LR
 
 | # | Action | Screenshot |
 | - | ------ | ---------- |
-| 1 | Lifecycle Workflows Dashboard | <img src="./Screenshots/dashboard.png" width="180" style="border-radius:6px;"/> |
+| 1 | Lifecycle Workflows Dashboard | <img src="./Screenshots/Lifecycle-workflows-dashboard.png" width="180" style="border-radius:6px;"/> |
 | 2 | Template Selection | <img src="./Screenshots/templates.png" width="180" style="border-radius:6px;"/> ,<img src="./Screenshots/joiner-config.png" width="180" style="border-radius:6px;"/> |
 | 3 | Joiner Workflow Configuration | <img src="./Screenshots/mover-tasks.png" width="180" style="border-radius:6px;"/> |
 | 4 | Mover Workflow Tasks | <img src="./Screenshots/leaver-disable.png" width="180" style="border-radius:6px;"/>   |
 | 5 | Leaver Workflow (Disable Account) | <img src="./Screenshots/run-success.png" width="180" style="border-radius:6px;"/> |
 | 6 | On-Demand Run & Success | <img src="./Screenshots/demand-run-success.png" width="180" style="border-radius:6px;"/> |
-| 7 | Audit Logs Verification | <img src="./Screenshots/audit-logs.png" width="180" style="border-radius:6px;"/> |
+| 7 | Audit Logs Verification | <img src="./Screenshots/ Gov-audit-logs.png" width="180" style="border-radius:6px;"/> |
 
 ----
 
@@ -158,14 +158,14 @@ Purpose (IAM reasoning): Gain visibility into automated lifecycle processes and 
 
 **Validation:** Dashboard shows workflow runs, success rates, and trends.
 
-📸 Screenshot: dashboard.png
+📸 Screenshot: Lifecycle-workflows-dashboard.png
 
 ## 2️⃣ Create Joiner Workflow
 Purpose (IAM reasoning): Automate secure, efficient onboarding with pre-hire preparation.
 
 **Actions:**
 
-- Click Create workflow > Browse templates > Select Onboard pre-hire employee or Onboard new hire
+- Click Create workflow > Browse templates > Select Onboard pre-hire employee 
 - Set trigger: employeeHireDate with offset (-7 or 0 days)
 - Add scope: e.g., department equals "Sales"
 - Add tasks: Generate Temporary Access Pass, Send welcome email, Add to groups
@@ -173,49 +173,109 @@ Purpose (IAM reasoning): Automate secure, efficient onboarding with pre-hire pre
 
 **Validation:** Workflow appears in list; test on-demand.
 
-📸 Screenshots: templates.png, joiner-config.png
+📸 Screenshots: templates.png
 
 
 ## 3️⃣ Create Mover Workflow
-Purpose (IAM reasoning): Prevent privilege creep by dynamically adjusting access on role changes.
 
-**Actions:**
+**Purpose (IAM reasoning):**  
+Prevent privilege creep by automatically adjusting group memberships and licenses when an employee’s job profile changes.
 
-- Create workflow > Select attribute change template
-- Trigger: Changes to department or jobTitle
-- Tasks: Remove from old groups > Add to new groups > Update licenses
-- Enable
+### Actions
 
-**Validation:** Attribute update on test user triggers changes.
+1. Go to **Microsoft Entra admin center** → **Identity Governance** → **Lifecycle workflows**.
+2. Click **Create workflow** and select the **Employee job profile change** template.
+3. Configure the trigger:
+   - **Trigger condition:** When an attribute changes  
+   - **Attribute:** `Department` (or `JobTitle`)
+4. Define the scope:
+   - Target **Users**
+   - Condition: `Department is not null` (or a specific department if required)
+5. Configure workflow tasks:
+   - **Send email to notify manager of user move** (optional, enabled)
+   - **Remove user from selected groups**  
+     - Select legacy groups (e.g., Sales-Users)
+   - **Add user to selected groups**  
+     - Select new role-based groups (e.g., Marketing-Users)
+   - **Add or remove licenses**  
+     - Remove old licenses and assign new licenses based on the updated role
+6. Disable or remove tasks not required for this lab:
+   - Remove user from selected Teams
+   - Request user access package assignment
+7. Review the workflow, click **Create**, and enable the workflow schedule.
 
-📸 Screenshot: mover-tasks.png
+### Validation
+
+- Update the `Department` or `JobTitle` attribute of a test user.
+- Confirm the workflow runs successfully.
+- Verify the user is removed from old groups, added to new groups, and licenses are updated.
+
+📸 **Screenshot:** `mover-tasks.png`
+
 
 ## 4️⃣ Create Leaver Workflow
-Purpose (IAM reasoning): Rapid de-provisioning to minimize ex-employee risk.
 
-**Actions:**
+**Purpose (IAM reasoning):**  
+Ensure rapid and consistent de-provisioning to minimize security risks when an employee leaves the organization.
 
-- Create workflow > Select Post-offboarding template
-- Trigger: employeeLeaveDateTime +1 day (or on-demand)
-- Tasks: Disable account, Remove all groups/licenses
-- Create and enable (or test on-demand)
+### Actions
 
-**Validation:** Test user account disabled, access revoked.
+1. Go to **Microsoft Entra admin center** → **Identity Governance** → **Lifecycle workflows**.
+2. Click **Create workflow** and select the **Offboard an employee** (Post-offboarding) template.
+3. Configure the trigger:
+   - **Trigger type:** Time based attribute
+   - **Event timing:** After
+   - **Attribute:** `createdDateTime`  
+   - **Days from event:** 7  
+   
+   > **Note:** The lab tenant does not expose the `employeeLeaveDateTime` attribute.  
+   > The `createdDateTime` attribute is used to simulate a leaver event for demonstration purposes.
+4. Define the scope:
+   - Target **Users**
+   - Condition: `createdDateTime is not null` (or limit to a test department/user if preferred)
+5. Configure workflow tasks:
+   - **Disable user account**
+   - **Remove user from all groups**
+   - **Remove all licenses**
+6. Review the workflow configuration, click **Create**, and enable the workflow schedule.
+7. Optionally, run the workflow using **Run on demand** with a test user to validate behavior.
 
-📸 Screenshots: leaver-disable.png
+### Validation
+
+- Execute the workflow on a test user.
+- Confirm the user account is disabled (sign-in blocked).
+- Verify all group memberships and licenses are removed.
+
+📸 **Screenshot:** `leaver-disable.png`
+
 
 ## 5️⃣ Test & Monitor Execution
-Purpose (IAM reasoning): Verify automation reliability and maintain audit trail.
 
-**Actions:**
+**Purpose (IAM reasoning):**  
+Validate lifecycle workflow execution, confirm expected user changes, and ensure auditability for governance and compliance.
 
-- Select workflow > Run on demand > Choose test users
-- Monitor Runs tab and Insights
-- Check user object changes and Audit logs
+### Actions
 
-**Validation:** Successful runs, user modifications confirmed.
+1. Navigate to **Microsoft Entra admin center** → **Identity Governance** → **Lifecycle workflows** → **Workflows**.
+2. Open the previously created workflow (Joiner, Mover, or Leaver).
+3. Click **Run on demand**.
+4. Select one test user that meets the workflow scope and start the execution.
+5. Go to **Activity** → **Workflow history** and monitor the run status.
+6. Wait until the execution status shows **Succeeded**.
+7. Verify the results on the user object:
+   - Joiner: groups and licenses assigned.
+   - Mover: legacy access removed and new access assigned.
+   - Leaver: account disabled (sign-in blocked), groups and licenses removed.
+8. Review **Audit logs** under **Identity Governance** to confirm lifecycle workflow actions were logged.
 
-📸 Screenshots: run-success.png
+### Validation
+
+- Workflow execution completed successfully with status **Succeeded**.
+- User object changes match the expected lifecycle behavior.
+- Audit logs contain entries related to lifecycle workflow execution.
+
+📸 **Screenshot:** `run-success.png`
+
 
 ## 6️⃣ Run Workflows On-Demand & Verify Execution Success
  **Purpose (IAM reasoning):** Confirm that workflows execute correctly in a controlled manner and produce the expected changes on user objects before enabling scheduled runs.
@@ -249,7 +309,7 @@ Purpose (IAM reasoning): Verify automation reliability and maintain audit trail.
 
 **Validation:** Audit logs show detailed entries for each task executed (e.g., "User added to group", "User account disabled")
 
-📸 Screenshot: audit-logs.png (capture filtered audit log entries related to your workflow runs)
+📸 Screenshot: Gov-audit-logs.png (capture filtered audit log entries related to your workflow runs)
 
 ## ✅ Expected Results
 
