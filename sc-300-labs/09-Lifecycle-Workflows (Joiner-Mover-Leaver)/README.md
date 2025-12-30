@@ -143,7 +143,7 @@ flowchart LR
 | 4 | Mover Workflow Tasks | <img src="./Screenshots/leaver-disable.png" width="180" style="border-radius:6px;"/>   |
 | 5 | Leaver Workflow (Disable Account) | <img src="./Screenshots/run-success.png" width="180" style="border-radius:6px;"/> |
 | 6 | On-Demand Run & Success | <img src="./Screenshots/demand-run-success.png" width="180" style="border-radius:6px;"/> |
-| 7 | Audit Logs Verification | <img src="./Screenshots/Gov-audit-logs.png" width="180" style="border-radius:6px;"/> |
+| 7 | Audit Logs Verification | <img src="./Screenshots/audits-logs.png" width="180" style="border-radius:6px;"/> |
 
 ----
 
