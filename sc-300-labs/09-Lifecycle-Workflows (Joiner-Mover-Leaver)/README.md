@@ -309,7 +309,7 @@ Validate lifecycle workflow execution, confirm expected user changes, and ensure
 
 **Validation:** Audit logs show detailed entries for each task executed (e.g., "User added to group", "User account disabled")
 
-📸 Screenshot: Gov-audit-logs.png (capture filtered audit log entries related to your workflow runs)
+📸 Screenshot: audits-logs.png (capture filtered audit log entries related to your workflow runs)
 
 ## ✅ Expected Results
 
