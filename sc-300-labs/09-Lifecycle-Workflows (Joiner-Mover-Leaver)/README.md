@@ -138,12 +138,12 @@ flowchart LR
 | # | Action | Screenshot |
 | - | ------ | ---------- |
 | 1 | Lifecycle Workflows Dashboard | <img src="./Screenshots/Lifecycle-workflows-dashboard.png" width="180" style="border-radius:6px;"/> |
-| 2 | Template Selection | <img src="./Screenshots/templates.png" width="180" style="border-radius:6px;"/> ,<img src="./Screenshots/joiner-config.png" width="180" style="border-radius:6px;"/> |
+| 2 | Template Selection | <img src="./Screenshots/templates.png" width="180" style="border-radius:6px;"/> |
 | 3 | Joiner Workflow Configuration | <img src="./Screenshots/mover-tasks.png" width="180" style="border-radius:6px;"/> |
 | 4 | Mover Workflow Tasks | <img src="./Screenshots/leaver-disable.png" width="180" style="border-radius:6px;"/>   |
 | 5 | Leaver Workflow (Disable Account) | <img src="./Screenshots/run-success.png" width="180" style="border-radius:6px;"/> |
 | 6 | On-Demand Run & Success | <img src="./Screenshots/demand-run-success.png" width="180" style="border-radius:6px;"/> |
-| 7 | Audit Logs Verification | <img src="./Screenshots/ Gov-audit-logs.png" width="180" style="border-radius:6px;"/> |
+| 7 | Audit Logs Verification | <img src="./Screenshots/Gov-audit-logs.png" width="180" style="border-radius:6px;"/> |
 
 ----
 
