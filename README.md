@@ -19,17 +19,17 @@ The labs are organized sequentially, following real-world security implementatio
 | # | Lab | Description | Status | Date |
 |---|-----|-------------|--------|------|
 | **1** | [**Conditional Access Policies**](01-conditional-access/) | Block access by location, device compliance, or user risk to enforce Zero Trust. | ✅ Completed | 2025-11-04 |
-| **2** | [**Privileged Identity Management (PIM)**](02-privileged-identity-management-pim/) | Implement Just-in-Time admin activation with approval workflows and MFA. | ✅ Completed | 2025-11-04 |
-| **3** | [**Azure AD Single Sign-On (SSO)**](03-single-sign-on-sso/) | Configure SAML/OIDC SSO with SCIM provisioning for SaaS apps. | ✅ Completed | 2025-11-04 |
-| **4** | [**Entitlement Management**](04-entitlement-management/) | Automate access packages and approval flows for contractors. | ⏳ In Progress | — |
-| **5** | [**Access Reviews**](05-access-reviews/) | Schedule and automate periodic membership reviews for compliance. | ⏳ In Progress | — |
-| **6** | [**Azure AD Connect (Hybrid Sync)**](06-hybrid-sync/) | Sync on-premises AD users with Azure AD using OU filtering and monitoring. | ⏳ In Progress | — |
-| **7** | [**MFA + Passwordless (FIDO2)**](07-mfa-passwordless/) | Enforce MFA and FIDO2 keys for admins; monitor adoption metrics. | ⏳ In Progress | — |
-| **8** | [**Identity Protection & Risk Policies**](08-identity-protection/) | Detect and block high-risk sign-ins using Identity Protection. | ⏳ In Progress | — |
-| **9** | [**Lifecycle Workflows (Joiner/Mover/Leaver)**](09-lifecycle-workflows/) | Automate provisioning and de-provisioning with HR system triggers. | ⏳ In Progress | — |
-| **10** | [**External Identities (B2B/B2C)**](10-external-identities/) | Configure guest access and self-service signup for external users. | ⏳ In Progress | — |
-| **11** | [**App Registration & Enterprise Apps**](11-app-registration/) | Register custom OIDC apps and assign API permissions with consent. | ⏳ In Progress | — |
-| **12** | [**Admin Consent & Workflow Approval**](12-admin-consent-workflow/) | Restrict user consent and enable admin approval for risky app scopes. | ⏳ In Progress | — |
+| **2** | [**Privileged Identity Management (PIM)**](sc-300-labs/02-privileged-identity-management-pim/) | Implement Just-in-Time admin activation with approval workflows and MFA. | ✅ Completed | 2025-11-04 |
+| **3** | [**Azure AD Single Sign-On (SSO)**](sc-300-labs/03-single-sign-on-sso/) | Configure SAML/OIDC SSO with SCIM provisioning for SaaS apps. | ✅ Completed | 2025-11-04 |
+| **4** | [**Entitlement Management**](sc-300-labs/04-Entitlement-Management/) | Automate access packages and approval flows for contractors. | ✅ Completed | 2025-12-01 |
+| **5** | [**Access Reviews**](sc-300-labs/05-Access-Reviews/) | Schedule and automate periodic membership reviews for compliance. | ✅ Completed |2025-12-04 |
+| **6** | [**Azure AD Connect (Hybrid Sync)**](sc-300-labs/06-Azure-AD-Connect/) | Sync on-premises AD users with Azure AD using OU filtering and monitoring. |   ✅ Completed| 2025-12-06||
+| **7** | [**MFA + Passwordless (FIDO2)**](sc-300-labs/07-MFA-Passwordless-(FIDO2)/) | Enforce MFA and FIDO2 keys for admins; monitor adoption metrics. | ✅ Completed | 2025-12-08 |
+| **8** | [**Identity Protection & Risk Policies**](sc-300-labs/08-Identity-Protection-&-Risk-Policies/) | Detect and block high-risk sign-ins using Identity Protection. |  ✅ Completed | 2026-01-09 |
+| **9** | [**Lifecycle Workflows (Joiner/Mover/Leaver)**](sc-300-labs/09-Lifecycle-Workflows(Joiner-Mover-Leaver)/) | Automate provisioning and de-provisioning with HR system triggers. | ✅ Completed |2026-01-12 |
+| **10** | [**External Identities (B2B/B2C)**](sc-300-labs/10-External-Identities-(B2B-B2C)/) | Configure guest access and self-service signup for external users. | ✅ Completed |2026-01-14|
+| **11** | [**App Registration & Enterprise Apps**](sc-300-labs/11-App-Registration-&-Enterprise-Apps/) | Register custom OIDC apps and assign API permissions with consent. | ✅ Completed | 2026-01-16 |
+| **12** | [**Admin Consent & Workflow Approval**](sc-300-labs/12-Admin-Consent-&-Workflow-Approval/) | Restrict user consent and enable admin approval for risky app scopes. | ⏳ In Progress | — |
 
 ---
 
