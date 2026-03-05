@@ -18,7 +18,7 @@ The labs are organized sequentially, following real-world security implementatio
 
 | # | Lab | Description | Status | Date |
 |---|-----|-------------|--------|------|
-| **1** | [**Conditional Access Policies**](01-conditional-accesssc-300-labs/01-conditional-access/) | Block access by location, device compliance, or user risk to enforce Zero Trust. | ✅ Completed | 2025-11-04 |
+| **1** | [**Conditional Access Policies**](sc-300-labs/01-conditional-access/) | Block access by location, device compliance, or user risk to enforce Zero Trust. | ✅ Completed | 2025-11-04 |
 | **2** | [**Privileged Identity Management (PIM)**](sc-300-labs/02-privileged-identity-management-pim/) | Implement Just-in-Time admin activation with approval workflows and MFA. | ✅ Completed | 2025-11-04 |
 | **3** | [**Azure AD Single Sign-On (SSO)**](sc-300-labs/03-single-sign-on-sso/) | Configure SAML/OIDC SSO with SCIM provisioning for SaaS apps. | ✅ Completed | 2025-11-04 |
 | **4** | [**Entitlement Management**](sc-300-labs/04-Entitlement-Management/) | Automate access packages and approval flows for contractors. | ✅ Completed | 2025-12-01 |
