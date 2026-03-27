@@ -29,7 +29,7 @@ The labs are organized sequentially, following real-world security implementatio
 | **9** | [**Lifecycle Workflows (Joiner/Mover/Leaver)**](sc-300-labs/09-Lifecycle-Workflows(Joiner-Mover-Leaver)/) | Automate provisioning and de-provisioning with HR system triggers. | ✅ Completed |2026-01-12 |
 | **10** | [**External Identities (B2B/B2C)**](sc-300-labs/10-External-Identities-(B2B-B2C)/) | Configure guest access and self-service signup for external users. | ✅ Completed |2026-01-14|
 | **11** | [**App Registration & Enterprise Apps**](sc-300-labs/11-App-Registration-&-Enterprise-Apps/) | Register custom OIDC apps and assign API permissions with consent. | ✅ Completed | 2026-01-16 |
-| **12** | [**Admin Consent & Workflow Approval**](sc-300-labs/12-Admin-Consent-&-Workflow-Approval/) | Restrict user consent and enable admin approval for risky app scopes. | ⏳ In Progress | — |
+| **12** | [**Admin Consent & Workflow Approval**](sc-300-labs/12-Admin-Consent-&-Workflow-Approval/) | Restrict user consent and enable admin approval for risky app scopes. | ✅ Completed | 2026-01-20 |
 
 ---
 
