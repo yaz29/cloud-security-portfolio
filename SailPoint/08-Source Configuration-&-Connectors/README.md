@@ -9,9 +9,15 @@
 
 ## Why this matters
 
-SailPoint is only as good as the data it receives. If Sources are misconfigured  incomplete aggregations, broken correlations, badly mapped attributes everything built on top of them (certifications, SoD, lifecycle) operates on incorrect information. A governance model built on bad data does not protect anything; it only provides a false sense of control.
+SailPoint is only as good as the data it receives. If Sources are misconfigured incomplete aggregations, broken correlations, badly mapped attributes everything built on top of them (certifications, SoD, lifecycle) operates on incorrect information. A governance model built on bad data does not protect anything; it only provides a false sense of control.
 
-This lab goes beyond the basic configuration covered in Lab 03 and digs into what separates a basic implementation from a robust one: incremental aggregation setup, error handling, managing multiple Sources of the same type, and troubleshooting connectors in production environments.
+This lab covers what separates a basic implementation from a robust one: incremental aggregation setup, error handling, managing multiple Sources of the same type, and troubleshooting connectors in production environments.
+
+---
+
+## Environment note
+
+> Steps 1–5 were completed using an interactive SailPoint ISC simulator replicating the Admin Console interface. Steps 6–8 are documented from official SailPoint documentation and real-world project experience, as they require a live tenant with multiple aggregation cycles to demonstrate meaningfully. Screenshots for these steps will be updated when live tenant access is available.
 
 ---
 
@@ -19,17 +25,17 @@ This lab goes beyond the basic configuration covered in Lab 03 and digs into wha
 
 ```mermaid
 flowchart TD
-    subgraph Aggregation Types
+    subgraph AggregationTypes["Aggregation Types"]
         A1[Full Aggregation\nEntire directory\nWeekly or initial]
         A2[Incremental Aggregation\nChanges only\nEvery hour]
         A3[Delta Aggregation\nVia entitlements\nNear real-time]
     end
-    subgraph Error Handling
+    subgraph ErrorHandling["Error Handling"]
         E1[Account with malformed\nattribute - Skip and Log]
         E2[Connection timeout\nAuto-retry]
         E3[Correlation failure\nUncorrelated account]
     end
-    subgraph Monitoring
+    subgraph Monitoring["Monitoring"]
         M[Account Activity Log\nProvisioning Queue\nAggregation History]
     end
     A1 & A2 & A3 --> E1 & E2 & E3
@@ -40,100 +46,120 @@ flowchart TD
 
 ## Prerequisites
 
-- Active SailPoint ISC tenant with Virtual Appliance installed
-- Active Directory accessible from the VA
-- A second Source available (Salesforce, LDAP, or CSV) to compare configurations
+- SailPoint ISC tenant or simulator
+- Active Directory accessible from the Virtual Appliance
+- A second Source (Salesforce, LDAP, or CSV) to compare configurations
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Review the advanced configuration of an existing Source
+### Step 1 · Select the Source type and connect Active Directory
 
-Open the AD Source configured previously and explore the advanced options: connection timeout, maximum retry count, LDAP results page size.
+Go to **Admin → Sources → Create New Source** and select **Active Directory** as the connector type. This is always the first Source in any enterprise SailPoint deployment.
 
-![Step 1 — Advanced configuration of the AD Source](./screenshots/01-source-advanced-config.png)
-*Default values work fine for small tenants in AD with 50,000+ users, increasing the page size and timeout prevents truncated or failed aggregations.*
-
----
-
-### Step 2 · Configure incremental aggregation
-
-Go to the **Import Settings** tab of the Source and enable incremental aggregation. Define the frequency (every hour) and the type: delta based on the AD `whenChanged` attribute.
-
-![Step 2 — Incremental aggregation configured with hourly frequency](./screenshots/02-incremental-aggregation.png)
-*Incremental aggregation is critical for the Leaver process if it only runs every 24 hours, an ex-employee can have active access for an entire day. Hourly reduces that window to 60 minutes.*
+![Step 1 — Active Directory selected as Source type in the wizard](./screenshots/01-source-type-selection.png)
+*SailPoint has over 200 native connectors. Active Directory is always the starting point because it is the authoritative source of employee identities in most enterprises.*
 
 ---
 
-### Step 3 · Configure aggregation error handling
+### Step 2 · Configure the AD Source connection
 
-Define what SailPoint does when it encounters an account with malformed data: ignore and continue (skip), stop the aggregation, or notify. For production, skip plus notification is the most robust approach.
+Enter the connection details: Hostname (your Domain Controller), Base DN, Bind DN, and password for the service account.
 
-![Step 3 — Error handling configuration in the aggregation settings](./screenshots/03-error-handling.png)
-*A single account with a malformed attribute should not stop the aggregation of 50,000 users configure skip and review the error log afterward to remediate individual cases.*
-
----
-
-### Step 4 · Connect a CSV Source for HRIS data
-
-Create a new Source of type **Delimited File (CSV)**. This type is used for HRIS systems without an API (legacy Workday, SAP HR) that export files periodically.
-
-![Step 4 — CSV Source configured with HRIS export file](./screenshots/04-csv-source-config.png)
-*The CSV connector is the most basic but one of the most used in real projects many HR systems export daily files and that file is the authoritative source of identity data.*
+![Step 2 — AD Source configuration with Base DN and Bind DN](./screenshots/02-source-configuration.png)
+*The Base DN (`DC=corp,DC=acme,DC=local` in this lab) defines the entry point of the LDAP query it tells SailPoint which part of the AD tree to read. Scoping it to the right OU avoids importing service accounts and computer objects.*
 
 ---
 
-### Step 5 · Configure the CSV Source schema
+### Step 3 · Run Test Connection and verify
 
-Map CSV columns to Identity Cube attributes: employee_id → uid, first_name → firstName, department → department, manager_id → manager.
+Click **Test Connection** to confirm SailPoint can reach the Domain Controller through the Virtual Appliance. The result shows the number of objects found in the directory.
 
-![Step 5 — CSV column mapping to Identity Cube attributes](./screenshots/05-csv-schema-mapping.png)
-*CSV headers can vary between versions of the HRIS export document the schema and have a validation step before the file enters SailPoint.*
-
----
-
-### Step 6 · Compare data quality between Sources
-
-With both AD and CSV imported, compare data for the same users across Sources. Look for inconsistencies: different name formats, non-matching departments, different managers.
-
-![Step 6 — Attribute comparison between Sources for the same user](./screenshots/06-data-quality-comparison.png)
-*Inconsistencies between Sources reveal data quality problems in the source systems SailPoint makes them visible, but the fix is upstream in the HRIS or AD.*
+![Step 3 — Test Connection successful with object count returned](./screenshots/03-test-connection.png)
+*A successful test confirms three things: the VA is online, the network path to the DC is open (LDAP port 389 or LDAPS 636), and the service account credentials are valid.*
 
 ---
 
-### Step 7 · Review aggregation history and detect anomalies
+### Step 4 · Review the Account Schema and identify entitlements
 
-Go to **Admin → Connections → Sources → [Source] → Import History**. Review the aggregation history: duration, number of accounts processed, errors encountered.
+Review the attributes SailPoint will import from AD. Pay special attention to `memberOf` this is what SailPoint imports as entitlements, representing group membership.
 
-![Step 7 — Aggregation history with metrics per execution](./screenshots/07-aggregation-history.png)
-*A sudden change in account count between aggregations is a warning signal 50,000 users in the previous run and 45,000 in the next might indicate an OU was accidentally excluded.*
+![Step 4 — Account Schema showing AD attributes including memberOf as entitlement](./screenshots/04-account-schema.png)
+*`memberOf` must be marked as an entitlement and multi-valued a user can belong to multiple AD groups, each representing a different access permission. Without this, AD group membership is invisible to governance.*
 
 ---
 
-### Step 8 · Set up Source monitoring alerts
+### Step 5 · Run the first aggregation
 
-Configure alerts so SailPoint notifies when an aggregation fails, when the account count drops more than 5% from the previous run, or when aggregation time exceeds the expected threshold.
+Click **Run Now** to execute the first full aggregation. SailPoint sends an LDAP query through the Virtual Appliance to the Domain Controller and imports all user accounts with their attributes.
 
-![Step 8 — Monitoring alerts configured for Source health](./screenshots/08-source-monitoring.png)
-*In production, failed aggregations are silent if there are no alerts SailPoint operates on the last successful run's data without warning that it has been 48 hours without an update. Alerts are mandatory.*
+![Step 5 — Aggregation running with account import progress](./screenshots/05-aggregation-running.png)
+*The first aggregation is always a full import. Subsequent aggregations can be configured as incremental only pulling changes since the last run, which is much faster and reduces load on the DC.*
+
+---
+
+### Step 6 · Configure incremental aggregation
+
+> 📋 *Documented from official SailPoint documentation screenshot pending live tenant access.*
+
+In the Source **Import Settings** tab, enable incremental aggregation based on the AD `whenChanged` attribute. Set the frequency to every hour.
+
+```
+Import Settings → Aggregation Type → Incremental
+Delta Attribute: whenChanged
+Schedule: Hourly
+```
+
+*Incremental aggregation is critical for the Leaver process if SailPoint only aggregates every 24 hours, a terminated employee can retain active access for up to a full day. Hourly reduces that window to 60 minutes.*
+
+---
+
+### Step 7 · Configure aggregation error handling
+
+> 📋 *Documented from official SailPoint documentation screenshot pending live tenant access.*
+
+In the Source advanced settings, define what SailPoint does when it encounters an account with malformed data.
+
+```
+On Error: Skip account and log
+Notification: Email admin on error
+Max errors before abort: 50
+```
+
+*A single account with a malformed attribute should not stop the aggregation of 50,000 users. Configure skip and review the error log afterward to remediate individual cases.*
+
+---
+
+### Step 8 · Review aggregation history
+
+> 📋 *Documented from official SailPoint documentation screenshot pending live tenant access.*
+
+After multiple aggregation cycles, go to **Admin → Connections → Sources → [Source] → Import History** to review execution metrics: duration, accounts processed, errors encountered.
+
+```
+Admin → Connections → Sources → AD Source → Import History
+```
+
+*A sudden drop in account count between aggregations is a warning signal 50,000 users in one run and 45,000 in the next may indicate an OU was accidentally excluded from the Base DN scope.*
 
 ---
 
 ## What I Learned
 
-- **Data quality in Sources is the most critical factor in a SailPoint implementation** and also the hardest to control because it lives in systems outside SailPoint. The best governance model fails if the HRIS has incorrect data.
-- The **CSV connector is underestimated** it is simple but used in 60% of real projects for some system. Knowing its limitations (no native delta support, no writeback) allows you to plan workarounds in advance.
-- I learned that **long aggregations** (more than 2-3 hours for AD in production) usually indicate a page size that is too small or network timeouts not a SailPoint problem, but a connectivity configuration issue.
-- **Uncorrelated accounts appearing after each aggregation** are the best indicator of the health of your correlation model if the number rises, something changed in the source data or the correlation rule.
+- **The Virtual Appliance is the bridge** between SailPoint in the cloud and Active Directory on-premises. It only needs outbound HTTPS no inbound firewall rules, no VPN, no changes to the DC. Understanding this architecture was the first thing that clicked.
+- **Base DN scope matters more than expected.** Setting it too high in the AD tree imports computer accounts, service accounts, and disabled users that create noise. Scoping to the right OU from the start saves hours of cleanup.
+- The difference between **full aggregation and incremental aggregation** is not just performance it directly impacts how quickly SailPoint reflects real-world changes. A 24-hour full aggregation cycle is a security gap for the Leaver process.
+- **`memberOf` is the most important attribute** in the schema. Without it marked as an entitlement, SailPoint cannot see AD group membership which means no entitlements, no certifications, and no SoD detection for AD groups.
+- I learned that **uncorrelated accounts** after aggregation are the clearest signal that the correlation model needs attention. Every uncorrelated account is access that exists in a system but has no identity owner in SailPoint.
 
 ---
 
 ## Real-World Applications
 
-- Configuring hourly AD aggregations as a prerequisite for a Leaver process that guarantees access revocation within 2 hours of an employee's offboarding record in HR
-- Connecting a legacy HRIS that only exports daily CSV files as the authoritative source of employee identities, mapping fields to the SailPoint identity schema
+- Configuring hourly incremental aggregation of AD as a prerequisite for a Leaver process that guarantees access revocation within 2 hours of an employee's HR offboarding record
 - Detecting a mass accidental deprovisioning incident by monitoring account counts between aggregations a 10% drop triggers an alert before the damage becomes irreversible
+- Connecting a legacy HRIS that only exports daily CSV files as the authoritative source of employee identities, using it alongside AD to build complete identity data
 
 ---
 
@@ -141,4 +167,5 @@ Configure alerts so SailPoint notifies when an aggregation fails, when the accou
 
 - [Source configuration](https://documentation.sailpoint.com/saas/help/sources/configure_source.html)
 - [Connector catalog](https://documentation.sailpoint.com/connectors/)
+- [Active Directory connector](https://documentation.sailpoint.com/connectors/active_directory/help/active_directory_connector_overview.html)
 - [Aggregation troubleshooting](https://documentation.sailpoint.com/saas/help/sources/aggregation_troubleshooting.html)
