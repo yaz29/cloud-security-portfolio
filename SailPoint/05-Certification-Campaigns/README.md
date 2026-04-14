@@ -3,15 +3,15 @@
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-Compliance-B71C1C?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Intermediate-FF9800?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Imprescindible-D32F2F?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-Must_Have-D32F2F?style=flat-square)
 
 ---
 
 ## Why this matters
 
-Conceder acceso es fácil. El problema es que el acceso raramente se revoca. Las personas cambian de rol, asumen proyectos temporales, cubren a compañeros y los permisos se acumulan sin que nadie los limpie. Con el tiempo, un empleado puede tener accesos de cinco roles distintos que ha ocupado en los últimos años.
+Granting access is easy. The problem is that access is rarely revoked. People change roles, take on temporary projects, cover for colleagues and permissions accumulate without anyone cleaning them up. Over time, an employee can hold access from five different roles they have occupied over the years.
 
-Las Certification Campaigns son la respuesta sistemática a esa acumulación: una revisión periódica y formalizada donde los managers, propietarios de aplicaciones y directores confirman si cada acceso de sus usuarios sigue siendo necesario. Este lab construye tres tipos distintos de campaign. Manager, Application Owner y Role porque cada una responde a una pregunta de auditoría diferente.
+Certification Campaigns are the systematic answer to that accumulation: a periodic, formalized review where managers, application owners, and directors confirm whether each piece of access their users hold is still needed and appropriate. This lab builds three distinct campaign types Manager, Application Owner, and Role Composition because each one answers a different audit question.
 
 ---
 
@@ -19,118 +19,118 @@ Las Certification Campaigns son la respuesta sistemática a esa acumulación: un
 
 ```mermaid
 flowchart TD
-    A[Admin configura Campaign\nscope tipo deadline] --> B[SailPoint genera\nwork items por reviewer]
-    subgraph Tipos de Campaign
-        C1[Manager Campaign\nManager revisa su equipo]
-        C2[Application Owner\nPropietario revisa su app]
-        C3[Role Composition\nRevisar qué hay en el Role]
+    A[Admin configures Campaign\nscope type deadline] --> B[SailPoint generates\nwork items per reviewer]
+    subgraph Campaign Types
+        C1[Manager Campaign\nManager reviews their team]
+        C2[Application Owner\nOwner reviews their app]
+        C3[Role Composition\nReview what is inside the Role]
     end
     B --> C1 & C2 & C3
-    C1 & C2 & C3 --> D{Decisión del reviewer}
-    D -->|Certify| E[Acceso confirmado]
-    D -->|Revoke| F[Acceso revocado\nautomáticamente]
-    D -->|Reassign| G[Otro reviewer]
-    E & F --> H[Reporte de auditoría\ngenerado automáticamente]
+    C1 & C2 & C3 --> D{Reviewer decision}
+    D -->|Certify| E[Access confirmed]
+    D -->|Revoke| F[Access automatically revoked]
+    D -->|Reassign| G[Sent to another reviewer]
+    E & F --> H[Audit report\nautomatically generated]
 ```
 
 ---
 
 ## Prerequisites
 
-- Labs 01-04 completados usuarios con accesos asignados (Roles y Access Profiles)
-- Usuarios configurados con manager en el Identity Cube
-- Al menos un propietario de aplicación o Access Profile definido
+- Labs 01-04 completed users with Role and Access Profile assignments
+- Users configured with a manager in the Identity Cube
+- At least one application or Access Profile owner defined
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Crear una Manager Certification Campaign
+### Step 1 · Create a Manager Certification Campaign
 
-Ve a **Admin → Compliance → Certifications → Create Campaign**. Selecciona el tipo **Manager** y define el scope: todos los accesos de todos los reportes directos de cada manager.
+Go to **Admin → Compliance → Certifications → Create Campaign**. Select **Manager** type and define the scope: all access held by all direct reports of each manager.
 
-![Step 1 — Asistente de creación de Manager Campaign](./screenshots/01-manager-campaign-create.png)
-*La Manager Campaign es la más usada delega la decisión de acceso a quien mejor conoce al usuario y su trabajo. Es el control que más valoran los auditores de SOX.*
-
----
-
-### Step 2 · Configurar el scope y filtros de la campaign
-
-Ajusta el scope para incluir solo entitlements de alta criticidad o solo accesos fuera de los Roles estándar (accesos excepcionales). Reducir el scope aumenta la calidad de la revisión.
-
-![Step 2 — Filtros de scope aplicados a la campaign](./screenshots/02-campaign-scope-filters.png)
-*Certificar todo es ineficiente y genera "rubber stamping" revisar 500 items en 3 días lleva a aprobar sin mirar. Scope acotado y tiempo suficiente = revisión de calidad.*
+![Step 1 — Manager Campaign creation wizard](./screenshots/01-manager-campaign-create.png)
+*The Manager Campaign is the most widely used type it delegates the access decision to the person who best knows the user and their job. It is the control SOX auditors value most.*
 
 ---
 
-### Step 3 · Configurar deadline y política de no-respuesta
+### Step 2 · Configure scope and filters
 
-Define el deadline (14 días es habitual), recordatorios automáticos a los 7 y 3 días, y qué pasa si el reviewer no responde: escalado al manager del reviewer o auto-revocación.
+Adjust the scope to include only high-criticality entitlements or only access held outside of standard Roles (exception access). Narrowing the scope increases the quality of the review.
 
-![Step 3 — Configuración de deadline y escalado automático](./screenshots/03-deadline-escalation.png)
-*La política de no-respuesta define el posture por defecto "sin respuesta = revocar" es más seguro pero puede generar disrupciones; "escalar" es el equilibrio más práctico en producción.*
-
----
-
-### Step 4 · Activar la campaign y revisar los work items generados
-
-Activa la campaign. Ve a **Admin → Compliance → Certifications** y revisa cuántos work items se generaron y cómo están distribuidos entre los reviewers.
-
-![Step 4 — Campaign activa con distribución de work items por reviewer](./screenshots/04-campaign-activated.png)
-*Un reviewer con más de 200 items en una campaign necesita soporte considera dividir el scope o ampliar el plazo. La sobrecarga es el principal enemigo de la calidad de revisión.*
+![Step 2 — Scope filters applied to the campaign](./screenshots/02-campaign-scope-filters.png)
+*Certifying everything is inefficient and creates rubber-stamping reviewing 500 items in 3 days leads to approving without looking. Narrow scope and sufficient time equals quality review.*
 
 ---
 
-### Step 5 · Revisar desde la perspectiva del manager/reviewer
+### Step 3 · Set the deadline and non-response policy
 
-Inicia sesión como manager. Ve a **My Tasks → Certifications** y revisa los work items. Para cada acceso, decide: Certify, Revoke o Reassign.
+Define the deadline (14 days is typical), automatic reminders at 7 and 3 days, and what happens if the reviewer does not respond: escalate to their manager or auto-revoke.
 
-![Step 5 — Vista del reviewer con accesos del equipo para certificar](./screenshots/05-reviewer-perspective.png)
-*El reviewer ve quién tiene el acceso, cuándo lo obtuvo, si es parte de un Role o una excepción, y el nivel de criticidad. Con esa información, la decisión debería ser informada.*
-
----
-
-### Step 6 · Crear una Application Owner Campaign
-
-Vuelve como admin y crea una segunda campaign de tipo **Application Owner**. En esta, el propietario de Salesforce revisa quién tiene acceso a su aplicación, independientemente del manager.
-
-![Step 6 — Application Owner Campaign configurada para Salesforce](./screenshots/06-app-owner-campaign.png)
-*La Application Owner Campaign es complementaria a la Manager Campaign el propietario de la app tiene contexto técnico que el manager no tiene sobre si un acceso es apropiado.*
+![Step 3 — Deadline and automatic escalation configuration](./screenshots/03-deadline-escalation.png)
+*The non-response policy defines the default security posture "no response equals revoke" is more secure but can cause disruptions; "escalate" is the most practical balance in production.*
 
 ---
 
-### Step 7 · Monitorizar el progreso y enviar recordatorios
+### Step 4 · Activate the campaign and review generated work items
 
-Como admin, revisa el dashboard de progreso de la campaign. Identifica reviewers con baja tasa de completión y envía recordatorios manuales o activa el escalado.
+Activate the campaign. Go to **Admin → Compliance → Certifications** and review how many work items were generated and how they are distributed across reviewers.
 
-![Step 7 — Dashboard de progreso con tasa de completión por reviewer](./screenshots/07-campaign-progress.png)
-*El compliance team monitoriza este dashboard diariamente durante una campaign activa una tasa de completión baja a 3 días del deadline es una señal de alarma.*
+![Step 4 — Active campaign with work item distribution per reviewer](./screenshots/04-campaign-activated.png)
+*A reviewer with more than 200 items in a single campaign needs support consider splitting the scope or extending the deadline. Overload is the main enemy of review quality.*
 
 ---
 
-### Step 8 · Cerrar la campaign y descargar el reporte de auditoría
+### Step 5 · Review from the manager perspective
 
-Al completarse la campaign, ciérrala y descarga el reporte en PDF. Revisa las métricas: % certificado, % revocado, decisiones por reviewer, tiempo medio de respuesta.
+Log in as a manager. Go to **My Tasks → Certifications** and review the work items. For each access item, decide: Certify, Revoke, or Reassign.
 
-![Step 8 — Reporte final de certification con métricas de resultado](./screenshots/08-certification-report.png)
-*Este PDF es el documento que entregas al auditor como evidencia de control de acceso incluye timestamp, scope revisado, decisiones tomadas y acciones ejecutadas.*
+![Step 5 — Reviewer view with team access items for certification](./screenshots/05-reviewer-perspective.png)
+*The reviewer sees who has the access, when it was obtained, whether it is part of a Role or an exception, and the criticality level. With that information, the decision should be informed.*
+
+---
+
+### Step 6 · Create an Application Owner Campaign
+
+Return as admin and create a second campaign of type **Application Owner**. In this one, the Salesforce owner reviews who has access to their application, independent of the manager hierarchy.
+
+![Step 6 — Application Owner Campaign configured for Salesforce](./screenshots/06-app-owner-campaign.png)
+*The Application Owner Campaign complements the Manager Campaign the app owner has technical context that the manager does not have about whether a specific access is appropriate.*
+
+---
+
+### Step 7 · Monitor progress and send reminders
+
+As admin, review the campaign progress dashboard. Identify reviewers with a low completion rate and send manual reminders or trigger escalation.
+
+![Step 7 — Progress dashboard with completion rate per reviewer](./screenshots/07-campaign-progress.png)
+*The compliance team monitors this dashboard daily during an active campaign a low completion rate three days before the deadline is a warning signal that needs immediate action.*
+
+---
+
+### Step 8 · Close the campaign and download the audit report
+
+Once the campaign completes, close it and download the report as a PDF. Review the metrics: percentage certified, percentage revoked, decisions per reviewer, average response time.
+
+![Step 8 — Final certification report with outcome metrics](./screenshots/08-certification-report.png)
+*This PDF is the document you hand to the auditor as access control evidence it includes the timestamp, reviewed scope, decisions taken, and actions executed.*
 
 ---
 
 ## What I Learned
 
-- **Tres tipos de campaign responden a tres preguntas distintas de auditoría.** Manager: "¿El manager sabe qué acceso tiene su equipo?" Application Owner: "¿El dueño de la app sabe quién accede a ella?" Role Composition: "¿Los Roles contienen los accesos correctos?" Cada una tiene su lugar.
-- El **rubber stamping** (aprobar todo sin revisar) es el mayor riesgo de las certifications hace que el control exista en papel pero no en la realidad. Scope acotado, tiempo suficiente y formación de los reviewers son las contramedidas.
-- Aprendí que los **accesos sin Role asignado** (excepciones) son los más importantes de revisar son precisamente los que más probabilidad tienen de ser inapropiados. Filtrar las campaigns para priorizar esos accesos es una buena práctica.
-- La diferencia entre **campaign closed** (fecha límite alcanzada) y **campaign signed off** (todos los items revisados) importa para auditoría — una campaign cerrada con items pendientes tiene un registro de qué quedó sin revisar.
+- **Three campaign types answer three different audit questions.** Manager: "Does the manager know what access their team has?" Application Owner: "Does the app owner know who accesses their resource?" Role Composition: "Do the Roles contain the correct access?" Each has its place.
+- **Rubber-stamping** (approving everything without reviewing) is the biggest risk of certifications it makes the control exist on paper but not in reality. Narrow scope, sufficient time, and reviewer training are the countermeasures.
+- I learned that **access without an assigned Role** (exceptions) are the most important items to review they are precisely the ones most likely to be inappropriate. Filtering campaigns to prioritize those is a good practice.
+- The difference between **campaign closed** (deadline reached) and **campaign signed off** (all items reviewed) matters for audit — a closed campaign with pending items has a record of what was left unreviewed.
 
 ---
 
 ## Real-World Applications
 
-- Cumplir el requisito de SOX de revisar trimestralmente los accesos a sistemas financieros, con evidencia automatizada de quién revisó qué y cuándo
-- Detectar y revocar access creep acumulado por employees que han cambiado de rol tres veces en los últimos dos años
-- Reducir la superficie de ataque eliminando accesos de alta criticidad que nadie usa, identificados durante la campaign con datos de actividad
+- Meeting the SOX requirement to quarterly review access to financial systems, with automated evidence of who reviewed what and when
+- Detecting and revoking access creep accumulated by employees who have changed roles three times over the past two years
+- Reducing the attack surface by eliminating high-criticality access that nobody uses, identified during the campaign using activity data
 
 ---
 
@@ -139,4 +139,3 @@ Al completarse la campaign, ciérrala y descarga el reporte en PDF. Revisa las m
 - [Certification Campaigns overview](https://documentation.sailpoint.com/saas/help/certifications/certifications.html)
 - [Campaign types](https://documentation.sailpoint.com/saas/help/certifications/campaign_types.html)
 - [Certification best practices](https://community.sailpoint.com/t5/IdentityNow-Articles/Best-Practices-for-Certification-Campaigns/ta-p/76863)
-
