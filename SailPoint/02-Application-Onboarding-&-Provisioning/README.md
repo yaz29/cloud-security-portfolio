@@ -3,15 +3,15 @@
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-Provisioning-0D47A1?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Intermediate-FF9800?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Alta_Prioridad-FF6F00?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-High_Priority-FF6F00?style=flat-square)
 
 ---
 
 ## Why this matters
 
-Cada nueva aplicación que entra en la empresa sin pasar por SailPoint es un punto ciego de governance. Los usuarios tienen accesos que nadie revisa, los leaver no se deprovisioned correctamente y los auditores encuentran cuentas activas de personas que se fueron hace meses.
+Every application that enters the organization without being onboarded to SailPoint is a governance blind spot. Users have access that nobody reviews, leavers are not deprovisioned correctly, and auditors find active accounts belonging to people who left months ago.
 
-Onboarding de una aplicación a SailPoint significa traerla bajo el paraguas de governance: sus cuentas son visibles, sus entitlements son gobernables, su provisioning es automatizable. Este lab conecta una aplicación usando tres métodos distintos SCIM (el estándar moderno), Web Services (APIs REST/SOAP) y un conector nativo porque en el mundo real te encontrarás los tres.
+Onboarding an application to SailPoint means bringing it under the governance umbrella: its accounts become visible, its entitlements become governable, and its provisioning becomes automatable. This lab connects an application using three different methods SCIM (the modern standard), Web Services (REST/SOAP APIs), and a native connector, because in the real world you will encounter all three.
 
 ---
 
@@ -19,17 +19,17 @@ Onboarding de una aplicación a SailPoint significa traerla bajo el paraguas de 
 
 ```mermaid
 flowchart LR
-    subgraph Métodos de conexión
-        SCIM[SCIM 2.0\nEstándar moderno\nSalesforce Slack GitHub]
-        WS[Web Services\nAPI REST custom\napps internas]
-        NC[Conector nativo\nSailPoint catálogo\nAD SAP ServiceNow]
+    subgraph Connection Methods
+        SCIM[SCIM 2.0\nModern standard\nSalesforce Slack GitHub]
+        WS[Web Services\nCustom REST API\ninternal apps]
+        NC[Native Connector\nSailPoint catalog\nAD SAP ServiceNow]
     end
     subgraph SailPoint
-        AG[Aggregation\nimportar cuentas]
-        PR[Provisioning\ncrear modificar desactivar]
-        EN[Entitlements\nperfiles roles grupos]
+        AG[Aggregation\nimport accounts]
+        PR[Provisioning\ncreate modify disable]
+        EN[Entitlements\nprofiles roles groups]
     end
-    subgraph Governance activo
+    subgraph Active Governance
         G1[Certifications]
         G2[Access Requests]
         G3[Lifecycle Management]
@@ -43,100 +43,100 @@ flowchart LR
 
 ## Prerequisites
 
-- Tenant de SailPoint ISC activo
-- Una cuenta de Salesforce Developer Edition (gratis) para el conector SCIM
-- Acceso a una API REST simple para Web Services (puedes usar una API pública de prueba)
+- Active SailPoint ISC tenant
+- A Salesforce Developer Edition account (free) for the SCIM connector
+- Access to a simple REST API for the Web Services connector (any public test API works)
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Onboarding via SCIM — configurar Salesforce
+### Step 1 · Onboarding via SCIM — configure Salesforce
 
-Ve a **Admin → Connections → Sources → Add Source** y selecciona **Salesforce**. El conector de Salesforce usa SCIM 2.0 el estándar más limpio para integración.
+Go to **Admin → Connections → Sources → Add Source** and select **Salesforce**. The Salesforce connector uses SCIM 2.0, the cleanest standard for integration.
 
-![Step 1 — Selección del conector Salesforce SCIM](./screenshots/01-salesforce-connector-select.png)
-*SCIM 2.0 (RFC 7644) es el protocolo estándar para provisioning si una aplicación lo soporta, siempre es la primera opción. Simplifica enormemente la integración.*
-
----
-
-### Step 2 · Autorizar la conexión con Salesforce
-
-Introduce las credenciales de tu Salesforce Developer Edition o genera un Connected App con OAuth 2.0. Testea la conexión.
-
-![Step 2 — Autorización OAuth con Salesforce completada](./screenshots/02-salesforce-auth.png)
-*SCIM usa OAuth 2.0 para autenticación el token se renueva automáticamente. No necesitas gestionar credenciales estáticas como en conectores legacy.*
+![Step 1 — Salesforce SCIM connector selection](./screenshots/01-salesforce-connector-select.png)
+*SCIM 2.0 (RFC 7644) is the standard provisioning protocol if an application supports it, it is always the first choice. It simplifies integration significantly.*
 
 ---
 
-### Step 3 · Ejecutar la primera agregación de Salesforce
+### Step 2 · Authorize the connection with Salesforce
 
-Agrega las cuentas de Salesforce. Verifica que los usuarios importados se correlacionan con identidades existentes en SailPoint usando el email como campo de unión.
+Enter your Salesforce Developer Edition credentials or generate a Connected App with OAuth 2.0. Test the connection to confirm connectivity.
 
-![Step 3 — Cuentas de Salesforce importadas y correlacionadas](./screenshots/03-salesforce-aggregation.png)
-*Una vez agregada, SailPoint sabe quién tiene cuenta en Salesforce, qué Profile tiene asignado y cuándo fue creada información que antes era invisible para governance.*
-
----
-
-### Step 4 · Onboarding via Web Services — conectar una API REST custom
-
-Añade un nuevo Source usando el conector **Web Services**. Configura el endpoint base, los headers de autenticación y los métodos HTTP para listar usuarios (GET /users) y crear cuentas (POST /users).
-
-![Step 4 — Configuración del conector Web Services con endpoints REST](./screenshots/04-webservices-config.png)
-*Web Services es el conector más flexible si la aplicación tiene una API REST o SOAP, puedes conectarla aunque no tenga conector nativo en el catálogo de SailPoint.*
+![Step 2 — OAuth authorization with Salesforce completed](./screenshots/02-salesforce-auth.png)
+*SCIM uses OAuth 2.0 for authentication the token renews automatically. No need to manage static credentials like legacy connectors.*
 
 ---
 
-### Step 5 · Mapear el schema del conector Web Services
+### Step 3 · Run the first Salesforce aggregation
 
-Define qué campos del JSON response de la API corresponden a qué atributos del Identity Cube en SailPoint (id, username, email, status).
+Aggregate Salesforce accounts. Verify that imported users correlate with existing identities in SailPoint using email as the matching field.
 
-![Step 5 — Mapeo de schema del conector Web Services](./screenshots/05-webservices-schema.png)
-*El schema mapping es donde más tiempo se invierte con Web Services cada API devuelve JSON con estructura diferente y hay que enseñarle a SailPoint cómo leerla.*
-
----
-
-### Step 6 · Configurar el provisioning write-back en Salesforce
-
-Activa las operaciones de escritura en el Source de Salesforce: Create Account, Update Account, Disable Account, Add to Profile, Remove from Profile.
-
-![Step 6 — Provisioning write-back habilitado en Salesforce](./screenshots/06-provisioning-writeback.png)
-*Con write-back activo, SailPoint puede crear una cuenta en Salesforce automáticamente cuando un usuario se une al equipo de ventas sin intervención de ningún admin de Salesforce.*
+![Step 3 — Salesforce accounts imported and correlated to identities](./screenshots/03-salesforce-aggregation.png)
+*Once aggregated, SailPoint knows who has a Salesforce account, what Profile they have assigned, and when it was created information that was previously invisible to governance.*
 
 ---
 
-### Step 7 · Probar el provisioning end-to-end
+### Step 4 · Onboarding via Web Services — connect a custom REST API
 
-Asigna un Access Profile que incluya acceso a Salesforce a un usuario de prueba. Verifica en Salesforce que la cuenta fue creada con el Profile correcto.
+Add a new Source using the **Web Services** connector. Configure the base endpoint, authentication headers, and HTTP methods to list users (GET /users) and create accounts (POST /users).
 
-![Step 7 — Cuenta creada en Salesforce vía provisioning desde SailPoint](./screenshots/07-provisioning-test.png)
-*El aprovisionamiento end-to-end es el momento donde todo el trabajo de configuración se convierte en valor real un usuario recibe acceso sin que ningún humano haya tenido que hacer nada manualmente.*
+![Step 4 — Web Services connector configured with REST endpoints](./screenshots/04-webservices-config.png)
+*Web Services is the most flexible connector if an application has a REST or SOAP API, you can connect it even without a native connector in the SailPoint catalog.*
 
 ---
 
-### Step 8 · Verificar el deprovisioning al revocar el acceso
+### Step 5 · Map the Web Services connector schema
 
-Revoca el Access Profile del usuario. Confirma que SailPoint desactivó la cuenta en Salesforce automáticamente.
+Define which fields in the API JSON response map to which Identity Cube attributes in SailPoint (id, username, email, status).
 
-![Step 8 — Cuenta de Salesforce desactivada tras revocación en SailPoint](./screenshots/08-deprovisioning-verified.png)
-*El deprovisioning automático es el segundo valor más importante después del provisioning elimina el riesgo de ex-empleados con acceso activo en aplicaciones externas.*
+![Step 5 — Web Services connector schema mapping](./screenshots/05-webservices-schema.png)
+*Schema mapping is where most time is spent with Web Services every API returns JSON with a different structure and SailPoint needs to be taught how to read it.*
+
+---
+
+### Step 6 · Enable write-back provisioning on Salesforce
+
+Activate write operations on the Salesforce Source: Create Account, Update Account, Disable Account, Add to Profile, Remove from Profile.
+
+![Step 6 — Provisioning write-back enabled on Salesforce Source](./screenshots/06-provisioning-writeback.png)
+*With write-back active, SailPoint can automatically create a Salesforce account when a user joins the sales team without any Salesforce admin having to do anything.*
+
+---
+
+### Step 7 · Test end-to-end provisioning
+
+Assign an Access Profile that includes Salesforce access to a test user. Verify in Salesforce that the account was created with the correct Profile assigned.
+
+![Step 7 — Account created in Salesforce via provisioning from SailPoint](./screenshots/07-provisioning-test.png)
+*End-to-end provisioning is where all the configuration work converts into real value a user gets access without any human having to do anything manually.*
+
+---
+
+### Step 8 · Verify deprovisioning on access revocation
+
+Revoke the Access Profile from the user. Confirm that SailPoint automatically disabled the Salesforce account.
+
+![Step 8 — Salesforce account disabled after revocation in SailPoint](./screenshots/08-deprovisioning-verified.png)
+*Automatic deprovisioning is the second most important value after provisioning it eliminates the risk of ex-employees with active access in external applications.*
 
 ---
 
 ## What I Learned
 
-- **SCIM vs. Web Services vs. conector nativo** no es una elección arbitraria depende de lo que soporte la aplicación. SCIM primero, conector nativo si existe, Web Services como último recurso. Cada nivel añade complejidad de configuración.
-- El **conector Web Services es muy poderoso pero muy sensible** a cambios en la API del sistema destino si la app actualiza su API y cambia los nombres de los campos, el conector se rompe. Documenta bien los mappings.
-- Descubrí que **algunas aplicaciones SaaS tienen limitaciones en su API SCIM** implementan el estándar parcialmente. Por ejemplo, algunos sistemas no soportan la operación PATCH, solo PUT. SailPoint tiene workarounds pero hay que conocerlos.
-- El **tiempo de onboarding de una aplicación** en un proyecto real depende más de los permisos y burocracia para obtener credenciales de API que de la configuración técnica en SailPoint. A veces la parte técnica toma un día; los permisos, semanas.
+- **SCIM vs. Web Services vs. native connector** is not an arbitrary choice it depends on what the application supports. SCIM first, native connector if available, Web Services as a last resort. Each level adds configuration complexity.
+- The **Web Services connector is powerful but sensitive to API changes** if the target app updates its API and renames fields, the connector breaks. Document the mappings thoroughly.
+- I discovered that **some SaaS applications only partially implement SCIM** for example, some systems do not support the PATCH operation, only PUT. SailPoint has workarounds but you need to know about them.
+- The **application onboarding timeline** in a real project depends more on the time it takes to get API credentials approved than on the technical configuration in SailPoint. The technical part might take a day; the permissions process, weeks.
 
 ---
 
 ## Real-World Applications
 
-- Incorporar una nueva aplicación SaaS comprada por la empresa al programa de governance en 1-2 días usando el conector SCIM, en lugar de meses de integración ad hoc
-- Conectar un sistema legacy interno sin API estándar usando Web Services sobre el endpoint SOAP existente
-- Asegurar que cuando un nuevo Sales Rep empiece, su cuenta en Salesforce, Slack y HubSpot esté lista automáticamente el primer día
+- Onboarding a newly purchased SaaS application to the governance program in 1-2 days using the SCIM connector, instead of months of ad hoc integration
+- Connecting a legacy internal system without a standard API using Web Services over its existing SOAP endpoint
+- Ensuring that when a new Sales Rep starts, their Salesforce, Slack, and HubSpot accounts are ready automatically on day one
 
 ---
 
