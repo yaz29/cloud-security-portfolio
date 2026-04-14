@@ -3,15 +3,15 @@
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-RBAC-1B5E20?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Intermediate-FF9800?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Alta_Prioridad-FF6F00?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-High_Priority-FF6F00?style=flat-square)
 
 ---
 
 ## Why this matters
 
-Sin un modelo de roles claro, el acceso en una empresa crece de forma orgánica y caótica: cada persona tiene una combinación única de permisos acumulados con el tiempo, y nadie sabe exactamente qué acceso tiene quién ni por qué. Los auditores lo llaman "access sprawl" y es uno de los hallazgos más frecuentes en auditorías de seguridad.
+Without a clear role model, access in an organization grows organically and chaotically each person accumulates a unique combination of permissions over time, and nobody knows exactly who has what or why. Auditors call this "access sprawl" and it is one of the most frequent findings in security audits.
 
-Roles y Access Profiles son la arquitectura del acceso la forma en que SailPoint organiza los permisos en paquetes coherentes con el negocio. Un Access Profile agrupa entitlements técnicos de un sistema. Un Role agrupa Access Profiles de múltiples sistemas y representa un puesto de trabajo real. Este lab diseña ese modelo desde cero, con asignación automática basada en atributos de identidad.
+Roles and Access Profiles are the architecture of access the way SailPoint organizes permissions into packages that make sense to the business. An Access Profile groups technical entitlements from one system. A Role groups Access Profiles from multiple systems and represents a real job function. This lab designs that model from scratch, with automatic assignment driven by identity attributes.
 
 ---
 
@@ -19,22 +19,22 @@ Roles y Access Profiles son la arquitectura del acceso la forma en que SailPoint
 
 ```mermaid
 flowchart TD
-    subgraph Entitlements técnicos
+    subgraph Technical Entitlements
         E1[AD Group: Sales-Users]
         E2[Salesforce: Sales-Profile]
         E3[SharePoint: Sales-Docs-Read]
         E4[Slack: Channel-Sales]
     end
-    subgraph Access Profiles por sistema
+    subgraph Access Profiles per system
         AP1[AP: Salesforce Sales Access\nE2]
-        AP2[AP: Collaboration Sales\nE3 + E4]
+        AP2[AP: Collaboration Sales\nE3 and E4]
         AP3[AP: AD Base Sales\nE1]
     end
     subgraph Business Role
-        R[Role: Sales Representative\nAP1 + AP2 + AP3]
+        R[Role: Sales Representative\nAP1 and AP2 and AP3]
     end
-    subgraph Asignación automática
-        RULE{department = Sales\nAND employeeType = FTE}
+    subgraph Automatic Assignment
+        RULE{department equals Sales\nAND employeeType equals FTE}
     end
     E1 --> AP3
     E2 --> AP1
@@ -47,99 +47,99 @@ flowchart TD
 
 ## Prerequisites
 
-- Labs 01-03 completados Sources configurados con entitlements importados
-- Usuarios con atributos de department y employeeType disponibles en el Identity Cube
+- Labs 01-03 completed Sources configured with imported entitlements
+- Users with department and employeeType attributes available in the Identity Cube
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Crear el primer Access Profile
+### Step 1 · Create the first Access Profile
 
-Ve a **Admin → Access → Access Profiles → Create**. Crea un Access Profile llamado "Salesforce — Sales Access" que incluya el entitlement de Salesforce Sales Profile.
+Go to **Admin → Access → Access Profiles → Create**. Create an Access Profile called "Salesforce – Sales Access" that includes the Salesforce Sales Profile entitlement.
 
-![Step 1 — Creación de Access Profile para Salesforce](./screenshots/01-create-access-profile.png)
-*Los Access Profiles son la unidad básica del acceso agrupan entitlements del mismo Source. Un Access Profile bien definido tiene un propósito claro y un propietario identificado.*
-
----
-
-### Step 2 · Configurar el propietario y la descripción del Access Profile
-
-Asigna un propietario (el responsable de la aplicación, no IT) y añade una descripción en lenguaje de negocio que explique para qué sirve este acceso.
-
-![Step 2 — Propietario y descripción del Access Profile](./screenshots/02-access-profile-owner.png)
-*El propietario del Access Profile es quien aprueba las solicitudes de acceso y quien revisa en las certification campaigns asignar a alguien con autoridad real sobre el recurso.*
+![Step 1 — Access Profile creation for Salesforce](./screenshots/01-create-access-profile.png)
+*Access Profiles are the basic unit of access they group entitlements from the same Source. A well-defined Access Profile has a clear purpose and an identified owner.*
 
 ---
 
-### Step 3 · Crear Access Profiles para cada sistema
+### Step 2 · Configure the owner and description
 
-Repite el proceso para cada Source: uno para AD, uno para SharePoint, uno para Slack. Cada Access Profile representa el acceso en ese sistema específico.
+Assign an owner (the application owner, not IT) and add a business-language description explaining what this access is for and who should have it.
 
-![Step 3 — Lista de Access Profiles creados por sistema](./screenshots/03-access-profiles-list.png)
-*La granularidad de los Access Profiles es una decisión de diseño demasiado granulares y el modelo se vuelve inmanejable; demasiado amplios y pierdes control sobre qué acceso se da.*
-
----
-
-### Step 4 · Crear el Business Role
-
-Ve a **Admin → Access → Roles → Create Role**. Crea el Role "Sales Representative" de tipo Business Role y añade los tres Access Profiles creados anteriormente.
-
-![Step 4 — Business Role con Access Profiles de múltiples sistemas](./screenshots/04-business-role-creation.png)
-*Un Business Role representa un puesto de trabajo real "Sales Representative" tiene sentido para un manager de ventas. "CN=GG_AD_SALES_USERS" no lo tiene.*
+![Step 2 — Access Profile owner and description configured](./screenshots/02-access-profile-owner.png)
+*The Access Profile owner is the person who approves access requests and who reviews during certification campaigns assign someone with real authority over the resource.*
 
 ---
 
-### Step 5 · Configurar la asignación automática del Role
+### Step 3 · Create Access Profiles for each system
 
-En la pestaña Assignment del Role, define la regla: si `department = "Sales"` AND `employeeType = "FTE"`, asignar automáticamente este Role.
+Repeat the process for each Source: one for AD, one for SharePoint, one for Slack. Each Access Profile represents the access package for that specific system.
 
-![Step 5 — Regla de asignación automática configurada](./screenshots/05-role-assignment-rule.png)
-*La asignación automática transforma el onboarding un nuevo Sales FTE recibe todos sus accesos en la siguiente agregación, sin tickets de IT.*
-
----
-
-### Step 6 · Configurar el Role como requestable
-
-Activa la opción **Requestable** en el Role para que usuarios de otros departamentos puedan solicitarlo temporalmente si necesitan colaborar con el equipo de ventas.
-
-![Step 6 — Role configurado como requestable en el portal](./screenshots/06-requestable-role.png)
-*No todos los Roles deberían ser requestables los Roles con accesos muy sensibles (admin, finanzas) deberían ser solo-asignación. Los Roles de colaboración pueden ser requestables.*
+![Step 3 — Access Profiles list organized by system](./screenshots/03-access-profiles-list.png)
+*The granularity of Access Profiles is a design decision too granular and the model becomes unmanageable; too broad and you lose control over what access is being granted.*
 
 ---
 
-### Step 7 · Verificar la asignación automática con un usuario nuevo
+### Step 4 · Create the Business Role
 
-Crea un usuario de prueba con `department = Sales` y `employeeType = FTE`. En la próxima agregación, confirma que el Role se asignó automáticamente y los Access Profiles fueron aprovisionados.
+Go to **Admin → Access → Roles → Create Role**. Create the "Sales Representative" Role of type Business Role and add the three Access Profiles created previously.
 
-![Step 7 — Usuario con Role asignado automáticamente y accesos aprovisionados](./screenshots/07-auto-assignment-verified.png)
-*Este momento ver cómo el sistema aprovisiona todo el acceso necesario sin intervención humana es cuando el modelo de roles demuestra su valor real.*
+![Step 4 — Business Role with Access Profiles from multiple systems](./screenshots/04-business-role-creation.png)
+*A Business Role represents a real job function "Sales Representative" makes sense to a sales manager. "CN=GG_AD_SALES_USERS" does not.*
 
 ---
 
-### Step 8 · Analizar el Role en el Role Overview
+### Step 5 · Configure automatic Role assignment
 
-Revisa el Role Overview: cuántos usuarios lo tienen, qué Access Profiles incluye, si hay usuarios con el Role pero sin todos los Access Profiles aprovisionados (inconsistencias).
+In the Role's Assignment tab, define the rule: if `department = "Sales"` AND `employeeType = "FTE"`, automatically assign this Role.
 
-![Step 8 — Role Overview con métricas y estado de asignaciones](./screenshots/08-role-overview-metrics.png)
-*Las inconsistencias en el Role Overview (usuario tiene el Role pero le falta un Access Profile) indican errores de aprovisionamiento que hay que investigar.*
+![Step 5 — Automatic assignment rule configured on the Role](./screenshots/05-role-assignment-rule.png)
+*Automatic assignment is what makes the onboarding process work a new Sales FTE receives all their access in the next aggregation cycle, without any IT tickets.*
+
+---
+
+### Step 6 · Make the Role requestable
+
+Enable the **Requestable** option on the Role so that users from other departments can request it temporarily if they need to collaborate with the sales team on a project.
+
+![Step 6 — Role configured as requestable in the portal](./screenshots/06-requestable-role.png)
+*Not all Roles should be requestable those with highly sensitive access (admin, finance) should be assignment-only. Collaboration Roles can safely be requestable.*
+
+---
+
+### Step 7 · Verify automatic assignment with a new user
+
+Create a test user with `department = Sales` and `employeeType = FTE`. After the next aggregation, confirm the Role was assigned automatically and all Access Profiles were provisioned.
+
+![Step 7 — User with Role assigned automatically and access provisioned](./screenshots/07-auto-assignment-verified.png)
+*This moment watching the system provision all the right access without any human intervention is when the role model proves its real value.*
+
+---
+
+### Step 8 · Analyze the Role in the Role Overview
+
+Review the Role Overview: how many users have it assigned, what Access Profiles it includes, and whether there are any users with the Role but missing provisioned Access Profiles (inconsistencies).
+
+![Step 8 — Role Overview with assignment metrics and status](./screenshots/08-role-overview-metrics.png)
+*Inconsistencies in the Role Overview indicate provisioning errors that need investigation a user with the Role but missing an Access Profile is not getting the expected access.*
 
 ---
 
 ## What I Learned
 
-- La jerarquía **Entitlement → Access Profile → Role** tiene una lógica clara una vez que la ves aplicada: Entitlement es el permiso técnico; Access Profile es el acceso en un sistema; Role es el puesto de trabajo. Cada capa añade contexto de negocio.
-- **El naming convention de los Access Profiles importa más de lo que parece** en proyectos grandes. Usar el formato `[Sistema] [Función] [Nivel]` (ejemplo: "Salesforce — Sales — Standard") hace el modelo mantenible a largo plazo.
-- Descubrí que los **Roles anidados** (un Role que incluye otros Roles) son posibles en SailPoint pero añaden complejidad. Para empezar, mantén la jerarquía plana.
-- **Access Profile sin propietario = nadie lo revisa en las certifications**. Asignar propietario es obligatorio, no opcional, si quieres que la governance funcione en la práctica.
+- The **Entitlement → Access Profile → Role** hierarchy has a clear logic once you see it applied: Entitlement is the technical permission; Access Profile is the access package for one system; Role is the job function. Each layer adds business context.
+- **Access Profile naming matters more than it seems** in large projects. Using a format like `[System] , [Function] , [Level]` (e.g., "Salesforce — Sales — Standard") keeps the model maintainable long-term.
+- I discovered that **nested Roles** (a Role including other Roles) are possible in SailPoint but add complexity. For beginners, keep the hierarchy flat.
+- **Access Profiles without an owner will not be reviewed in certifications**. Assigning an owner is mandatory, not optional, if you want governance to work in practice.
 
 ---
 
 ## Real-World Applications
 
-- Reducir el tiempo de onboarding de un Sales Rep de 2 semanas (esperando tickets de IT) a menos de 1 hora mediante asignación automática de Role
-- Dar acceso de colaboración temporal a un consultor externo asignándole un Role requestable con expiración de 30 días
-- Detectar en una auditoría que el 40% de los usuarios del departamento de ventas tienen accesos que no corresponden a ningún Role definidopunto de partida para un proyecto de role mining
+- Reducing onboarding time for a Sales Rep from 2 weeks (waiting for IT tickets) to under 1 hour through automatic Role assignment
+- Granting a consultant temporary collaboration access by assigning them a requestable Role with a 30-day expiration
+- Discovering during an audit that 40% of sales department users have access that does not belong to any defined Role the starting point for a role mining project
 
 ---
 
@@ -148,4 +148,3 @@ Revisa el Role Overview: cuántos usuarios lo tienen, qué Access Profiles inclu
 - [Roles in SailPoint ISC](https://documentation.sailpoint.com/saas/help/access/roles.html)
 - [Access Profiles](https://documentation.sailpoint.com/saas/help/access/access_profiles.html)
 - [Role assignment rules](https://documentation.sailpoint.com/saas/help/access/role_assignment.html)
-
