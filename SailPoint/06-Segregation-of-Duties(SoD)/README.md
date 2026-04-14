@@ -1,17 +1,17 @@
 # 06 · Segregation of Duties (SoD)
 
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
-![Category](https://img.shields.io/badge/Category-Risk_%26_Compliance-880E4F?style=flat-square)
+![Category](https://img.shields.io/badge/Category-Risk_and_Compliance-880E4F?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Advanced-F44336?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Alta_Prioridad-FF6F00?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-High_Priority-FF6F00?style=flat-square)
 
 ---
 
 ## Why this matters
 
-La Separación de Funciones existe desde que existen los controles contables  ninguna persona debería poder ejecutar una transacción completa de principio a fin sin que alguien más intervenga. En sistemas modernos, ese principio se traduce en que ningún usuario debería tener la combinación de accesos que le permita cometer fraude sin detección.
+Segregation of Duties has existed as long as financial controls have no single person should be able to execute a complete transaction from start to finish without another party involved. In modern systems, that principle translates to ensuring no user holds the combination of access that would allow them to commit fraud undetected.
 
-Los conflictos SoD son el hallazgo más serio en auditorías financieras. Un auditor de SOX que encuentra que alguien puede crear proveedores Y aprobar pagos sin supervisión está viendo un control failure que puede escalar a material weakness. Este lab implementa políticas SoD, detecta violaciones activas y configura la prevención de nuevas violaciones en tiempo real.
+SoD conflicts are the most serious finding in financial audits. A SOX auditor who discovers that someone can both create vendors AND approve payments without oversight is looking at a control failure that can escalate to a material weakness. This lab implements SoD policies, detects existing violations, and configures real-time prevention of new violations.
 
 ---
 
@@ -19,18 +19,18 @@ Los conflictos SoD son el hallazgo más serio en auditorías financieras. Un aud
 
 ```mermaid
 flowchart LR
-    subgraph Política SoD
-        PA[Lado A\nFunciones de creación\nCreate Vendor\nCreate Invoice\nCreate PO]
-        PB[Lado B\nFunciones de aprobación\nApprove Payment\nPost Journal\nRelease Payment]
+    subgraph SoD Policy
+        PA[Side A\nCreation functions\nCreate Vendor\nCreate Invoice\nCreate PO]
+        PB[Side B\nApproval functions\nApprove Payment\nPost Journal\nRelease Payment]
     end
-    subgraph Motor de detección
-        D1[Scan periódico\ntodas las identidades]
-        D2[Detección preventiva\nen access requests]
+    subgraph Detection Engine
+        D1[Periodic scan\nall identities]
+        D2[Preventive detection\non access requests]
     end
-    subgraph Resultado
-        V[Violación detectada\nusuario tiene ambos lados]
-        BL[Request bloqueada\ncrearía violación]
-        EX[Excepción documentada\ncon controles compensatorios]
+    subgraph Outcome
+        V[Violation detected\nuser holds both sides]
+        BL[Request blocked\nwould create violation]
+        EX[Documented exception\nwith compensating controls]
     end
     PA & PB --> D1 & D2
     D1 --> V
@@ -42,99 +42,99 @@ flowchart LR
 
 ## Prerequisites
 
-- Labs 01-05 completados entitlements representativos de funciones financieras configurados
-- Al menos algunos usuarios con múltiples entitlements asignados para tener violaciones detectables
+- Labs 01-05 completed entitlements representing financial functions configured
+- At least some users with multiple entitlements assigned to generate detectable violations
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Analizar los conflictos potenciales antes de crear políticas
+### Step 1 · Map potential conflicts before creating policies
 
-Antes de crear políticas SoD, identifica qué pares de entitlements representan los conflictos más críticos para tu organización. Habla con el equipo de finanzas o revisa los controles SOX existentes.
+Before creating SoD policies, identify which pairs of entitlements represent the most critical conflicts for your organization. Review existing SOX controls or consult with the finance team.
 
-![Step 1 — Mapa de conflictos potenciales identificados](./screenshots/01-conflict-mapping.png)
-*Empezar con los conflictos más críticos (ciclo procure-to-pay, order-to-cash) en lugar de intentar modelar todo a la vez. Menos políticas bien definidas > muchas políticas mal definidas.*
-
----
-
-### Step 2 · Crear la primera política SoD
-
-Ve a **Admin → Compliance → Policies → Create Policy → SoD Policy**. Nombra la política con lenguaje de negocio y añade una descripción del riesgo que previene.
-
-![Step 2 — Política SoD creada con nombre y descripción de riesgo](./screenshots/02-sod-policy-create.png)
-*El nombre y la descripción los verán auditores, managers y el compliance officer usa lenguaje que entienda negocio, no códigos técnicos internos.*
+![Step 1 — Potential conflict mapping identified](./screenshots/01-conflict-mapping.png)
+*Start with the most critical conflicts (procure-to-pay, order-to-cash cycles) rather than trying to model everything at once. Fewer well-defined policies beat many poorly defined ones.*
 
 ---
 
-### Step 3 · Definir los dos lados del conflicto
+### Step 2 · Create the first SoD policy
 
-En la política, define el **Lado A** con los entitlements de funciones de creación y el **Lado B** con los de aprobación. Si un usuario tiene al menos uno de cada lado → violación.
+Go to **Admin → Compliance → Policies → Create Policy → SoD Policy**. Name the policy in business language and add a description of the risk it prevents.
 
-![Step 3 — Lado A y Lado B de la política SoD configurados](./screenshots/03-sod-sides-defined.png)
-*La lógica es OR dentro de cada lado y AND entre los dos lados. Cualquier combinación de un entitlement del Lado A con uno del Lado B constituye violación.*
-
----
-
-### Step 4 · Ejecutar el primer Policy Scan
-
-Con la política activa, ejecuta **Run Scan**. SailPoint evalúa todas las identidades y genera la lista de violaciones actuales.
-
-![Step 4 — Resultados del Policy Scan con violaciones detectadas](./screenshots/04-policy-scan-results.png)
-*El primer scan en una organización nueva casi siempre encuentra violaciones que nadie sabía que existían. Es normal el objetivo es detectarlas y gestionarlas.*
+![Step 2 — SoD Policy created with name and risk description](./screenshots/02-sod-policy-create.png)
+*The name and description will be seen by auditors, managers, and the compliance officer use language that business stakeholders understand, not internal technical codes.*
 
 ---
 
-### Step 5 · Revisar las violaciones en detalle
+### Step 3 · Define the two sides of the conflict
 
-Abre cada violación y analiza: quién la tiene, qué entitlements crean el conflicto, desde cuándo existe y cuál es el riesgo asociado.
+In the policy, define **Side A** with the creation function entitlements and **Side B** with the approval function entitlements. If a user holds at least one from each side, that is a violation.
 
-![Step 5 — Detalle de violación con entitlements en conflicto y antigüedad](./screenshots/05-violation-detail.png)
-*La antigüedad de la violación es un dato crítico para auditoría, una violación de 3 años indica que el control ha estado fallando durante ese período.*
-
----
-
-### Step 6 · Gestionar violaciones — remediar o eximir
-
-Para cada violación, decide: **Remediate** (revocar uno de los accesos conflictivos) o **Mitigate** (documentar excepción con controles compensatorios y fecha de revisión).
-
-![Step 6 — Opciones de remediación y excepción documentada](./screenshots/06-remediate-mitigate.png)
-*Las excepciones son legítimas un CFO puede necesitar ambos accesos. Pero deben tener fecha de revisión, controles compensatorios documentados y aprobación formal.*
+![Step 3 — Side A and Side B of the SoD policy configured](./screenshots/03-sod-sides-defined.png)
+*The logic is OR within each side and AND between the two sides. Any combination of one entitlement from Side A with one from Side B constitutes a violation.*
 
 ---
 
-### Step 7 · Activar detección preventiva
+### Step 4 · Run the first Policy Scan
 
-En la configuración de la política, activa **Preventive Detection**. Ahora, cuando alguien solicite un acceso que crearía una violación SoD, SailPoint bloquea o escala la request.
+With the policy active, run **Run Scan**. SailPoint evaluates all identities and generates the list of current violations.
 
-![Step 7 — Detección preventiva bloqueando una access request conflictiva](./screenshots/07-preventive-detection.png)
-*La detección preventiva es el salto de "detectar después" a "prevenir antes"  es la diferencia entre un control reactivo y uno proactivo en términos de madurez de seguridad.*
+![Step 4 — Policy Scan results with detected violations](./screenshots/04-policy-scan-results.png)
+*The first scan in a new organization almost always uncovers violations nobody knew existed. That is normal the goal is to detect them and manage them proactively.*
 
 ---
 
-### Step 8 · Crear un reporte de SoD para auditoría
+### Step 5 · Review violations in detail
 
-Genera el **Policy Violations Report** con el estado completo de violaciones, excepciones y remediaciones. Este es el documento principal de evidencia SoD para auditorías.
+Open each violation and analyze: who holds it, which entitlements create the conflict, how long it has existed, and what the associated risk is.
 
-![Step 8 — Policy Violations Report listo para auditoría](./screenshots/08-sod-audit-report.png)
-*Los auditores quieren ver tres cosas en el reporte SoD: violaciones conocidas, plan de remediación o excepción documentada para cada una, y que ninguna lleva meses sin gestión.*
+![Step 5 — Violation detail showing conflicting entitlements and age](./screenshots/05-violation-detail.png)
+*The age of the violation is critical for audit a three-year-old violation indicates the control has been failing for that entire period. Document it clearly.*
+
+---
+
+### Step 6 · Handle violations — remediate or mitigate
+
+For each violation, decide: **Remediate** (revoke one of the conflicting access items) or **Mitigate** (document an exception with compensating controls and a review date).
+
+![Step 6 — Remediation and exception options with documentation](./screenshots/06-remediate-mitigate.png)
+*Exceptions are legitimate a CFO may need both access items. But they must have a review date, documented compensating controls, and formal approval. Without documentation, it is an audit risk.*
+
+---
+
+### Step 7 · Enable preventive detection
+
+In the policy configuration, enable **Preventive Detection**. Now, when someone requests access that would create an SoD violation, SailPoint blocks or escalates the request.
+
+![Step 7 — Preventive detection blocking a conflicting access request](./screenshots/07-preventive-detection.png)
+*Preventive detection is the shift from "detect afterward" to "prevent beforehand" the difference between a reactive and a proactive control in terms of security maturity.*
+
+---
+
+### Step 8 · Generate an SoD report for audit
+
+Generate the **Policy Violations Report** with the complete status of violations, exceptions, and remediations. This is the primary SoD evidence document for audits.
+
+![Step 8 — Policy Violations Report ready for audit submission](./screenshots/08-sod-audit-report.png)
+*Auditors want to see three things in the SoD report: known violations, a remediation plan or documented exception for each, and none left unmanaged for months.*
 
 ---
 
 ## What I Learned
 
-- **Empezar con pocas políticas bien definidas** es mucho mejor que crear 50 políticas. Con demasiadas políticas hay miles de violaciones que nadie puede gestionar y el sistema pierde credibilidad.
-- La diferencia entre **mitigate** y **remediate** es importante para auditoría: remediar elimina el conflicto; mitigar lo documenta con controles compensatorios. Ambas opciones son válidas para auditoría si están bien documentadas.
-- Las **excepciones sin fecha de expiración** son un hallazgo recurrente en auditorías. En producción, toda excepción debe tener fecha de revisión SailPoint puede automatizar la revocación de excepciones vencidas.
-- Descubrí que la **detección preventiva a veces da falsos positivos** bloquea requests legítimas porque el modelo de roles no está bien definido. Afinar el modelo de roles (Lab 04) antes de activar la detección preventiva reduce ese problema.
+- **Starting with a few well-defined policies is far better** than creating 50 policies. Too many policies generate thousands of violations nobody can manage and the system loses credibility.
+- The difference between **mitigate** and **remediate** matters for audit: remediating eliminates the conflict; mitigating documents it with compensating controls. Both are valid for audit if properly documented.
+- **Exceptions without expiration dates** are a recurring audit finding. In production, every exception must have a review date SailPoint can automate the revocation of expired exceptions.
+- I discovered that **preventive detection can generate false positives** it may block legitimate requests if the role model is not well-defined. Refining the role model (Lab 04) before activating preventive detection reduces that problem significantly.
 
 ---
 
 ## Real-World Applications
 
-- Eliminar el hallazgo de "access control deficiency" en una auditoría SOX implementando detección SoD automatizada con evidencia de gestión de todas las violaciones
-- Prevenir fraude en el ciclo de compras bloqueando en tiempo real cualquier solicitud de acceso que crearía un conflicto procure-to-pay
-- Reducir el número de excepciones SoD activas mes a mes como KPI de mejora de governance reportado al Audit Committee
+- Eliminating "access control deficiency" findings in a SOX audit by implementing automated SoD detection with evidence of management for all violations
+- Preventing fraud in the purchasing cycle by blocking in real time any access request that would create a procure-to-pay conflict
+- Reducing the number of active SoD exceptions month over month as a governance improvement KPI reported to the Audit Committee
 
 ---
 
@@ -143,4 +143,3 @@ Genera el **Policy Violations Report** con el estado completo de violaciones, ex
 - [SoD Policies in SailPoint ISC](https://documentation.sailpoint.com/saas/help/compliance/sod_policies.html)
 - [Policy violations management](https://documentation.sailpoint.com/saas/help/compliance/policy_violations.html)
 - [SOX compliance with SailPoint](https://www.sailpoint.com/solutions/compliance/sox/)
-
