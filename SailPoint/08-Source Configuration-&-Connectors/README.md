@@ -58,7 +58,7 @@ flowchart TD
 
 Go to **Admin → Sources → Create New Source** and select **Active Directory** as the connector type. This is always the first Source in any enterprise SailPoint deployment.
 
-![Step 1 — Active Directory selected as Source type in the wizard](./screenshots/01-source-type-selection.png)
+![Step 1 — Active Directory selected as Source type in the wizard](./Screenshots/01-source-type-selection.png)
 *SailPoint has over 200 native connectors. Active Directory is always the starting point because it is the authoritative source of employee identities in most enterprises.*
 
 ---
@@ -67,7 +67,7 @@ Go to **Admin → Sources → Create New Source** and select **Active Directory*
 
 Enter the connection details: Hostname (your Domain Controller), Base DN, Bind DN, and password for the service account.
 
-![Step 2 — AD Source configuration with Base DN and Bind DN](./screenshots/02-source-configuration.png)
+![Step 2 — AD Source configuration with Base DN and Bind DN](./Screenshots/02-source-configuration.png)
 *The Base DN (`DC=corp,DC=acme,DC=local` in this lab) defines the entry point of the LDAP query it tells SailPoint which part of the AD tree to read. Scoping it to the right OU avoids importing service accounts and computer objects.*
 
 ---
@@ -76,7 +76,7 @@ Enter the connection details: Hostname (your Domain Controller), Base DN, Bind D
 
 Click **Test Connection** to confirm SailPoint can reach the Domain Controller through the Virtual Appliance. The result shows the number of objects found in the directory.
 
-![Step 3 — Test Connection successful with object count returned](./screenshots/03-test-connection.png)
+![Step 3 — Test Connection successful with object count returned](./Screenshots/03-test-connection.png)
 *A successful test confirms three things: the VA is online, the network path to the DC is open (LDAP port 389 or LDAPS 636), and the service account credentials are valid.*
 
 ---
@@ -85,7 +85,7 @@ Click **Test Connection** to confirm SailPoint can reach the Domain Controller t
 
 Review the attributes SailPoint will import from AD. Pay special attention to `memberOf` this is what SailPoint imports as entitlements, representing group membership.
 
-![Step 4 — Account Schema showing AD attributes including memberOf as entitlement](./screenshots/04-account-schema.png)
+![Step 4 — Account Schema showing AD attributes including memberOf as entitlement](./Screenshots/04-account-schema.png)
 *`memberOf` must be marked as an entitlement and multi-valued a user can belong to multiple AD groups, each representing a different access permission. Without this, AD group membership is invisible to governance.*
 
 ---
@@ -94,7 +94,7 @@ Review the attributes SailPoint will import from AD. Pay special attention to `m
 
 Click **Run Now** to execute the first full aggregation. SailPoint sends an LDAP query through the Virtual Appliance to the Domain Controller and imports all user accounts with their attributes.
 
-![Step 5 — Aggregation running with account import progress](./screenshots/05-aggregation-running.png)
+![Step 5 — Aggregation running with account import progress](./Screenshots/05-aggregation-running.png)
 *The first aggregation is always a full import. Subsequent aggregations can be configured as incremental only pulling changes since the last run, which is much faster and reduces load on the DC.*
 
 ---
