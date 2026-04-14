@@ -3,15 +3,15 @@
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-Automation-6A1B9A?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Advanced-F44336?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Alta_Prioridad-FF6F00?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-High_Priority-FF6F00?style=flat-square)
 
 ---
 
 ## Why this matters
 
-Los workflows básicos de SailPoint (aprobar una request, enviar una notificación) cubren el 80% de los casos. El 20% restante procesos multi-paso con lógica condicional, integraciones con sistemas externos, respuestas automáticas a eventos de seguridad requiere la capa avanzada de automatización.
+Basic SailPoint workflows approving a request, sending a notification cover 80% of use cases. The remaining 20% multi-step processes with conditional logic, integrations with external systems, automatic responses to security events require the advanced automation layer.
 
-Event Triggers y Workflows avanzados son lo que convierte SailPoint de una herramienta de governance pasiva en un motor de orquestación activo. Cuando un usuario viola una política SoD, el workflow puede notificar al manager, crear un ticket en ServiceNow, pedir aprobación y revocar el acceso todo automáticamente. Este lab es el más técnico de la serie y el que más diferencia un perfil junior de uno senior.
+Event Triggers and advanced Workflows are what transform SailPoint from a passive governance tool into an active orchestration engine. When a user violates an SoD policy, the workflow can notify the manager, create a ticket in ServiceNow, request approval, and revoke the access all automatically. This lab is the most technical in the series and the one that most differentiates a junior profile from a senior one.
 
 ---
 
@@ -28,17 +28,17 @@ flowchart TD
     end
     subgraph Workflow Engine
         W[Workflow Steps]
-        W --> S1[HTTP Step\nLlamar API externa]
-        W --> S2[Send Email\nNotificación]
-        W --> S3[Wait / Approval\nEsperar decisión]
-        W --> S4[Conditional Branch\nLógica if/else]
-        W --> S5[Transform\nManipular datos]
+        W --> S1[HTTP Step\nCall external API]
+        W --> S2[Send Email\nNotification]
+        W --> S3[Wait and Approval\nAwait decision]
+        W --> S4[Conditional Branch\nif else logic]
+        W --> S5[Transform\nManipulate data]
     end
     subgraph Output
-        O1[Ticket en ServiceNow]
-        O2[Mensaje en Slack]
-        O3[Acción en SailPoint\nrevocar asignar]
-        O4[Webhook a SIEM]
+        O1[Ticket in ServiceNow]
+        O2[Slack message]
+        O3[SailPoint action\nrevoke or assign]
+        O4[Webhook to SIEM]
     end
     T1 & T2 & T3 & T4 & T5 --> W
     S1 --> O1 & O4
@@ -50,100 +50,100 @@ flowchart TD
 
 ## Prerequisites
 
-- Labs 01-09 completados datos y configuraciones previas disponibles para conectar al workflow
-- Cuenta en Make (anteriormente Integromat) o Zapier para simular webhooks externos (gratis)
-- Familiaridad básica con JSON y APIs REST
+- Labs 01-09 completed data and configurations from previous labs available to connect in workflows
+- A Make (formerly Integromat) or Zapier account to simulate external webhooks (free tier)
+- Basic familiarity with JSON and REST APIs
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Explorar el Workflow Designer
+### Step 1 · Explore the Workflow Designer
 
-Ve a **Admin → Workflow** y abre el Workflow Designer. Explora los tipos de pasos disponibles: Start/End, HTTP Request, Approval, Email, Branch, Transform.
+Go to **Admin → Workflow** and open the Workflow Designer. Explore the available step types: Start/End, HTTP Request, Approval, Email, Branch, Transform.
 
-![Step 1 — Workflow Designer con tipos de pasos disponibles](./screenshots/01-workflow-designer.png)
-*El Workflow Designer es visual y basado en bloques similar a Okta Workflows o Power Automate. Sin embargo, para lógica compleja, los pasos de Transform requieren conocimiento básico de JSON.*
-
----
-
-### Step 2 · Crear un workflow de notificación de Policy Violation
-
-Crea un workflow que se dispara cuando se detecta una violación SoD (Event Trigger: `POLICY_VIOLATION`) y envía una notificación por email al manager del usuario con el detalle de la violación.
-
-![Step 2 — Workflow con trigger de Policy Violation y paso de email](./screenshots/02-policy-violation-workflow.png)
-*El trigger `POLICY_VIOLATION` incluye en el payload el usuario afectado, los entitlements en conflicto y la política violada — toda la información necesaria para el email de notificación.*
+![Step 1 — Workflow Designer with available step types](./screenshots/01-workflow-designer.png)
+*The Workflow Designer is visual and block-based similar to Okta Workflows or Power Automate. However, for complex logic, the Transform steps require basic JSON knowledge.*
 
 ---
 
-### Step 3 · Añadir un paso de aprobación al workflow
+### Step 2 · Create a Policy Violation notification workflow
 
-Después de la notificación, añade un paso de Approval: el manager debe decidir si revoca el acceso o solicita una excepción. El workflow espera la respuesta antes de continuar.
+Create a workflow triggered when an SoD violation is detected (Event Trigger: `POLICY_VIOLATION`) that sends an email notification to the user's manager with the violation details.
 
-![Step 3 — Paso de aprobación con opciones de decisión](./screenshots/03-approval-step.png)
-*El paso de aprobación convierte el workflow en un proceso interactivo el sistema no actúa automáticamente sino que espera la decisión de un humano con contexto.*
-
----
-
-### Step 4 · Añadir lógica condicional con Branch
-
-Añade un paso Branch después de la aprobación: si el manager aprueba la excepción → documentar y continuar; si decide revocar → proceder a la revocación automática.
-
-![Step 4 — Branch condicional basado en decisión de aprobación](./screenshots/04-conditional-branch.png)
-*La lógica condicional es lo que hace que un workflow sea verdaderamente útil respuestas distintas a decisiones distintas, sin intervención manual adicional.*
+![Step 2 — Workflow with Policy Violation trigger and email step](./screenshots/02-policy-violation-workflow.png)
+*The `POLICY_VIOLATION` trigger includes in its payload the affected user, the conflicting entitlements, and the violated policy all the information needed for a meaningful notification email.*
 
 ---
 
-### Step 5 · Configurar un HTTP Step para integración con ServiceNow
+### Step 3 · Add an approval step to the workflow
 
-Añade un paso HTTP que llama a la API de ServiceNow (o tu webhook de prueba) para crear un incident ticket con el detalle de la violación SoD.
+After the notification, add an Approval step: the manager must decide whether to revoke the access or request an exception. The workflow waits for the response before continuing.
 
-![Step 5 — HTTP Step configurado con API de ServiceNow](./screenshots/05-http-step-servicenow.png)
-*La integración con ITSM via HTTP Step es el caso de uso más demandado en proyectos enterprise SailPoint detecta el evento, ServiceNow gestiona el proceso de remediación.*
-
----
-
-### Step 6 · Usar un Transform Step para preparar el payload
-
-Antes del HTTP Step, añade un Transform Step que formatea los datos del trigger en el JSON que espera la API de ServiceNow: mapea campos, concatena strings, formatea fechas.
-
-![Step 6 — Transform Step preparando el payload JSON para ServiceNow](./screenshots/06-transform-step.png)
-*El Transform Step usa VTL (Velocity Template Language) o JSONPath para manipular datos es la parte más técnica de los workflows y donde más tiempo se invierte en proyectos reales.*
+![Step 3 — Approval step with decision options](./screenshots/03-approval-step.png)
+*The approval step makes the workflow interactive the system does not act automatically but waits for a decision from a human with context.*
 
 ---
 
-### Step 7 · Crear un Event Trigger para Identity Created
+### Step 4 · Add conditional logic with a Branch step
 
-Crea un segundo workflow que se dispara con el trigger `IDENTITY_CREATED`. Cuando se crea una nueva identidad, envía un webhook a Slack con los datos básicos del nuevo empleado.
+Add a Branch step after the approval: if the manager approves the exception → document and continue; if they decide to revoke → proceed to automatic revocation.
 
-![Step 7 — Workflow Identity Created con notificación a Slack](./screenshots/07-identity-created-trigger.png)
-*El trigger `IDENTITY_CREATED` es el corazón del Joiner process automatizado cualquier acción de bienvenida, notificación o proceso adicional arranca aquí.*
+![Step 4 — Conditional branch based on approval decision](./screenshots/04-conditional-branch.png)
+*Conditional logic is what makes a workflow genuinely useful different responses to different decisions, without additional manual intervention.*
 
 ---
 
-### Step 8 · Monitorizar ejecuciones de workflow
+### Step 5 · Configure an HTTP Step to integrate with ServiceNow
 
-Ve a **Admin → Workflow → Executions** y revisa el historial de ejecuciones de tus workflows: éxitos, fallos, duración de cada paso y payload procesado.
+Add an HTTP step that calls the ServiceNow API (or your test webhook) to create an incident ticket with the SoD violation details.
 
-![Step 8 — Historial de ejecuciones de workflow con detalle de cada paso](./screenshots/08-workflow-executions.png)
-*El historial de ejecuciones es esencial para debugging cuando un workflow falla, la vista de ejecución muestra exactamente en qué paso falló y qué datos tenía en ese momento.*
+![Step 5 — HTTP Step configured with ServiceNow API call](./screenshots/05-http-step-servicenow.png)
+*ITSM integration via HTTP Step is the most requested use case in enterprise projects SailPoint detects the event, ServiceNow manages the remediation workflow.*
+
+---
+
+### Step 6 · Use a Transform Step to prepare the payload
+
+Before the HTTP Step, add a Transform Step that formats the trigger data into the JSON the ServiceNow API expects: map fields, concatenate strings, format dates.
+
+![Step 6 — Transform Step preparing the JSON payload for ServiceNow](./screenshots/06-transform-step.png)
+*The Transform Step uses VTL (Velocity Template Language) or JSONPath to manipulate data this is the most technical part of workflows and where most time is spent in real projects.*
+
+---
+
+### Step 7 · Create an Event Trigger for Identity Created
+
+Create a second workflow triggered by the `IDENTITY_CREATED` event. When a new identity is created, send a webhook to Slack with the new employee's basic details.
+
+![Step 7 — Identity Created workflow with Slack notification](./screenshots/07-identity-created-trigger.png)
+*The `IDENTITY_CREATED` trigger is at the heart of any automated Joiner process any welcome action, notification, or additional onboarding step starts here.*
+
+---
+
+### Step 8 · Monitor workflow executions
+
+Go to **Admin → Workflow → Executions** and review the execution history of your workflows: successes, failures, duration per step, and the payload processed at each step.
+
+![Step 8 — Workflow execution history with per-step detail](./screenshots/08-workflow-executions.png)
+*The execution history is essential for debugging when a workflow fails, the execution view shows exactly which step failed and what data it held at that moment.*
 
 ---
 
 ## What I Learned
 
-- **VTL (Velocity Template Language)** en los Transform Steps es la curva de aprendizaje más empinada del Workflow Designer. Hay que invertir tiempo en aprenderlo sin él, los workflows más complejos son imposibles.
-- Los **Event Triggers tienen payloads distintos** según el tipo de evento el payload de `POLICY_VIOLATION` tiene campos diferentes al de `ACCESS_REQUEST_SUBMITTED`. Siempre revisar la documentación del trigger específico antes de diseñar el workflow.
-- Aprendí que los **timeouts en los pasos de Approval** deben configurarse explícitamente un workflow esperando aprobación indefinidamente bloquea el proceso. Define siempre un timeout y una acción de escalado.
-- La **integración con ServiceNow via HTTP** funciona bien para crear tickets, pero gestionar el ciclo de vida del ticket (actualizaciones, cierre) requiere un webhook inverso desde ServiceNow hacia SailPoint más complejo pero totalmente implementable.
+- **VTL (Velocity Template Language)** in Transform Steps is the steepest learning curve in the Workflow Designer. It is worth investing time to learn it without it, the most complex workflows are simply not possible.
+- **Event Triggers have different payloads** depending on the event type the `POLICY_VIOLATION` payload has different fields than `ACCESS_REQUEST_SUBMITTED`. Always check the documentation for the specific trigger before designing the workflow.
+- I learned that **approval step timeouts must be configured explicitly** a workflow waiting indefinitely for an approval blocks the entire process. Always define a timeout and an escalation action.
+- The **ServiceNow integration via HTTP** works well for creating tickets, but managing the ticket lifecycle (updates, closure) requires a reverse webhook from ServiceNow back to SailPoint more complex but fully implementable.
 
 ---
 
 ## Real-World Applications
 
-- Automatizar la respuesta a violaciones SoD: detectar → notificar al manager → esperar decisión → ejecutar acción → cerrar ticket en ServiceNow, todo sin intervención manual de IT
-- Crear un proceso de offboarding express que, ante el trigger de cambio de estado a Terminated, notifica a RRHH, IT y Seguridad simultáneamente y revoca accesos en el orden correcto
-- Enviar alertas en tiempo real a Slack cuando se concede acceso privilegiado a un sistema crítico, permitiendo al equipo de seguridad reaccionar en minutos
+- Automating SoD violation response: detect → notify manager → wait for decision → execute action → close ticket in ServiceNow, all without any manual IT intervention
+- Building an express offboarding process that, on a Terminated status trigger, simultaneously notifies HR, IT, and Security and revokes access in the correct order
+- Sending real-time alerts to Slack whenever privileged access to a critical system is granted, allowing the security team to react within minutes
 
 ---
 
@@ -152,4 +152,3 @@ Ve a **Admin → Workflow → Executions** y revisa el historial de ejecuciones 
 - [Workflows in SailPoint ISC](https://documentation.sailpoint.com/saas/help/workflows/workflow_overview.html)
 - [Event Triggers](https://documentation.sailpoint.com/saas/help/workflows/event_triggers.html)
 - [Workflow steps reference](https://documentation.sailpoint.com/saas/help/workflows/workflow_steps.html)
-
