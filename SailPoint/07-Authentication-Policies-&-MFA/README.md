@@ -3,15 +3,15 @@
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-Authentication-D32F2F?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Intermediate-FF9800?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Alta_Prioridad-FF6F00?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-High_Priority-FF6F00?style=flat-square)
 
 ---
 
 ## Why this matters
 
-SailPoint gestiona quién tiene acceso a qué. Pero también necesita asegurarse de que quien inicia sesión en SailPoint es realmente quien dice ser especialmente porque a través del portal de SailPoint se puede solicitar acceso, aprobar permisos críticos y revisar datos sensibles.
+SailPoint governs who has access to what. But it also needs to verify that the person signing into SailPoint actually is who they claim to be especially because through the SailPoint portal users can request access, approve critical permissions, and review sensitive data.
 
-Las Authentication Policies de SailPoint definen cómo se verifica la identidad de los usuarios que acceden al tenant: qué factores MFA se requieren, cuándo se pueden saltear y qué pasa con usuarios de alto riesgo. Este lab complementa lo que sabes de Okta y Entra ID aplicando los mismos principios de autenticación adaptativa dentro del ecosistema SailPoint.
+Authentication Policies in SailPoint define how the identity of users accessing the tenant is verified: which MFA factors are required, when they can be skipped, and what happens with high-risk users. This lab builds on what you already know about Okta and Entra ID, applying the same adaptive authentication principles within the SailPoint ecosystem.
 
 ---
 
@@ -19,115 +19,115 @@ Las Authentication Policies de SailPoint definen cómo se verifica la identidad 
 
 ```mermaid
 flowchart TD
-    A[Usuario accede a SailPoint] --> B{Evalúa Authentication Policy}
-    B --> C{¿Nivel de riesgo\ndel usuario?}
-    C -->|Low Risk\nDispositivo conocido| D[Password only\nSin MFA]
-    C -->|Medium Risk\nNuevo dispositivo| E[Password + MFA\nOkta Verify / TOTP]
-    C -->|High Risk\nAdmin privilegiado| F[Password + MFA fuerte\nHardware key requerida]
-    D & E & F --> G[Acceso al tenant SailPoint]
-    G --> H{¿Acción crítica?}
-    H -->|Aprobar acceso PAM\nCambiar política| I[Step-up MFA\nreautenticación]
-    H -->|Acción estándar| J[Sin fricción adicional]
+    A[User accesses SailPoint] --> B{Evaluate Authentication Policy}
+    B --> C{User risk level}
+    C -->|Low Risk\nknown device| D[Password only\nno MFA]
+    C -->|Medium Risk\nnew device| E[Password plus MFA\nOkta Verify or TOTP]
+    C -->|High Risk\nprivileged admin| F[Password plus strong MFA\nHardware key required]
+    D & E & F --> G[Access to SailPoint tenant]
+    G --> H{Critical action?}
+    H -->|Approve PAM access\nChange policy| I[Step-up MFA\nre-authentication required]
+    H -->|Standard action| J[No additional friction]
 ```
 
 ---
 
 ## Prerequisites
 
-- Tenant de SailPoint ISC activo
-- Smartphone con una app de autenticación (Okta Verify, Google Authenticator, o Microsoft Authenticator)
-- Al menos dos cuentas de usuario de prueba con distintos niveles de acceso
+- Active SailPoint ISC tenant
+- A smartphone with an authenticator app (Okta Verify, Google Authenticator, or Microsoft Authenticator)
+- At least two test user accounts with different access levels
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Explorar las Authentication Policies existentes
+### Step 1 · Explore existing Authentication Policies
 
-Ve a **Admin → Security → Authentication Policies**. Revisa las políticas predefinidas del tenant y entiende la política por defecto que aplica a todos los usuarios.
+Go to **Admin → Security → Authentication Policies**. Review the predefined policies in the tenant and understand the default policy that applies to all users without a specific policy assigned.
 
-![Step 1 — Lista de Authentication Policies en SailPoint ISC](./screenshots/01-auth-policies-list.png)
-*SailPoint tiene una política por defecto que aplica a todos los usuarios sin política específica es el baseline de seguridad mínimo del tenant.*
-
----
-
-### Step 2 · Analizar la política por defecto
-
-Abre la política por defecto y revisa sus componentes: métodos de autenticación permitidos, requisitos de MFA, configuración de sesión y comportamiento en dispositivos no reconocidos.
-
-![Step 2 — Configuración de la política de autenticación por defecto](./screenshots/02-default-policy-detail.png)
-*La política por defecto define el nivel mínimo de seguridad. Todo lo que configures en políticas específicas añade restricciones sobre este baseline.*
+![Step 1 — Authentication Policies list in SailPoint ISC](./screenshots/01-auth-policies-list.png)
+*SailPoint has a default policy that applies to all users not covered by a specific policy it is the minimum security baseline for the entire tenant.*
 
 ---
 
-### Step 3 · Crear una Authentication Policy para administradores
+### Step 2 · Analyze the default policy
 
-Crea una nueva política llamada "Admin High Security" y aplícala al grupo de administradores del tenant. Requiere MFA en cada login sin opción de recordar dispositivo.
+Open the default policy and review its components: allowed authentication methods, MFA requirements, session configuration, and behavior on unrecognized devices.
 
-![Step 3 — Authentication Policy de alta seguridad para administradores](./screenshots/03-admin-auth-policy.png)
-*Los administradores del tenant tienen acceso a configuraciones críticas y datos sensibles de toda la organización requieren el nivel de autenticación más alto sin excepciones.*
-
----
-
-### Step 4 · Configurar los métodos MFA permitidos
-
-En la política, define qué factores MFA están disponibles: TOTP (Google Authenticator / Okta Verify), Email OTP, o Security Key (FIDO2/WebAuthn). Desactiva SMS para la política de admin.
-
-![Step 4 — Métodos MFA configurados por nivel de política](./screenshots/04-mfa-methods.png)
-*SMS OTP es el método más débil (vulnerable a SIM swap) para cuentas privilegiadas, exige TOTP o hardware key. Reserva SMS solo para usuarios estándar como fallback.*
+![Step 2 — Default authentication policy configuration detail](./screenshots/02-default-policy-detail.png)
+*The default policy defines the minimum security level. Everything you configure in specific policies adds restrictions on top of this baseline.*
 
 ---
 
-### Step 5 · Configurar step-up authentication para acciones críticas
+### Step 3 · Create an Authentication Policy for administrators
 
-Define qué acciones dentro de SailPoint requieren re-autenticación incluso si la sesión está activa: aprobar accesos PAM, cambiar políticas de SoD, exportar reportes de identidad.
+Create a new policy called "Admin High Security" and apply it to the tenant administrators group. Require MFA on every login with no option to remember the device.
 
-![Step 5 — Step-up authentication configurado para acciones críticas](./screenshots/05-stepup-auth.png)
-*Step-up authentication aplica el principio de Zero Trust dentro de la propia sesión el hecho de estar autenticado no garantiza automáticamente autorización para acciones críticas.*
-
----
-
-### Step 6 · Enrollar MFA como usuario de prueba
-
-Inicia sesión como usuario de prueba y completa el enrollment de MFA. Escanea el QR code con tu app de autenticación y verifica el código TOTP.
-
-![Step 6 — Enrollment de MFA completado con app de autenticación](./screenshots/06-mfa-enrollment.png)
-*El enrollment de MFA en SailPoint es el mismo proceso que en Okta o Entra ID los principios que aprendiste en esos labs aplican directamente aquí.*
+![Step 3 — High-security Authentication Policy for administrators](./screenshots/03-admin-auth-policy.png)
+*Tenant administrators have access to critical configurations and sensitive data for the entire organization they require the highest level of authentication with no exceptions.*
 
 ---
 
-### Step 7 · Probar el flujo de autenticación con MFA
+### Step 4 · Configure allowed MFA methods
 
-Cierra sesión e inicia de nuevo. Confirma que la política exige MFA correctamente según el usuario y dispositivo utilizado.
+In the policy, define which MFA factors are available: TOTP (Google Authenticator or Okta Verify), Email OTP, or Security Key (FIDO2/WebAuthn). Disable SMS for the admin policy.
 
-![Step 7 — Flujo de login con MFA challenge activo](./screenshots/07-mfa-login-flow.png)
-*Prueba desde un dispositivo no reconocido (modo privado o dispositivo diferente) para verificar que la política aplica correctamente en todos los contextos.*
+![Step 4 — MFA methods configured per policy level](./screenshots/04-mfa-methods.png)
+*SMS OTP is the weakest method (vulnerable to SIM swap attacks) for privileged accounts, require TOTP or a hardware key. Reserve SMS only as a fallback for standard users.*
 
 ---
 
-### Step 8 · Revisar los logs de autenticación
+### Step 5 · Configure step-up authentication for critical actions
 
-Ve a **Admin → Activity → Authentication** y revisa el historial de logins: éxitos, fallos, dispositivos usados y métodos de autenticación utilizados.
+Define which actions within SailPoint require re-authentication even with an active session: approving PAM access, changing SoD policies, exporting identity reports.
 
-![Step 8 — Log de autenticación con intentos y métodos usados](./screenshots/08-auth-logs.png)
-*El log de autenticación es tu primera línea de detección de intentos de acceso no autorizados al tenant picos de fallos, logins desde IPs inusuales o intentos fuera de horario son señales de alerta.*
+![Step 5 — Step-up authentication configured for critical actions](./screenshots/05-stepup-auth.png)
+*Step-up authentication applies the Zero Trust principle within the session itself being authenticated does not automatically guarantee authorization for critical actions.*
+
+---
+
+### Step 6 · Enroll MFA as a test user
+
+Log in as a test user and complete the MFA enrollment. Scan the QR code with your authenticator app and verify the TOTP code to confirm enrollment.
+
+![Step 6 — MFA enrollment completed with authenticator app](./screenshots/06-mfa-enrollment.png)
+*The MFA enrollment process in SailPoint is the same as in Okta or Entra ID the principles you learned in those labs apply directly here.*
+
+---
+
+### Step 7 · Test the full authentication flow with MFA
+
+Log out and log back in. Confirm that the policy correctly challenges for MFA based on the user type and device being used.
+
+![Step 7 — Login flow with active MFA challenge](./screenshots/07-mfa-login-flow.png)
+*Test from an unrecognized device (private browser or different device) to verify the policy applies correctly across all access contexts.*
+
+---
+
+### Step 8 · Review authentication logs
+
+Go to **Admin → Activity → Authentication** and review the login history: successes, failures, devices used, and authentication methods applied.
+
+![Step 8 — Authentication log with attempts and methods used](./screenshots/08-auth-logs.png)
+*The authentication log is your first line of detection for unauthorized access attempts to the tenant spikes in failures, logins from unusual IPs, or off-hours attempts are all warning signals.*
 
 ---
 
 ## What I Learned
 
-- **SailPoint Authentication Policies son menos granulares que las de Okta o Entra ID**  no tienen el mismo nivel de Conditional Access basado en IP, dispositivo o riesgo. Para organizaciones que necesitan ese nivel de sofisticación, SailPoint se integra con Okta o Entra como IdP externo.
-- El **step-up authentication** es el control más valioso para un tenant de SailPoint el portal es un sistema de alta criticidad y las acciones dentro de él (aprobar accesos, cambiar políticas) merecen verificación adicional.
-- Aprendí que la **gestión de sesiones** (duración, cierre automático por inactividad) en SailPoint es un control frecuentemente ignorado una sesión de admin que no cierra automáticamente es un riesgo real en entornos compartidos.
-- Los **logs de autenticación de SailPoint** son menos ricos que los de Okta (que tiene ThreatInsight y behavior detection nativo). Para detección avanzada, es recomendable exportar los logs a un SIEM.
+- **SailPoint Authentication Policies are less granular than Okta or Entra ID** they do not have the same level of Conditional Access based on IP, device compliance, or risk score. For organizations that need that sophistication, SailPoint integrates with Okta or Entra as an external IdP.
+- **Step-up authentication is the most valuable control for a SailPoint tenant** the portal is a high-criticality system and actions within it (approving access, changing policies) deserve additional verification.
+- I learned that **session management** (duration, automatic timeout on inactivity) in SailPoint is a frequently overlooked control an admin session that does not automatically close is a real risk in shared environments.
+- **SailPoint authentication logs are less rich than Okta's** (which has ThreatInsight and native behavior detection). For advanced detection, export the logs to a SIEM for correlation.
 
 ---
 
 ## Real-World Applications
 
-- Requerir hardware security key (YubiKey) para todos los administradores del tenant SailPoint, eliminando el riesgo de phishing de credenciales admin
-- Implementar step-up MFA para la aprobación de accesos PAM, añadiendo una capa de verificación antes de conceder privilegios elevados
-- Detectar intentos de login fallidos masivos al tenant SailPoint correlacionando los logs de autenticación con alertas del SIEM
+- Requiring hardware security keys (YubiKey) for all SailPoint tenant administrators, eliminating the risk of credential phishing for admin accounts
+- Implementing step-up MFA for PAM access approvals, adding a verification layer before granting elevated privileges
+- Detecting mass failed login attempts against the SailPoint tenant by correlating authentication logs with SIEM alerts
 
 ---
 
@@ -136,4 +136,3 @@ Ve a **Admin → Activity → Authentication** y revisa el historial de logins: 
 - [Authentication Policies in SailPoint ISC](https://documentation.sailpoint.com/saas/help/security/authentication_policies.html)
 - [MFA configuration](https://documentation.sailpoint.com/saas/help/security/mfa.html)
 - [SailPoint identity security](https://documentation.sailpoint.com/saas/help/security/security_overview.html)
-
