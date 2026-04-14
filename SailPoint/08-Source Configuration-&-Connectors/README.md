@@ -1,4 +1,4 @@
-# 09 · Source Configuration & Connectors
+# 08 · Source Configuration & Connectors
 
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-Integration-37474F?style=flat-square)
