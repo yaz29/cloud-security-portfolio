@@ -80,17 +80,17 @@ flowchart TD
 
 | Lab | Title | Learning order | Level | Priority |
 |---|---|---|---|---|
-| 09 | [Source Configuration & Connectors](./09-Source-Configuration-Connectors/) | **1st** | 🟡 Intermediate | 🔴 Must Have |
-| 11 | [Identity Profiles & Transforms](./11-Identity-Profiles-Transforms/) | **2nd** | 🔴 Advanced | 🟠 High |
+| 08 | [Source Configuration & Connectors](./09-Source-Configuration-Connectors/) | **1st** | 🟡 Intermediate | 🔴 Must Have |
+| 10 | [Identity Profiles & Transforms](./11-Identity-Profiles-Transforms/) | **2nd** | 🔴 Advanced | 🟠 High |
 | 04 | [Roles & Access Profiles](./04-Roles-Access-Profiles/) | **3rd** | 🟡 Intermediate | 🟠 High |
-| 03 | [Application Onboarding & Provisioning](./03-Application-Onboarding-Provisioning/) | **4th** | 🟡 Intermediate | 🟠 High |
+| 02 | [Application Onboarding & Provisioning](./03-Application-Onboarding-Provisioning/) | **4th** | 🟡 Intermediate | 🟠 High |
 | 05 | [Certification Campaigns](./05-Certification-Campaigns/) | **5th** | 🟡 Intermediate | 🔴 Must Have |
 | 06 | [Segregation of Duties (SoD)](./06-Segregation-of-Duties/) | **6th** | 🔴 Advanced | 🟠 High |
 | 07 | [Authentication Policies & MFA](./07-Authentication-Policies-MFA/) | **7th** | 🟡 Intermediate | 🟠 High |
 | 01 | [Access Policies & Risk-based Access](./01-Access-Policies-Risk/) | **8th** | 🟡 Intermediate | 🟠 High |
-| 02 | [Privileged Access Management (PAM)](./02-Privileged-Access-Management/) | **9th** | 🔴 Advanced | 🟠 High |
-| 10 | [Advanced Workflows & Event Triggers](./10-Advanced-Workflows-Event-Triggers/) | **10th** | 🔴 Advanced | 🟠 High |
-| 12 | [Access Insights & Reporting](./12-Access-Insights-Reporting/) | **11th** | 🟡 Intermediate | 🟢 Recommended |
+| 03 | [Privileged Access Management (PAM)](./02-Privileged-Access-Management/) | **9th** | 🔴 Advanced | 🟠 High |
+| 09 | [Advanced Workflows & Event Triggers](./10-Advanced-Workflows-Event-Triggers/) | **10th** | 🔴 Advanced | 🟠 High |
+| 11 | [Access Insights & Reporting](./12-Access-Insights-Reporting/) | **11th** | 🟡 Intermediate | 🟢 Recommended |
 
 ---
 
