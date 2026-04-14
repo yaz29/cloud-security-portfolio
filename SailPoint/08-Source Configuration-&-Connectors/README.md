@@ -3,15 +3,15 @@
 ![SailPoint](https://img.shields.io/badge/SailPoint-IdentityNow-003087?style=flat-square&logo=sailpoint&logoColor=white)
 ![Category](https://img.shields.io/badge/Category-Integration-37474F?style=flat-square)
 ![Level](https://img.shields.io/badge/Level-Intermediate-FF9800?style=flat-square)
-![Priority](https://img.shields.io/badge/Priority-Imprescindible-D32F2F?style=flat-square)
+![Priority](https://img.shields.io/badge/Priority-Must_Have-D32F2F?style=flat-square)
 
 ---
 
 ## Why this matters
 
-SailPoint es tan bueno como los datos que recibe. Si los Sources están mal configurados agregaciones incompletas, correlaciones rotas, atributos mal mapeados todo lo que construyes encima (certifications, SoD, lifecycle) opera sobre información incorrecta. Un modelo de governance sobre datos malos no protege nada, solo da una falsa sensación de control.
+SailPoint is only as good as the data it receives. If Sources are misconfigured  incomplete aggregations, broken correlations, badly mapped attributes everything built on top of them (certifications, SoD, lifecycle) operates on incorrect information. A governance model built on bad data does not protect anything; it only provides a false sense of control.
 
-Este lab va más allá de la configuración básica del Lab 03 y profundiza en los aspectos que diferencian una implementación básica de una robusta: configuración de agregaciones incrementales, gestión de errores, múltiples fuentes del mismo tipo y troubleshooting de conectores en producción.
+This lab goes beyond the basic configuration covered in Lab 03 and digs into what separates a basic implementation from a robust one: incremental aggregation setup, error handling, managing multiple Sources of the same type, and troubleshooting connectors in production environments.
 
 ---
 
@@ -19,17 +19,17 @@ Este lab va más allá de la configuración básica del Lab 03 y profundiza en l
 
 ```mermaid
 flowchart TD
-    subgraph Tipos de agregación
-        A1[Full Aggregation\nTodo el directorio\nSemanal / inicial]
-        A2[Incremental Aggregation\nSolo cambios\nCada hora]
-        A3[Delta Aggregation\nVía entitlements\nEn tiempo real]
+    subgraph Aggregation Types
+        A1[Full Aggregation\nEntire directory\nWeekly or initial]
+        A2[Incremental Aggregation\nChanges only\nEvery hour]
+        A3[Delta Aggregation\nVia entitlements\nNear real-time]
     end
-    subgraph Gestión de errores
-        E1[Cuenta con atributo\nmalformado → Skip + Log]
-        E2[Timeout de conexión\n→ Retry automático]
-        E3[Error de correlación\n→ Uncorrelated account]
+    subgraph Error Handling
+        E1[Account with malformed\nattribute - Skip and Log]
+        E2[Connection timeout\nAuto-retry]
+        E3[Correlation failure\nUncorrelated account]
     end
-    subgraph Monitorización
+    subgraph Monitoring
         M[Account Activity Log\nProvisioning Queue\nAggregation History]
     end
     A1 & A2 & A3 --> E1 & E2 & E3
@@ -40,100 +40,100 @@ flowchart TD
 
 ## Prerequisites
 
-- Tenant de SailPoint ISC activo con Virtual Appliance instalado
-- Active Directory accesible desde el VA
-- Un segundo Source disponible (Salesforce, LDAP o CSV) para comparar configuraciones
+- Active SailPoint ISC tenant with Virtual Appliance installed
+- Active Directory accessible from the VA
+- A second Source available (Salesforce, LDAP, or CSV) to compare configurations
 
 ---
 
 ## Lab Walkthrough
 
-### Step 1 · Revisar la configuración avanzada de un Source existente
+### Step 1 · Review the advanced configuration of an existing Source
 
-Abre el Source de AD configurado anteriormente y explora las opciones avanzadas: timeout de conexión, número máximo de reintentos, tamaño del page de resultados LDAP.
+Open the AD Source configured previously and explore the advanced options: connection timeout, maximum retry count, LDAP results page size.
 
-![Step 1 — Configuración avanzada del Source AD](./screenshots/01-source-advanced-config.png)
-*Los valores por defecto funcionan para tenants pequeños en AD con 50.000+ usuarios, aumentar el page size y el timeout evita agregaciones truncadas o fallidas.*
-
----
-
-### Step 2 · Configurar agregación incremental
-
-Ve a la pestaña **Import Settings** del Source y activa la agregación incremental. Define la frecuencia (cada hora) y el tipo: delta basado en el atributo `whenChanged` de AD.
-
-![Step 2 — Agregación incremental configurada con frecuencia horaria](./screenshots/02-incremental-aggregation.png)
-*La agregación incremental es crítica para el Leaver process si agrega cada 24h, un ex-empleado puede tener acceso activo durante un día entero. Cada hora reduce ese riesgo a 60 minutos.*
+![Step 1 — Advanced configuration of the AD Source](./screenshots/01-source-advanced-config.png)
+*Default values work fine for small tenants in AD with 50,000+ users, increasing the page size and timeout prevents truncated or failed aggregations.*
 
 ---
 
-### Step 3 · Configurar el manejo de errores de agregación
+### Step 2 · Configure incremental aggregation
 
-Define qué hace SailPoint cuando encuentra una cuenta con datos malformados: ignorar y continuar (skip), parar la agregación, o notificar. Para producción, skip + notificación es lo más robusto.
+Go to the **Import Settings** tab of the Source and enable incremental aggregation. Define the frequency (every hour) and the type: delta based on the AD `whenChanged` attribute.
 
-![Step 3 — Configuración de manejo de errores en la agregación](./screenshots/03-error-handling.png)
-*Una sola cuenta con un atributo malformado no debería parar la agregación de 50.000 usuarios configura skip y revisa el log de errores después para remediar los casos individuales.*
-
----
-
-### Step 4 · Conectar un Source CSV para datos de HRIS
-
-Crea un nuevo Source de tipo **Delimited File (CSV)**. Este tipo se usa para sistemas HRIS sin API (Workday legacy, SAP HR) que exportan archivos periódicamente.
-
-![Step 4 — Source CSV configurado con archivo de HRIS](./screenshots/04-csv-source-config.png)
-*El conector CSV es el más básico pero uno de los más utilizados en proyectos reales muchos sistemas HR exportan archivos diarios y ese archivo es la fuente autoritativa de identidades.*
+![Step 2 — Incremental aggregation configured with hourly frequency](./screenshots/02-incremental-aggregation.png)
+*Incremental aggregation is critical for the Leaver process if it only runs every 24 hours, an ex-employee can have active access for an entire day. Hourly reduces that window to 60 minutes.*
 
 ---
 
-### Step 5 · Configurar el schema del CSV Source
+### Step 3 · Configure aggregation error handling
 
-Mapea las columnas del CSV a los atributos del Identity Cube: employee_id → uid, first_name → firstName, department → department, manager_id → manager.
+Define what SailPoint does when it encounters an account with malformed data: ignore and continue (skip), stop the aggregation, or notify. For production, skip plus notification is the most robust approach.
 
-![Step 5 — Mapeo de columnas CSV a atributos del Identity Cube](./screenshots/05-csv-schema-mapping.png)
-*El CSV tiene headers que pueden variar entre versiones del export del HRIS documenta el schema y ten un proceso de validación antes de que el archivo entre en SailPoint.*
-
----
-
-### Step 6 · Comparar la calidad de datos entre Sources
-
-Con AD y CSV importados, compara los datos de los mismos usuarios entre ambos Sources. Busca inconsistencias: distintos nombres, departamentos que no coinciden, managers diferentes.
-
-![Step 6 — Comparación de atributos entre Sources para el mismo usuario](./screenshots/06-data-quality-comparison.png)
-*Las inconsistencias entre Sources revelan problemas de calidad de datos en los sistemas fuente SailPoint los hace visibles, pero la solución es upstream, en el HRIS o el AD.*
+![Step 3 — Error handling configuration in the aggregation settings](./screenshots/03-error-handling.png)
+*A single account with a malformed attribute should not stop the aggregation of 50,000 users configure skip and review the error log afterward to remediate individual cases.*
 
 ---
 
-### Step 7 · Revisar el historial de agregaciones y detectar anomalías
+### Step 4 · Connect a CSV Source for HRIS data
 
-Ve a **Admin → Connections → Sources → [Source] → Import History**. Revisa el historial de agregaciones: duración, número de cuentas procesadas, errores encontrados.
+Create a new Source of type **Delimited File (CSV)**. This type is used for HRIS systems without an API (legacy Workday, SAP HR) that export files periodically.
 
-![Step 7 — Historial de agregaciones con métricas por ejecución](./screenshots/07-aggregation-history.png)
-*Un cambio brusco en el número de cuentas entre agregaciones es una señal de alerta 50.000 usuarios en la agregación anterior y 45.000 en la siguiente puede indicar una OPU que se excluyó accidentalmente.*
+![Step 4 — CSV Source configured with HRIS export file](./screenshots/04-csv-source-config.png)
+*The CSV connector is the most basic but one of the most used in real projects many HR systems export daily files and that file is the authoritative source of identity data.*
 
 ---
 
-### Step 8 · Crear un proceso de monitorización de Sources
+### Step 5 · Configure the CSV Source schema
 
-Configura alertas para que SailPoint notifique cuando una agregación falla, cuando el número de cuentas cae más de un 5% respecto a la anterior, o cuando el tiempo de agregación supera el umbral esperado.
+Map CSV columns to Identity Cube attributes: employee_id → uid, first_name → firstName, department → department, manager_id → manager.
 
-![Step 8 — Alertas configuradas para monitorización de Sources](./screenshots/08-source-monitoring.png)
-*En producción, las agregaciones fallidas son silenciosas si no hay alertas SailPoint opera sobre datos del último ciclo exitoso sin avisar que lleva 48h sin actualizar. Las alertas son obligatorias.*
+![Step 5 — CSV column mapping to Identity Cube attributes](./screenshots/05-csv-schema-mapping.png)
+*CSV headers can vary between versions of the HRIS export document the schema and have a validation step before the file enters SailPoint.*
+
+---
+
+### Step 6 · Compare data quality between Sources
+
+With both AD and CSV imported, compare data for the same users across Sources. Look for inconsistencies: different name formats, non-matching departments, different managers.
+
+![Step 6 — Attribute comparison between Sources for the same user](./screenshots/06-data-quality-comparison.png)
+*Inconsistencies between Sources reveal data quality problems in the source systems SailPoint makes them visible, but the fix is upstream in the HRIS or AD.*
+
+---
+
+### Step 7 · Review aggregation history and detect anomalies
+
+Go to **Admin → Connections → Sources → [Source] → Import History**. Review the aggregation history: duration, number of accounts processed, errors encountered.
+
+![Step 7 — Aggregation history with metrics per execution](./screenshots/07-aggregation-history.png)
+*A sudden change in account count between aggregations is a warning signal 50,000 users in the previous run and 45,000 in the next might indicate an OU was accidentally excluded.*
+
+---
+
+### Step 8 · Set up Source monitoring alerts
+
+Configure alerts so SailPoint notifies when an aggregation fails, when the account count drops more than 5% from the previous run, or when aggregation time exceeds the expected threshold.
+
+![Step 8 — Monitoring alerts configured for Source health](./screenshots/08-source-monitoring.png)
+*In production, failed aggregations are silent if there are no alerts SailPoint operates on the last successful run's data without warning that it has been 48 hours without an update. Alerts are mandatory.*
 
 ---
 
 ## What I Learned
 
-- **La calidad de los datos en los Sources es el factor más crítico de una implementación de SailPoint** y también el más difícil de controlar porque está en sistemas que no son SailPoint. El mejor modelo de governance falla si el HRIS tiene datos incorrectos.
-- El **conector CSV es infravalorado** es simple pero se usa en el 60% de los proyectos para algún sistema. Conocer sus limitaciones (no soporta delta, no tiene writeback nativo) permite planificar workarounds.
-- Aprendí que las **agregaciones largas** (más de 2-3 horas para AD en producción) suelen indicar un page size demasiado pequeño o timeouts de red no un problema de SailPoint sino de configuración de conectividad.
-- Los **uncorrelated accounts** que aparecen después de cada agregación son el mejor indicador de la salud de tu modelo de correlación si sube el número, algo cambió en los datos fuente o en la regla de correlación.
+- **Data quality in Sources is the most critical factor in a SailPoint implementation** and also the hardest to control because it lives in systems outside SailPoint. The best governance model fails if the HRIS has incorrect data.
+- The **CSV connector is underestimated** it is simple but used in 60% of real projects for some system. Knowing its limitations (no native delta support, no writeback) allows you to plan workarounds in advance.
+- I learned that **long aggregations** (more than 2-3 hours for AD in production) usually indicate a page size that is too small or network timeouts not a SailPoint problem, but a connectivity configuration issue.
+- **Uncorrelated accounts appearing after each aggregation** are the best indicator of the health of your correlation model if the number rises, something changed in the source data or the correlation rule.
 
 ---
 
 ## Real-World Applications
 
-- Configurar agregaciones horarias del AD como prerequisito para un Leaver process que garantice revocación de acceso en menos de 2 horas tras la baja del empleado
-- Conectar un sistema HRIS legacy que solo exporta CSV diario como fuente autoritativa de empleados, mapeando los campos al schema de identidad de SailPoint
-- Detectar provisoriamente un incident de deprovisionig masivo accidental monitorizando el número de cuentas entre agregaciones  una caída del 10% activa una alerta antes de que el daño sea irrecuperable
+- Configuring hourly AD aggregations as a prerequisite for a Leaver process that guarantees access revocation within 2 hours of an employee's offboarding record in HR
+- Connecting a legacy HRIS that only exports daily CSV files as the authoritative source of employee identities, mapping fields to the SailPoint identity schema
+- Detecting a mass accidental deprovisioning incident by monitoring account counts between aggregations a 10% drop triggers an alert before the damage becomes irreversible
 
 ---
 
@@ -142,4 +142,3 @@ Configura alertas para que SailPoint notifique cuando una agregación falla, cua
 - [Source configuration](https://documentation.sailpoint.com/saas/help/sources/configure_source.html)
 - [Connector catalog](https://documentation.sailpoint.com/connectors/)
 - [Aggregation troubleshooting](https://documentation.sailpoint.com/saas/help/sources/aggregation_troubleshooting.html)
-
