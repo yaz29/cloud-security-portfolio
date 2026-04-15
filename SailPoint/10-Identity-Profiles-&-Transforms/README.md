@@ -52,7 +52,7 @@ flowchart LR
 
 Go to **Admin → Identities → Transforms** and review the predefined Transforms SailPoint includes: toLowerCase, toUpperCase, concat, trim, split, dateFormat, lookup, conditional.
 
-![Step 1 — Transform library available in SailPoint ISC](./screenshots/01-transforms-library.png)
+![Step 1 — Transform library available in SailPoint ISC](./Screenshots/01-transforms-library.png)
 *SailPoint includes around 30 built-in Transform types. For highly specific transformations, you can create custom Transforms using JSONPath or Velocity Template Language.*
 
 ---
@@ -61,7 +61,7 @@ Go to **Admin → Identities → Transforms** and review the predefined Transfor
 
 Create a Transform that generates the username by concatenating firstName in lowercase + "." + lastName in lowercase. Example: "John" + "." + "Smith" becomes "john.smith".
 
-![Step 2 — Concatenation Transform for username generation](./screenshots/02-username-transform.png)
+![Step 2 — Concatenation Transform for username generation](./Screenshots/02-username-transform.png)
 *Consistent username generation is critical if the same user gets a different username in different systems, correlation fails and duplicates are created.*
 
 ---
@@ -70,7 +70,7 @@ Create a Transform that generates the username by concatenating firstName in low
 
 Add a uniqueness layer to the username Transform: if "john.smith" already exists, generate "john.smith2", then "john.smith3", and so on. SailPoint has an `accountAttribute` Transform type for this.
 
-![Step 3 — Username Transform with uniqueness guarantee](./screenshots/03-unique-username-transform.png)
+![Step 3 — Username Transform with uniqueness guarantee](./Screenshots/03-unique-username-transform.png)
 *Username uniqueness is one of the most common problems in new SailPoint implementations without this Transform, two employees with the same name generate correlation conflicts.*
 
 ---
@@ -79,7 +79,7 @@ Add a uniqueness layer to the username Transform: if "john.smith" already exists
 
 Create a Transform of type `lookup` that maps HRIS department codes ("FIN-EU-001") to human-readable names ("Finance — Europe"). Define the mapping dictionary within the Transform.
 
-![Step 4 — Lookup Transform with department code mapping table](./screenshots/04-lookup-transform.png)
+![Step 4 — Lookup Transform with department code mapping table](./Screenshots/04-lookup-transform.png)
 *The Lookup Transform is essential when different systems use different codes for the same concept — normalizing in SailPoint rather than in each source system simplifies maintenance.*
 
 ---
@@ -88,7 +88,7 @@ Create a Transform of type `lookup` that maps HRIS department codes ("FIN-EU-001
 
 Create a Transform that adds the prefix "EXT-" to the username when `employeeType = "contractor"`. Example: "john.smith" becomes "EXT-john.smith" for contractors.
 
-![Step 5 — Conditional Transform based on employee type](./screenshots/05-conditional-transform.png)
+![Step 5 — Conditional Transform based on employee type](./Screenshots/05-conditional-transform.png)
 *Conditional Transforms allow business logic to be applied to attributes in this case, making contractor accounts visually distinguishable from employee accounts.*
 
 ---
@@ -97,7 +97,7 @@ Create a Transform that adds the prefix "EXT-" to the username when `employeeTyp
 
 Go to the Identity Profile and in the attribute mapping, associate the created Transforms with the corresponding fields: the username Transform to the `uid` field, the Lookup to the `department` field.
 
-![Step 6 — Transforms applied in the Identity Profile attribute mapping](./screenshots/06-transforms-in-profile.png)
+![Step 6 — Transforms applied in the Identity Profile attribute mapping](./Screenshots/06-transforms-in-profile.png)
 *The Identity Profile is where Transforms are activated the Source attribute enters on the left, passes through the Transform, and the result exits to the Identity Cube on the right.*
 
 ---
@@ -106,7 +106,7 @@ Go to the Identity Profile and in the attribute mapping, associate the created T
 
 After re-aggregating, review a user's profile and confirm the Identity Cube shows the transformed values: lowercase username, readable department name, correct prefix for contractors.
 
-![Step 7 — Transformed attributes visible in the Identity Cube](./screenshots/07-transformed-attributes.png)
+![Step 7 — Transformed attributes visible in the Identity Cube](./Screenshots/07-transformed-attributes.png)
 *Post-aggregation verification is essential a Transform with a logic error can corrupt attributes for thousands of users silently. Always verify after applying new Transforms.*
 
 ---
@@ -115,7 +115,7 @@ After re-aggregating, review a user's profile and confirm the Identity Cube show
 
 Create a Transform that calculates the number of years at the company by subtracting the `startDate` attribute from the current date. Map the result to a custom attribute `yearsOfService`.
 
-![Step 8 — Date calculation Transform with result in custom attribute](./screenshots/08-date-transform.png)
+![Step 8 — Date calculation Transform with result in custom attribute](./Screenshots/08-date-transform.png)
 *Calculated attributes like `yearsOfService` are useful for certification campaigns (prioritize review of users with many years and accumulated access) and for compliance reporting.*
 
 ---
