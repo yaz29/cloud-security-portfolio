@@ -132,6 +132,6 @@ These labs cover approximately 90% of the content for the **SailPoint Certified 
 |---|---|---|---|
 | [`sc-300-labs`](../sc-300-labs/) | Microsoft Entra ID | Conditional Access, PIM, Identity Protection | ✅ Completed |
 | [`Okta-Hands-On-Labs-IAM`](../Okta-Hands-On-Labs-IAM/) | Okta Workforce Identity | SSO, MFA, SCIM, API Access | 🔄 In Progress |
-| [`SailPoint`](.) | SailPoint IdentityNow | IGA, Certifications, SoD, Governance | 🔄 In Progress |
+| [`SailPoint`](.) | SailPoint IdentityNow | IGA, Certifications, SoD, Governance | ✅ Completed |
 
 With all three platforms covered, the profile targets **IAM Engineer**, **Identity Security Analyst**, and **IGA Specialist** roles the most in-demand positions in cybersecurity today.
