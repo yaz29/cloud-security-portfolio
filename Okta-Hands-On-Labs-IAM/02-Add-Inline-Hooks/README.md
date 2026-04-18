@@ -11,7 +11,7 @@
 
 Okta's default authentication flows are powerful out of the box, but real enterprise environments are never that clean. You need to enrich tokens with data from your own systems, block logins based on custom business rules, or trigger side effects when specific auth events happen.
 
-Inline Hooks let you inject your own logic into Okta's pipeline without forking or replacing it. Think of them as middleware for authentication — Okta pauses, calls your API, waits for your decision, then continues (or stops) based on what you return. This is how IAM engineers customize identity behavior without touching Okta's internals.
+Inline Hooks let you inject your own logic into Okta's pipeline without forking or replacing it. Think of them as middleware for authentication Okta pauses, calls your API, waits for your decision, then continues (or stops) based on what you return. This is how IAM engineers customize identity behavior without touching Okta's internals.
 
 ---
 
@@ -55,7 +55,7 @@ flowchart LR
 Create an HTTP endpoint that accepts Okta's hook payload and returns a valid response. This is the service Okta will call mid-flow.
 
 ![Step 1 — Hook receiver endpoint code](./screenshots/01-hook-receiver.png)
-*Your endpoint must respond within 3 seconds and return a valid JSON body — Okta will time out and fail the auth if it doesn't.*
+*Your endpoint must respond within 3 seconds and return a valid JSON body Okta will time out and fail the auth if it doesn't.*
 
 ---
 
@@ -64,7 +64,7 @@ Create an HTTP endpoint that accepts Okta's hook payload and returns a valid res
 Since Okta needs to reach your service over the internet, expose your local server using ngrok and copy the HTTPS URL.
 
 ![Step 2 — ngrok tunnel active](./screenshots/02-ngrok-tunnel.png)
-*For production, this would be a Lambda function, Cloud Run service, or any deployed API — ngrok is dev-only.*
+*For production, this would be a Lambda function, Cloud Run service, or any deployed API ngrok is dev-only.*
 
 ---
 
@@ -73,7 +73,7 @@ Since Okta needs to reach your service over the internet, expose your local serv
 Go to **Workflow → Inline Hooks** and click **Add Inline Hook**. Select the hook type, paste your endpoint URL, and set up the authentication header.
 
 ![Step 3 — Register inline hook in Okta](./screenshots/03-register-hook.png)
-*Okta signs the hook request with a header secret — your endpoint should verify this before processing the payload.*
+*Okta signs the hook request with a header secret your endpoint should verify this before processing the payload.*
 
 ---
 
@@ -82,16 +82,16 @@ Go to **Workflow → Inline Hooks** and click **Add Inline Hook**. Select the ho
 For a Token Inline Hook, navigate to the authorization server (**Security → API**), open your server, go to **Access Policies**, and attach the hook to the token issuance step.
 
 ![Step 4 — Attach hook to authorization server](./screenshots/04-attach-hook.png)
-*The hook only fires for tokens issued through this specific authorization server — scoping prevents unintended behavior.*
+*The hook only fires for tokens issued through this specific authorization server scoping prevents unintended behavior.*
 
 ---
 
 ### Step 5 · Test the hook with a real login
 
-Trigger the auth flow and watch your endpoint receive Okta's request. Check the payload — it contains the user's profile, the token being minted, and context about the request.
+Trigger the auth flow and watch your endpoint receive Okta's request. Check the payload it contains the user's profile, the token being minted, and context about the request.
 
 ![Step 5 — Hook request payload received](./screenshots/05-hook-payload.png)
-*The payload is rich — you can use it to query your own systems and decide what to add or deny based on real-time data.*
+*The payload is rich you can use it to query your own systems and decide what to add or deny based on real-time data.*
 
 ---
 
@@ -100,14 +100,14 @@ Trigger the auth flow and watch your endpoint receive Okta's request. Check the 
 Return a response that adds a custom claim (e.g., `department` from your HR system). Decode the resulting access token to confirm the claim is present.
 
 ![Step 6 — Custom claim in decoded token](./screenshots/06-custom-claim-token.png)
-*The custom claim is now part of every token issued for this user — downstream services can use it without hitting Okta or your DB again.*
+*The custom claim is now part of every token issued for this user downstream services can use it without hitting Okta or your DB again.*
 
 ---
 
 ## What I Learned
 
-- **Timing is everything.** The 3-second timeout is real and strict. In production, your hook service needs to be fast — no synchronous DB calls if you can help it; use a cache.
-- The hook payload uses a **commands** array pattern to return actions. Getting the JSON structure wrong silently fails — Okta doesn't always surface clear errors.
+- **Timing is everything.** The 3-second timeout is real and strict. In production, your hook service needs to be fast no synchronous DB calls if you can help it; use a cache.
+- The hook payload uses a **commands** array pattern to return actions. Getting the JSON structure wrong silently fails Okta doesn't always surface clear errors.
 - **Token vs. Event hooks** are different things. Token hooks modify tokens mid-issuance; Event hooks are async notifications after the fact. I initially confused the two.
 
 ---
