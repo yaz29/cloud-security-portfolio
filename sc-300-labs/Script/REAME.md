@@ -19,13 +19,13 @@ Setup (Azure Portal):
 
 
  
-import requests
-import msal
-import json
-from datetime import datetime
+     import requests
+     import msal
+     import json
+     from datetime import datetime
 
  
-# ── CONFIGURATION ─────────────────────────────────────────────────────────────
+# CONFIGURATION 
 TENANT_ID     = "your-tenant-id"          # Azure Portal → Entra ID → Tenant ID
 CLIENT_ID     = "your-client-id"          # App Registration → Application (client) ID
 CLIENT_SECRET = "your-client-secret"      # App Registration → Certificates & secrets
@@ -33,16 +33,16 @@ GRAPH_URL     = "https://graph.microsoft.com/v1.0"
 SCOPES        = ["https://graph.microsoft.com/.default"]
  
  
-# ── AUTHENTICATION ─────────────────────────────────────────────────────────────
- """ 
-    def get_access_token():
-    """Authenticates using client credentials flow (app-only)."""
-    app = msal.ConfidentialClientApplication(
+# AUTHENTICATION 
+
+     def get_access_token():
+      """Authenticates using client credentials flow (app-only)."""
+       app = msal.ConfidentialClientApplication(
         CLIENT_ID,
         authority=f"https://login.microsoftonline.com/{TENANT_ID}",
         client_credential=CLIENT_SECRET,
-    )
-    result = app.acquire_token_silent(SCOPES, account=None)
+     )
+     result = app.acquire_token_silent(SCOPES, account=None)
     if not result:
         result = app.acquire_token_for_client(scopes=SCOPES)
     if "access_token" in result:
@@ -51,12 +51,12 @@ SCOPES        = ["https://graph.microsoft.com/.default"]
     raise Exception(f"[AUTH ERROR] {result.get('error_description')}")
  
  
-def get_headers(token):
-    return {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+    def get_headers(token):
+      return {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
- """
-# ── USER OPERATIONS ────────────────────────────────────────────────────────────
-def list_users(token):
+---
+# USER OPERATIONS 
+    def list_users(token):
     """Returns all users in the tenant with key attributes."""
     url = f"{GRAPH_URL}/users?$select=id,displayName,userPrincipalName,accountEnabled,jobTitle,department"
     response = requests.get(url, headers=get_headers(token))
@@ -68,7 +68,7 @@ def list_users(token):
     return users
  
  
-def create_user(token, first_name, last_name, department, job_title, domain):
+    def create_user(token, first_name, last_name, department, job_title, domain):
     Provisions a new user in Entra ID.
     Example: create_user(token, "Maria", "Garcia", "IT Security", "IAM Analyst", "company.com")
     
@@ -97,7 +97,7 @@ def create_user(token, first_name, last_name, department, job_title, domain):
     return None
  
  
-def disable_user(token, user_id, reason="Account deactivated via IAM automation"):
+    def disable_user(token, user_id, reason="Account deactivated via IAM automation"):
     """
     Disables a user account (offboarding / leaver process).
     Equivalent to revoking access without deleting the account.
@@ -111,7 +111,7 @@ def disable_user(token, user_id, reason="Account deactivated via IAM automation"
         print(f"[DISABLE ERROR] {response.status_code} - {response.text}")
  
  
-def enable_user(token, user_id):
+    def enable_user(token, user_id):
     """Re-enables a previously disabled user account."""
     payload = {"accountEnabled": True}
     response = requests.patch(f"{GRAPH_URL}/users/{user_id}", headers=get_headers(token), json=payload)
@@ -121,7 +121,7 @@ def enable_user(token, user_id):
         print(f"[ENABLE ERROR] {response.status_code} - {response.text}")
  
  
-def get_user_groups(token, user_id):
+    def get_user_groups(token, user_id):
     """Returns all groups and roles assigned to a user — useful for access review."""
     url = f"{GRAPH_URL}/users/{user_id}/memberOf?$select=displayName,id"
     response = requests.get(url, headers=get_headers(token))
@@ -132,7 +132,7 @@ def get_user_groups(token, user_id):
     return groups
  
  
-def reset_password(token, user_id, temp_password="TempP@ssw0rd2024!"):
+    def reset_password(token, user_id, temp_password="TempP@ssw0rd2024!"):
     """Forces a password reset on next sign-in — used during onboarding or security incidents."""
     payload = {
         "passwordProfile": {
@@ -146,9 +146,9 @@ def reset_password(token, user_id, temp_password="TempP@ssw0rd2024!"):
     else:
         print(f"[RESET PWD ERROR] {response.status_code} - {response.text}")
  
- '''
-# ── AUDIT LOG ──────────────────────────────────────────────────────────────────
-def log_action(action, user_id, notes=""):
+---
+# AUDIT LOG 
+    def log_action(action, user_id, notes=""):
     """Appends an entry to a local audit log file."""
     with open("graph_audit_log.txt", "a") as f:
         entry = f"{datetime.now().isoformat()} | {action} | user_id={user_id} | {notes}\n"
@@ -156,19 +156,19 @@ def log_action(action, user_id, notes=""):
         print(f"[LOG] {entry.strip()}")
  
  
-# ── MAIN ───────────────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    token = get_access_token()
+# MAIN 
+    if __name__ == "__main__":
+     token = get_access_token()
  
-    # 1. List all users
+   # 1. List all users
     users = list_users(token)
  
-    # 2. Create a test user (joiner)
+   # 2. Create a test user (joiner)
     new_user = create_user(token, "Test", "User", "IT Security", "IAM Analyst", "yourdomain.com")
  
-    # 3. Get groups for the first user found
+   # 3. Get groups for the first user found
     if users:
         get_user_groups(token, users[0]["id"])
  
-    # 4. Disable a user (leaver) — replace with a real user ID from your tenant
+   # 4. Disable a user (leaver) replace with a real user ID from your tenant
     # disable_user(token, "user-object-id-here", reason="Employee offboarding")
