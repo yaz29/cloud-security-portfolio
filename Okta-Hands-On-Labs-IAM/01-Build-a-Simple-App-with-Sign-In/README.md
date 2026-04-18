@@ -97,7 +97,7 @@ Add your Okta domain, Client ID, and Client Secret to the app's `.env` file. Sta
 After a successful login, inspect the decoded ID token to confirm the user claims (sub, email, name) are present.
 
 ![Step 6 — Decoded ID token claims](./screenshots/06-id-token-claims.png)
-*The ID token is a signed JWT — your app uses it to know who the user is without querying Okta again.*
+*The ID token is a signed JWT your app uses it to know who the user is without querying Okta again.*
 
 ---
 
