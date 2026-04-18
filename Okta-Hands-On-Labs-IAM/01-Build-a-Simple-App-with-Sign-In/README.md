@@ -61,7 +61,7 @@ Navigate to **Applications → Applications** in the Admin Console and click **C
 Set the **Sign-in redirect URI** to your local app callback (e.g., `http://localhost:3000/callback`) and the **Sign-out redirect URI** to your home page.
 
 ![Step 2 — Configure redirect URIs](./screenshots/02-redirect-uris.png)
-*These URIs tell Okta where to send the user after a successful login or logout — they must match exactly what your app expects.*
+*These URIs tell Okta where to send the user after a successful login or logout they must match exactly what your app expects.*
 
 ---
 
@@ -70,7 +70,7 @@ Set the **Sign-in redirect URI** to your local app callback (e.g., `http://local
 Under the **Assignments** tab, assign the application to yourself (or a test group) so the sign-in flow can be tested.
 
 ![Step 3 — Assign application to user](./screenshots/03-assign-app.png)
-*Without an assignment, Okta will return an error when a user tries to access the app — a common gotcha for first-timers.*
+*Without an assignment, Okta will return an error when a user tries to access the app a common gotcha for first-timers.*
 
 ---
 
@@ -79,7 +79,7 @@ Under the **Assignments** tab, assign the application to yourself (or a test gro
 Copy the **Client ID** and **Client Secret** from the application's General tab. You'll use these in your app's environment variables.
 
 ![Step 4 — Copy client credentials](./screenshots/04-client-credentials.png)
-*Treat the Client Secret like a password — never commit it to source control.*
+*Treat the Client Secret like a password never commit it to source control.*
 
 ---
 
@@ -88,7 +88,7 @@ Copy the **Client ID** and **Client Secret** from the application's General tab.
 Add your Okta domain, Client ID, and Client Secret to the app's `.env` file. Start the app and visit the protected route to trigger the sign-in flow.
 
 ![Step 5 — Okta hosted sign-in page](./screenshots/05-sign-in-page.png)
-*The hosted sign-in page is served by Okta, meaning your app never touches the credentials — Okta handles that entirely.*
+*The hosted sign-in page is served by Okta, meaning your app never touches the credentials Okta handles that entirely.*
 
 ---
 
@@ -103,8 +103,8 @@ After a successful login, inspect the decoded ID token to confirm the user claim
 
 ## What I Learned
 
-- The OIDC Authorization Code flow is the only flow you should use for web apps — the implicit flow (tokens in the URL) was deprecated for good reason.
-- Redirect URI mismatches are the #1 error developers hit in this lab. Okta is strict — even a trailing slash will break it.
+- The OIDC Authorization Code flow is the only flow you should use for web apps the implicit flow (tokens in the URL) was deprecated for good reason.
+- Redirect URI mismatches are the #1 error developers hit in this lab. Okta is strict even a trailing slash will break it.
 - The difference between the **ID token** (who the user is) and the **Access token** (what the user can do) clicked for me here more than in any documentation.
 
 ---
