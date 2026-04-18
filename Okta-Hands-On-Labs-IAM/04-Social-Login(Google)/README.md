@@ -62,7 +62,7 @@ Go to **Google Cloud Console → APIs & Services → Credentials** and create a 
 In Okta Admin Console, go to **Security → Identity Providers → Add Identity Provider → Google**. Copy the **Redirect URI** that Okta generates — it looks like `https://<your-okta-domain>/oauth2/v1/authorize/callback`.
 
 ![Step 2 — Okta redirect URI for Google IdP](./screenshots/02-okta-redirect-uri.png)
-*This URI is what Google will redirect to after the user approves — paste it back into your Google Cloud OAuth client configuration.*
+*This URI is what Google will redirect to after the user approves paste it back into your Google Cloud OAuth client configuration.*
 
 ---
 
