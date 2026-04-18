@@ -52,7 +52,7 @@ Navigate to **Applications → Applications** in the Admin Console and click **C
 > Select **OIDC - OpenID Connect** as the sign-in method and **Web Application** as the application type.
 
 ![Step 1 — Create App Integration in Okta Admin Console](./screenshots/01-create-app-integration.png)
-*Okta prompts you to choose the sign-in method — OIDC is the modern, recommended choice over SAML for new apps.*
+*Okta prompts you to choose the sign-in method OIDC is the modern, recommended choice over SAML for new apps.*
 
 ---
 
