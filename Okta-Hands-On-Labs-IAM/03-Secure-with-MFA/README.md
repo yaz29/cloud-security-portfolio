@@ -56,7 +56,7 @@ flowchart TD
 
 Navigate to **Security → Authenticators** and review which factors are available. Enable **Okta Verify**, **Google Authenticator**, and optionally **SMS**.
 
-![Step 1 — Authenticators list in Okta Admin Console](./screenshots/01-authenticators-list.png)
+![Step 1 — Authenticators list in Okta Admin Console](./screenshots/01-authenticators-lists.png)
 *Okta differentiates between authenticators (how you prove identity) and enrollment policies (when users must set them up).*
 
 ---
