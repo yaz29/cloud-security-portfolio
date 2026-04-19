@@ -63,7 +63,7 @@ Create an HTTP endpoint that accepts Okta's hook payload and returns a valid res
 
 Since Okta needs to reach your service over the internet, expose your local server using ngrok and copy the HTTPS URL.
 
-![Step 2 — ngrok tunnel active](./screenshots/02-ngrok-tunnel.png)
+![Step 2 — ngrok tunnel active](./screenshots/02-ngrok-tunnels.png)
 *For production, this would be a Lambda function, Cloud Run service, or any deployed API ngrok is dev-only.*
 
 ---
