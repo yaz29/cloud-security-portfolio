@@ -108,18 +108,39 @@ Sign in from a new browser (incognito) to simulate an untrusted device. Confirm 
 
 ## What I Learned
 
-- **Enrollment policy vs. sign-on policy** is a distinction that confused me early. Enrollment controls when users set up a factor; sign-on policy controls when they're challenged to use it. You need both.
-- SMS OTP is better than nothing, but SIM-swap attacks mean it shouldn't be the only option for high-privilege accounts.
-- Users will call the help desk if MFA prompts too often. The right answer is adaptive policies, not disabling MFA.
-- **Number matching** (introduced in Okta Verify) prevents push bombing attacks users must type the number shown on screen into the app before approving.
+**La diferencia entre Authenticator, Enrollment Policy y Sign-On Policy es lo que más confunde al principio.** Son tres capas distintas: el Authenticator es el método en sí (Okta Verify, SMS, etc.). La Enrollment Policy define *quién debe registrar* qué método y cuándo. La Sign-On Policy define *cuándo se exige* MFA para acceder. Las tres tienen que estar alineadas para que el flujo funcione configurar solo una no es suficiente.
+
+**El orden de las reglas dentro de una política importa.** Okta evalúa las reglas de arriba a abajo y aplica la primera que coincide. Si tienes una regla permisiva arriba y una restrictiva abajo, la restrictiva nunca se evalúa. Este es el error más común al configurar Sign-On Policies en producción.
+
+**Okta Verify push notification es la experiencia de usuario más limpia.** El usuario no teclea ningún código simplemente aprueba la notificación en el móvil. Esto reduce la fricción lo suficiente como para que los usuarios acepten MFA sin resistencia. En despliegues reales, la adopción de MFA sube significativamente cuando se usa push en lugar de TOTP.
+
+**Adaptive MFA evalúa contexto, no solo identidad.** Okta puede exigir MFA solo cuando detecta riesgo acceso desde una IP desconocida, un país diferente, o un dispositivo no reconocido. En el mismo lab, un usuario desde su oficina habitual puede entrar sin MFA mientras que el mismo usuario desde una IP nueva es desafiado. Esto reduce la fricción para usuarios legítimos sin bajar la seguridad.
+
+**La diferencia entre MFA en el IdP y MFA en la app.** Cuando MFA se configura en Okta, todas las apps que usan Okta como IdP se benefician automáticamente sin tocar el código de ninguna app. Si MFA se configura app por app, cada integración es un punto de fallo independiente y el mantenimiento se multiplica.
+
+---
+
+## Troubleshooting
+
+| Error | Causa | Fix |
+|---|---|---|
+| MFA prompt no aparece | La Sign-On Policy no tiene una regla que exija MFA | Admin Console → Security → Authentication Policies → verifica que la regla requiere MFA |
+| `Authenticator not allowed` | El authenticator no está habilitado en la org | Admin Console → Security → Authenticators → activa Okta Verify |
+| Usuario no puede enrolarse | La Enrollment Policy no permite enrolamiento para ese usuario o grupo | Verifica que el usuario está en el grupo objetivo de la Enrollment Policy |
+| Push notification no llega | Okta Verify no está vinculado a la cuenta correcta | Desvincula el dispositivo en Admin Console → User → More Actions → Remove Authenticator y re-enrola |
+| `Factor not enrolled` al hacer login | El usuario saltó el enrolamiento en el paso anterior | Forzar re-enrolamiento desde Admin Console o esperar al siguiente login con política Required |
 
 ---
 
 ## Real-World Applications
 
-- Requiring hardware security keys (YubiKeys) for IT admins and C-suite without affecting regular employees
-- Triggering step-up MFA only when a user tries to access payroll data, not on every login
-- Allowing users to self-register for MFA but requiring IT approval before the account is fully activated
+**Protección de acceso a aplicaciones críticas.** En una empresa financiera, el acceso al ERP o al sistema de nóminas requiere MFA siempre independientemente de desde dónde acceda el usuario. La Sign-On Policy en Okta lo aplica de forma centralizada sin modificar ninguna de esas aplicaciones.
+
+**MFA adaptativo para empleados remotos.** Durante la pandemia, muchas empresas activaron MFA solo para accesos fuera de la red corporativa. Con Okta, esto se configura con una condición de red en la Sign-On Policy los empleados en oficina no son interrumpidos y los remotos son desafiados automáticamente.
+
+**Cumplimiento con regulaciones de seguridad.** PCI-DSS, SOC 2, e ISO 27001 exigen autenticación fuerte para acceso a sistemas que manejan datos sensibles. Configurar MFA en Okta y exportar los logs de autenticación proporciona la evidencia auditable que los auditores requieren.
+
+**Reducción del impacto de credential stuffing.** Los ataques de credential stuffing usan listas de usuario/contraseña filtradas de otras brechas. Con MFA habilitado, una contraseña comprometida no es suficiente para entrar el atacante necesita también el dispositivo físico del usuario. Esto elimina prácticamente el riesgo de este tipo de ataque.
 
 ---
 
