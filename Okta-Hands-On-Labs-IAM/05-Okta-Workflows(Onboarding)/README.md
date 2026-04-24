@@ -115,7 +115,19 @@ Click **Test** in the Workflows console, create a test user in Okta, and watch t
 *The execution log is your best friend for debugging, each card shows inputs, outputs, and any error messages with full detail.*
 
 ---
+## Troubleshooting
 
+| Error | Causa | Fix |
+|---|---|---|
+| `Failed to connect` al crear la conexión Okta | Las orgs Integrator tienen restricciones en Workflows OAuth — el Client ID y Secret son correctos pero el plan no permite conexiones manuales | Usar una org con plan Starter o superior, o documentar el flow sin ejecución en vivo |
+| Flow no se dispara al crear un usuario | El flow está en OFF | Activar el toggle **Flow is ON** antes de crear el usuario de prueba |
+| `Missing required input` en una card | Un campo obligatorio no tiene valor mapeado | Click en la card y verifica que todos los campos con `*` tienen un valor del trigger o de una card anterior |
+| If/Else no enruta correctamente | El valor de `department` en el usuario de prueba no coincide exactamente con la condición | El matching es case-sensitive — `Engineering` y `engineering` son valores diferentes |
+| Gmail card falla | La conexión de Gmail no está autorizada | Connections → Gmail → autorizar con tu cuenta Google |
+| El flow se ejecuta pero el usuario no llega al grupo | La card `Add User to Group` no tiene la conexión Okta activa | Verificar que la conexión está seleccionada en esa card específica — cada card necesita su propia conexión |
+| Execution log muestra error en `Read User` | El User ID del trigger no se está pasando correctamente a la card | Verificar el mapping — el campo `ID` de la card `Read User` debe estar conectado al output `ID` del trigger `User Created` |
+
+---
 ## What I Learned
 
 - **Error handling matters more than the happy path.** A flow that provisions Slack but then fails on Google Workspace leaves the user in a partial state. Add error branches and notifications for failures.
