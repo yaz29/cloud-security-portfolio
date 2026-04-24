@@ -90,23 +90,22 @@ Under each branch, add an **Okta → Add User to Group** card. Select the group 
 
 ---
 
-### Step 6 · Connect to Slack and provision the user
-
-Add a **Slack → Create User** card (using an existing Slack connection). Map the Okta user's email to the Slack invitation field.
-
-![Step 6 — Slack Create User card](./screenshots/06-slack-provision.png)
-*Okta Workflows has pre-built connectors for 100+ apps, no API documentation needed, just authorize the connection and pick the action.*
-
----
-
-### Step 7 · Send a welcome email
+### Step 6 · Send a welcome email
 
 Add a **Gmail → Send Email** card. Use the user's `firstName` and `email` from the trigger to personalize the message.
 
-![Step 7 — Send welcome email card with dynamic fields](./screenshots/07-welcome-email.png)
+![Step 7 — Send welcome email card with dynamic fields](./screenshots/06-welcome-email.png)
 *Dynamic field references (shown in blue bubbles) pull values from earlier cards — the email body auto-fills with the actual user's name.*
 
 ---
+
+### Step 7 · Review the complete flow
+
+With all cards connected, the flow canvas shows the full onboarding automation from left to right — trigger, profile read, conditional branch, group assignment, and welcome email.
+
+![Step 7 — Complete flow canvas showing all cards connected](./screenshots/07-flow-complete.png)
+*Each card connects to the next via arrows — the output fields of one card feed directly into the input fields of the next. This visual mapping is what makes Workflows easier to debug than traditional code.*
+
 
 ### Step 8 · Test the flow with a new user
 
