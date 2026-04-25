@@ -136,10 +136,33 @@ Remove the user from the app or deactivate them in Okta. Confirm a `PATCH /Users
 
 ## What I Learned
 
-- **SCIM IDs matter.** When Okta creates a user via SCIM `POST`, your server returns an `id` in the response. Okta stores this and uses it for all subsequent `PUT`/`PATCH` operations. If you return a bad ID, updates will fail.
-- The `externalId` field is Okta's way of mapping its own user ID to the target app's ID don't ignore it.
-- **Attribute mappings are wrong by default** for custom apps. Spend time in the attribute mapping UI to make sure Okta sends what your app actually expects.
-- Not all apps implement SCIM correctly. In the real world, you'll hit apps that don't return proper SCIM responses patience and Postman are your tools.
+**SCIM es el protocolo que hace que el lifecycle management sea escalable.** Sin SCIM, cada app tiene su propia API con su propio formato el equipo de IT tiene que escribir integraciones custom para cada una. Con SCIM, todas las apps hablan el mismo idioma. Okta envía un `POST /Users` para crear, un `PATCH /Users/{id}` para actualizar, y otro `PATCH` con `"active": false` para desactivar. Una vez entiendes el patrón, se aplica igual a Salesforce, GitHub, Slack o cualquier app con SCIM support.
+
+**La diferencia entre POST y PATCH en SCIM es importante.** `POST /Users` crea un usuario nuevo y devuelve un `id` que Okta almacena para futuras operaciones. `PATCH /Users/{id}` actualiza solo los atributos que cambiaron no el perfil completo. Esto es más eficiente que PUT (que envía todo el objeto) y tiene implicaciones reales en producción: si tu app maneja miles de usuarios, PATCH reduce significativamente el tráfico y el procesamiento.
+
+**Okta no elimina usuarios en el sistema destino los desactiva.** El PATCH de deactivation envía `"active": false`, no un DELETE. Esto es intencional SCIM asume que los datos del usuario tienen valor histórico (logs, auditoría, registros). La decisión de borrar definitivamente es de la app destino, no del IdP. En producción, muchas empresas nunca borran cuentas por esta razón.
+
+**El campo `id` que devuelve tu servidor es crítico.** Cuando Okta recibe el `201 Created` del POST, extrae el `id` del response y lo almacena. Todos los PATCHs futuros usarán ese `id`. Si tu servidor devuelve un `id` inconsistente o no lo incluye, Okta perderá el tracking del usuario y las actualizaciones fallarán.
+
+**El `content-type: application/scim+json` no es opcional.** Okta verifica que el servidor responda con el content type correcto. Un servidor que devuelve `application/json` puede funcionar en testing pero fallar en producción dependiendo de la versión del conector. El header correcto es parte del estándar RFC 7644.
+
+**ngrok free tiene limitaciones reales para webhooks.** En un entorno de producción o con licencia, el túnel es transparente. En el plan gratuito, ngrok intercepta requests programáticas con una pantalla de verificación. Esto es una limitación del entorno de lab, no del protocolo SCIM en producción el servidor SCIM tendría un dominio propio con certificado TLS válido.
+
+---
+
+## Troubleshooting
+
+| Error | Causa | Fix |
+|---|---|---|
+| `Error authenticating: Unauthorized` | El Bearer token en Okta no coincide con el que valida el servidor | Verificar que el token en Okta Admin Console y en el servidor son exactamente iguales — sin espacios extra |
+| `Invalid JSON received from the SCIM server` | El servidor devuelve texto plano o HTML en vez de JSON | Verificar que el `Content-Type` del response es `application/scim+json` y que el body es JSON válido |
+| `Test API Credentials` falla con timeout | ngrok no está corriendo o la URL cambió | Reiniciar ngrok y actualizar la SCIM Base URL en Okta con la nueva URL |
+| Usuario asignado pero no aparece en el servidor | La feature `Create Users` no está habilitada en Provisioning → To App | Admin Console → app → Provisioning → To App → activar Create Users |
+| PATCH de atributo no llega al servidor | El atributo no está mapeado en el profile mapping de Okta | Admin Console → app → Provisioning → Attribute Mappings → verificar el mapeo del atributo |
+| `302 Found` en lugar de JSON | ngrok free intercepta la request con pantalla de verificación | Usar ngrok con authtoken configurado o un servidor con dominio propio |
+| El `id` del usuario se pierde entre sesiones | El servidor no persiste el `id` devuelto en el POST | Usar una base de datos o almacenamiento en memoria persistente en el servidor SCIM |
+
+---
 
 ---
 
