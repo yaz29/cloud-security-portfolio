@@ -127,23 +127,54 @@ Review the **System Log API** endpoint and configure a sample export of ThreatIn
 *Okta's System Log API supports polling and event hook-based streaming for a production SIEM integration, streaming hooks are more efficient than polling.*
 
 ---
-
 ## What I Learned
 
-- **ThreatInsight is crowd-sourced.** Because it draws on signals from across all Okta tenants, it can detect threats that no individual organization would see on their own a new phishing campaign that hits 10 other Okta customers before reaching yours is already flagged.
-- **False positives happen.** A user on a corporate VPN exit node shared with thousands of other companies might get flagged as suspicious. Have a process for users to report being blocked so you can investigate and whitelist if needed.
-- The **behavior detection** feature (separate from ThreatInsight) uses user-specific baselines it learns that Alice always logs in from London at 9am and flags it if she suddenly logs in from Brazil at 3am. Very powerful, but takes time to build baselines.
-- **ThreatInsight doesn't replace a SIEM.** It's great for runtime blocking, but the security team still needs a SIEM to investigate incidents, correlate events, and do forensics.
+**ThreatInsight no es una herramienta separada, está integrada directamente en las Authentication Policies.** No necesitas una integración custom ni un producto adicional. La condición de "IP risk level" en una regla de política consume automáticamente las señales de ThreatInsight. Esto significa que la respuesta a una amenaza es parte del mismo flujo de autenticación, no un sistema paralelo.
+
+**La diferencia entre "Log only" y "Log and Enforce" es crítica en producción.** Activar directamente "Log and Enforce" en una org con miles de usuarios puede bloquear accesos legítimos si hay falsos positivos, VPNs corporativas, proxies de oficina, o IPs compartidas pueden aparecer como riesgo medio. Empezar con "Log only" durante 1-2 semanas permite entender el baseline antes de bloquear.
+
+**ThreatInsight usa inteligencia colectiva de toda la red de Okta.** Cuando un atacante intenta credential stuffing contra cualquier org de Okta en el mundo, esa IP queda marcada. Si luego intenta acceder a tu org, ThreatInsight ya la conoce como maliciosa. Este efecto de red es lo que hace que ThreatInsight sea más efectivo que un simple rate limiter local.
+
+**El System Log es la fuente de verdad para auditoría.** Cada evento de ThreatInsight queda registrado con el evento type `security.threat.detected`, incluyendo el IP, geolocalización, user agent, usuario objetivo, y outcome. Este log es lo que exportas a un SIEM y lo que presentas en una auditoría de SOC 2 para demostrar que estás detectando y respondiendo a amenazas activamente.
+
+**Las Network Zones son el complemento natural de ThreatInsight.** ThreatInsight maneja IPs maliciosas conocidas. Las Network Zones manejan la confianza basada en ubicación, IPs de oficina conocidas que no necesitan MFA. Juntos cubren los dos extremos: bloquear lo malo conocido y confiar en lo bueno conocido.
+
+**El System Log API permite streaming a SIEMs en tiempo real.** Hacer polling al endpoint `/api/v1/logs` funciona pero es ineficiente. Para producción, Okta recomienda Event Hooks, cuando ocurre un evento de amenaza, Okta hace un POST inmediato a tu SIEM sin esperar al siguiente ciclo de polling.
+
+**Un user agent como `python-requests/2.28.0` es una señal clara de automatización.** Los browsers reales envían user agents con versión del navegador, OS, y motores de rendering. Cuando ves `python-requests` o `curl` en el contexto de un intento de login, es casi siempre un script de ataque automatizado — no un usuario humano.
+
+---
+
+## Troubleshooting
+
+| Error | Causa | Fix |
+|---|---|---|
+| ThreatInsight no aparece en Security → General | La feature no está habilitada en el plan Integrator | Verificar en Security → General scrolleando hacia abajo — en algunos planes está oculta. Si no aparece, es una limitación del plan |
+| Eventos `security.threat.detected` no aparecen en el System Log | ThreatInsight está en modo "Log only" pero no hay amenazas activas en el entorno de lab | Usar una IP de Tor o proxy conocido para generar un evento de prueba, o esperar actividad orgánica |
+| La regla de ThreatInsight en la policy no se dispara | La regla no es la primera en la lista de prioridades — otra regla más permisiva la precede | Mover la regla de ThreatInsight al tope de la lista — Okta evalúa reglas en orden y aplica la primera que coincide |
+| IPs de oficina bloqueadas por ThreatInsight | La IP corporativa comparte un rango con IPs marcadas como maliciosas (ISP compartido) | Crear una Network Zone con el rango de IPs de la oficina y añadir una regla de excepción en la policy para esa zona |
+| System Log API devuelve 401 | El API token no tiene los permisos correctos | El token necesita el scope `okta.logs.read` — verificar en Security → API → Tokens |
+| Evento marcado como "threat" pero es un usuario legítimo | Falso positivo — VPN, Tor browser legítimo, o IP de proxy corporativo | Añadir la IP a una Network Zone de confianza o crear una regla de excepción en la policy para ese usuario/grupo |
+| No se puede añadir IP al blocklist manual | Formato de IP incorrecto | Usar notación CIDR correcta: `185.220.101.45/32` para una IP individual, o `185.220.101.0/24` para un rango |
 
 ---
 
 ## Real-World Applications
 
-- Automatically blocking credential stuffing attacks during a breach where attacker lists are being actively tested against your Okta tenant
-- Triggering a Slack alert to the security team and requiring admin approval before allowing a login from a new country for privileged users
-- Feeding Okta threat events into Microsoft Sentinel for correlation with endpoint telemetry and email security signals
+**Protección automática contra credential stuffing a escala.** En un ataque de credential stuffing, los atacantes usan listas de millones de usuarios/contraseñas filtradas de otras brechas. Sin ThreatInsight, cada intento fallido genera un log pero no hay respuesta automática. Con ThreatInsight en "Log and Enforce", las IPs identificadas como atacantes son bloqueadas antes de que puedan hacer el primer intento el ataque muere antes de empezar.
 
----
+**Respuesta a incidentes en tiempo real.** El equipo de seguridad detecta un ataque activo contra la org. El analista añade el rango de IPs del atacante al blocklist manual en Okta el bloqueo es inmediato y no requiere tocar el firewall, contactar al ISP, ni esperar un ciclo de despliegue. En un incidente real, la velocidad de respuesta es todo.
+
+**SIEM integration para visibilidad centralizada.** Una empresa con Splunk como SIEM configura un Event Hook para que cada evento `security.threat.detected` de Okta dispare automáticamente un POST a Splunk. El equipo SOC tiene una dashboard en tiempo real con todos los intentos de acceso malicioso, correlacionados con eventos de otros sistemas (firewall, endpoint, email). Okta se convierte en una fuente de signal, no solo de logs.
+
+**Adaptive MFA basado en riesgo para empleados remotos.** Una empresa con empleados en 20 países no puede bloquear todas las IPs fuera de la oficina la mayoría del trabajo es remoto. Con ThreatInsight + Network Zones, la lógica es: IPs de oficina → sin MFA, IPs desconocidas limpias → MFA, IPs de riesgo medio → MFA reforzado, IPs de alto riesgo → bloqueo total. Los empleados legítimos en remoto tienen MFA normal. Los atacantes son bloqueados automáticamente.
+
+**Evidencia de detección para auditorías de SOC 2 e ISO 27001.** Los auditores preguntan "¿cómo detectas y respondes a intentos de acceso no autorizado?" Con ThreatInsight, la respuesta es un export del System Log mostrando eventos `security.threat.detected` con outcomes `DENY`, timestamps, y IPs bloqueadas. Esto es evidencia auditable de que el control está activo y funcionando — no solo configurado.
+
+
+
+
+----
 
 ## Resources
 
