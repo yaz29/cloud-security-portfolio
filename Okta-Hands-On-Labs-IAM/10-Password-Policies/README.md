@@ -116,13 +116,34 @@ Navigate to **Security → Authenticators** and review the **Okta FastPass** and
 
 ## What I Learned
 
-- **Complexity rules are less effective than length rules.** `Tr0ub4dor&3` is hard to remember and easy to crack (it's in every wordlist). `battery-horse-correct-lamp` is easy to remember and hard to crack. NIST agrees.
-- **Password expiration is increasingly controversial.** Forcing regular changes leads to `Winter2024!` → `Spring2024!` patterns. Microsoft and NIST now recommend against mandatory expiration unless compromise is suspected.
-- **Lockout policies are a double-edged sword** too aggressive and an attacker can use them to DoS specific users by intentionally locking their accounts.
-- Okta's password policy applies only to Okta-mastered accounts. AD-mastered users' passwords are governed by AD Group Policy, not Okta a point that confuses many people.
+**NIST 800-63 cambió completamente la forma de pensar sobre contraseñas.** La guía tradicional mayúsculas, números, símbolos, cambio cada 90 días genera contraseñas débiles como `P@ssw0rd1!` que los atacantes ya tienen en sus diccionarios. NIST 800-63 dice lo contrario: longitud mínima alta (15-20 caracteres), sin requisitos de complejidad, sin expiración periódica a menos que haya evidencia de compromiso. Una frase como `correct-horse-battery-staple` es más fuerte y más memorable.
+
+**Las políticas de contraseña en Okta se asignan por grupo, no por usuario.** Esto permite aplicar políticas diferentes a segmentos distintos, los administradores tienen la política más estricta, los empleados regulares tienen la política estándar, y los usuarios de aplicaciones externas pueden tener otra. La policy con mayor prioridad en la lista se aplica primero.
+
+**El SSPR (Self-Service Password Reset) es el ROI más alto en IAM.** Cada llamada al help desk para resetear una contraseña cuesta entre $15 y $25. Una org con 1,000 empleados puede tener 50-100 resets al mes. SSPR elimina ese costo completamente y el usuario no tiene que esperar. El email magic link es el método más efectivo un clic, sin necesidad de recordar respuestas de seguridad.
+
+**El error de lockout no debe revelar si la cuenta está bloqueada.** Si Okta muestra "Tu cuenta está bloqueada" como mensaje diferente al de "Contraseña incorrecta", un atacante puede usar esto para enumerar qué cuentas existen y cuáles están activas; un ataque de user enumeration. El mensaje correcto es genérico para ambos casos.
+
+**El blacklist de contraseñas comunes bloquea los ataques más simples.** `Password1`, `Qwerty123`, `Welcome1`, estos aparecen en los primeros 1,000 resultados de cualquier diccionario de ataques. Activar el check de contraseñas comunes en Okta los bloquea sin requerir ninguna complejidad adicional de los usuarios.
+
+**Passwordless es la dirección real de la industria.** Okta FastPass usa WebAuthn/FIDO2, biometría o PIN del dispositivo, sin credenciales que puedan ser phisheadas o robadas. El usuario no teclea nada, no hay contraseña que interceptar, y la experiencia es más rápida que escribir una contraseña. Las grandes empresas están migrando activamente a este modelo.
 
 ---
 
+## Troubleshooting
+
+| Error | Causa | Fix |
+|---|---|---|
+| La política más estricta no se aplica al usuario esperado | El usuario no pertenece al grupo asignado a esa política | Verificar la membresía del usuario en Directory → People → Groups |
+| SSPR falla el usuario no recibe el email de reset | El email del usuario no está verificado en Okta o el campo está vacío | Verificar el atributo `email` en el perfil del usuario y que está correctamente mapeado |
+| Cuenta bloqueada el usuario no puede desbloquearse por email | El email de desbloqueo va a spam o la dirección es incorrecta | Verificar en System Log el evento de lockout y confirmar la dirección de email del usuario |
+| La política de expiración de 90 días no fuerza el cambio | El usuario ya cambió la contraseña recientemente el contador empezó desde ese momento | La expiración se cuenta desde el último cambio de contraseña, no desde que se activó la política |
+| El blacklist de contraseñas comunes no bloquea `Password1` | La opción no está habilitada en la política correcta | Security → Password → editar la política → Advanced settings → activar "Block commonly used passwords" |
+| Okta FastPass no aparece en la lista de authenticators | El plan no incluye FastPass o no está habilitado en la org | Verificar en Security → Authenticators en el plan Integrator free FastPass puede no estar disponible |
+| La política del grupo de admins no tiene prioridad sobre la default | El orden de prioridad en la lista de políticas no es correcto | Security → Password → arrastrar la política de admins al tope de la lista Okta evalúa de arriba a abajo |
+
+
+---
 ## Real-World Applications
 
 - Implementing NIST-compliant password policies for a company passing a SOC 2 or ISO 27001 audit
