@@ -135,7 +135,22 @@ Call the API with a token that has `reports:
 - Scopes should model *actions*, not *resources*. `reports:read` is better than `GET:/api/reports` the former is portable, the latter is implementation-coupled.
 
 ---
+## Troubleshooting
 
+| Error | Causa | Fix |
+|---|---|---|
+| `400 Bad Request` al hacer GET al authorize endpoint directamente | El endpoint `/v1/authorize` no acepta GET directo sin parámetros OAuth — necesita un flujo completo | Usar el tab Authorization de Postman con OAuth 2.0 configurado, no llamar al endpoint directamente |
+| `invalid 'state' parameter` en Postman desktop con orgs Integrator | Bug conocido entre Postman desktop y las orgs Integrator de Okta — el state parameter se corrompe en el handshake | Usar Postman Web (`web.postman.co`) en vez de la app desktop, o usar curl directamente |
+| `Authentication window was closed` en Postman | El Callback URL estaba vacío — Postman no sabía a dónde redirigir después del login | Añadir `https://oauth.pstmn.io/v1/callback` en el campo Callback URL de Postman Y en los Sign-in redirect URIs de la app en Okta |
+| `redirect_uri parameter must be a Login redirect URI` | La URI de Postman no estaba registrada en la app de Okta | Admin Console → app → General → Edit → añadir `https://oauth.pstmn.io/v1/callback` en Sign-in redirect URIs |
+| `unauthorized_client — Configured grant types: [refresh_token, authorization_code]` | La app no tenía el grant type Client Credentials habilitado | Admin Console → app → General → Edit → activar Client Credentials en la sección Grant type |
+| `invalid_client — The client secret supplied for a confidential client is invalid` | El Client Secret se estaba copiando incompleto o con espacios | Usar el flag `-u "client_id:client_secret"` en curl en vez de `-d "client_secret=..."` — Basic Auth maneja los caracteres especiales correctamente |
+| `{"error":"Invalid token"}` al llamar al API con el token del Token Preview | El Token Preview de Okta genera tokens de preview que no son válidos para llamadas reales a APIs | Obtener un token real con curl usando el endpoint `/v1/token` con Client Credentials |
+| `{"error":"Invalid token"}` al pegar el JSON completo como Bearer token | Se pegó el response JSON entero en vez de solo el valor de `access_token` | Guardar el token en una variable bash: `TOKEN="eyJ..."` y usar `Authorization: Bearer $TOKEN` |
+| Custom claim `department` no aparece en el token | Con Client Credentials flow no hay usuario asociado — `user.department` no tiene valor | Usar Authorization Code flow en el Token Preview, o añadir el atributo `department` al perfil del usuario en Directory → People → Edit |
+| `3 moderate severity vulnerabilities` al instalar `@okta/jwt-verifier` | Vulnerabilidades conocidas en dependencias transitivas del paquete | Son warnings de desarrollo, no errores — el paquete funciona correctamente para labs y entornos de testing |
+
+---
 ## Real-World Applications
 
 - A multi-tenant SaaS API issuing tenant-scoped tokens so customers can only access their own data
