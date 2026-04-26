@@ -132,10 +132,31 @@ Under **Security → Administrators**, review Okta's built-in admin roles (Super
 
 ## What I Learned
 
-- **Group rules have a processing delay** up to a few minutes in practice. Don't expect instant membership change after activating a rule; build testing with that lag in mind.
-- Nesting groups (groups within groups) isn't natively supported in Okta the way it is in Active Directory. Plan your group model flat or use app-level group push instead.
-- **Static vs. dynamic groups**: static groups are manually managed; dynamic groups are rule-driven. For scale, you want rule-driven but some edge cases (like contractors) need manual management.
-- Removing a user from an app via group removal doesn't instantly deprovision them in every app deprovision timing depends on the app's SCIM or provisioning connector settings.
+**RBAC en Okta no es solo organización es automatización.** Sin group rules, añadir un nuevo empleado requiere asignarlo manualmente a cada app. Con group rules basadas en atributos de perfil, el proceso es: HR crea al empleado con el `department` correcto → Okta lo añade al grupo → el grupo tiene las apps asignadas → el empleado tiene acceso. Cero intervención de IT.
+
+**Los group rules evalúan atributos, no identidades individuales.** Una regla que dice "si `department` = Engineering → añadir a grupo Engineering" se evalúa para todos los usuarios existentes y futuros. Cambiar el departamento de un usuario en Okta dispara una re-evaluación automática esto es lo que hace que RBAC sea dinámico en vez de estático.
+
+**La preview antes de activar una rule es crítica en producción.** Una rule mal configurada puede añadir o quitar acceso a miles de usuarios en segundos. El modo Preview muestra exactamente qué usuarios serían afectados antes de activar en un entorno de producción con 10,000 empleados, nunca actives una rule sin revisar el preview primero.
+
+**La asignación de apps a grupos es más escalable que la asignación individual.** Asignar apps usuario por usuario no escala con 500 empleados nuevos al mes es inviable. Asignar la app al grupo significa que el acceso de todos los miembros actuales y futuros está controlado por una sola configuración. Añadir un empleado al grupo correcto es todo lo que se necesita.
+
+**Group Push requiere una conexión SCIM activa en la app destino.** No basta con que la app soporte SCIM el provisioning tiene que estar configurado y conectado. Sin eso, el tab Push Groups muestra el mensaje "You need to enable provisioning to start pushing groups". Esta es una limitación real del plan Integrator free que se resuelve con una conexión SCIM activa.
+
+**Least-privilege se aplica también a los admins de Okta.** Un App Admin con scope limitado a una app específica no puede ver ni modificar otras apps, usuarios, o políticas. En entornos regulados, los auditores verifican que los administradores tienen solo los permisos que necesitan Super Admin para todo el mundo es una red flag en cualquier auditoría de SOC 2.
+
+---
+
+## Troubleshooting
+
+| Error | Causa | Fix |
+|---|---|---|
+| Group rule activada pero usuarios no asignados | La rule evalúa en el siguiente ciclo no es inmediata | Esperar hasta 1 hora o forzar la evaluación desde la rule con "Run Rule Now" si está disponible |
+| Usuario en el grupo correcto pero sin acceso a la app | La app no está asignada al grupo | Admin Console → app → Assignments → verificar que el grupo aparece en la lista |
+| "This app is implicitly assigned to users" en Assignments | La app tiene Federation Broker Mode activado,los assignments se gestionan por Sign-On Policy | Usar una app diferente que soporte assignments manuales (como la SCIM 2.0 Lab) |
+| Group Push muestra "Enable provisioning first" | La app no tiene una conexión SCIM activa | Configurar la conexión SCIM completa antes de intentar Group Push, requiere un servidor SCIM funcional |
+| Rule preview no muestra usuarios esperados | El atributo en la condición no coincide exactamente con el valor en el perfil | El matching es case-sensitive, `engineering` y `Engineering` son valores distintos |
+| Cambio de departamento no mueve al usuario al nuevo grupo | La rule anterior no tiene condición de exclusión automática | Crear una rule separada para cada departamento o usar la condición "Except" para excluir usuarios del grupo anterior |
+| Admin App scope no aparece en el formulario | La UI de scoped admin assignments muestra "Edit resources" en vez del scope directo | Click en el campo de Applications en la card y buscar la app por nombre para añadirla al scope |
 
 ---
 
