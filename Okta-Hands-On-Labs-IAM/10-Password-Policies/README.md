@@ -46,7 +46,7 @@ flowchart TD
 
 Navigate to **Security → Authentication → Password** and review the default policy. Note the complexity requirements, minimum length, and lockout settings.
 
-![Step 1 — Default password policy overview](./screenshots/01-default-policy.png)
+![Step 1 — Default password policy overview](./screenshot/01-default-policy.png)
 *Okta ships with sensible defaults, but "sensible" for a generic org may not match your organization's risk profile or compliance requirements.*
 
 ---
@@ -55,7 +55,7 @@ Navigate to **Security → Authentication → Password** and review the default 
 
 Click **Add Policy** and name it **Admin Password Policy**. Apply it to the Okta Administrators group. Set a minimum length of 20 characters, no complexity requirements (NIST 800-63 approach), and require a password change every 90 days.
 
-![Step 2 — Admin password policy configuration](./screenshots/02-admin-policy-config.png)
+![Step 2 — Admin password policy configuration](./screenshot/02-admin-policy-config.png)
 *NIST 800-63 guidance says long passphrases are more secure than short complex passwords "CorrectHorseBatteryStaple" beats "P@ssw0rd!" in both memorability and entropy.*
 
 ---
@@ -64,7 +64,7 @@ Click **Add Policy** and name it **Admin Password Policy**. Apply it to the Okta
 
 Under each policy's advanced settings, configure maximum failed attempts before lockout and the cooldown window.
 
-![Step 3 — Lockout settings configuration](./screenshots/03-lockout-settings.png)
+![Step 3 — Lockout settings configuration](./screenshot/03-lockout-settings.png)
 *Low lockout thresholds (3 attempts) are annoying for legitimate users who mistype 10 attempts with exponential backoff is a better balance against brute force.*
 
 ---
@@ -73,7 +73,7 @@ Under each policy's advanced settings, configure maximum failed attempts before 
 
 Under **Security → Authentication → Password → Recovery**, configure which factors users can use to reset their own password (email link, SMS OTP, Okta Verify push).
 
-![Step 4 — Self-service password reset configuration](./screenshots/04-sspr-config.png)
+![Step 4 — Self-service password reset configuration](./screenshot/04-sspr-config.png)
 *SSPR is the single biggest reducer of help desk tickets an email reset link costs nothing; a help desk call costs ~$25 on average.*
 
 ---
@@ -82,7 +82,7 @@ Under **Security → Authentication → Password → Recovery**, configure which
 
 Open an incognito window, go to the Okta sign-in page, and click **Forgot password**. Walk through the recovery flow using your test user's email.
 
-![Step 5 — Self-service password reset flow in browser](./screenshots/05-reset-flow.png)
+![Step 5 — Self-service password reset flow in browser](./screenshot/05-reset-flow.png)
 *The reset link expires after a configurable time (default 60 minutes) a short expiry is more secure; a longer one is more convenient. Choose based on your user population.*
 
 ---
@@ -91,7 +91,7 @@ Open an incognito window, go to the Okta sign-in page, and click **Forgot passwo
 
 Intentionally fail login 10+ times as a test user. Confirm the account is locked, and test the unlock process (admin manual unlock vs. time-based unlock vs. self-service recovery).
 
-![Step 6 — Locked account message and unlock options](./screenshots/06-account-locked.png)
+![Step 6 — Locked account message and unlock options](./screenshot/06-account-locked.png)
 *Note the exact error message Okta shows it shouldn't reveal whether the account is locked vs. the password is wrong, to prevent user enumeration attacks.*
 
 ---
@@ -100,7 +100,7 @@ Intentionally fail login 10+ times as a test user. Confirm the account is locked
 
 Under policy settings, enable the option to check new passwords against the most commonly used password list. Test by trying to set the password to `Password1`.
 
-![Step 7 — Common password check blocked attempt](./screenshots/07-common-password-block.png)
+![Step 7 — Common password check blocked attempt](./screenshot/07-common-password-block.png)
 *Okta maintains an internal blacklist of the most commonly breached passwords enabling this catches the obvious ones without making users invent complex nonsense.*
 
 ---
@@ -109,7 +109,7 @@ Under policy settings, enable the option to check new passwords against the most
 
 Navigate to **Security → Authenticators** and review the **Okta FastPass** and **Email Magic Link** options the path toward reducing password dependence.
 
-![Step 8 — Passwordless authenticator options in Okta](./screenshots/08-passwordless-options.png)
+![Step 8 — Passwordless authenticator options in Okta](./screenshot/08-passwordless-options.png)
 *Passwordless is the direction the industry is heading phishing-resistant, no credentials to steal, and often a better UX than typing a password.*
 
 ---
