@@ -122,15 +122,36 @@ Open a private browser, go to your app, and sign in using an AD username and pas
 *From the user's perspective, nothing changes they use the same password they use for Windows. Okta handles the bridge to all cloud apps.*
 
 ---
-
 ## What I Learned
 
-- **Agent placement matters.** Put the agent on a member server, not the domain controller itself. Running it on the DC adds unnecessary load and creates a single point of failure.
-- The **OU-scoped import** is critical for large organizations importing 50,000 users when you only need 5,000 creates noise and potential licensing issues.
-- When delegated auth is enabled, **Okta can't enforce its own password policies** on the AD password Okta's password policies only apply to Okta-mastered accounts.
-- **Agent updates** must be done manually (or via a deployment tool like SCCM). Set a reminder to check for agent version updates running an old agent version can cause sync issues.
+**El AD Agent solo necesita conectividad saliente en el puerto 443.** No requiere abrir puertos en el firewall, configurar una DMZ, ni modificar la infraestructura de AD. El agente crea una conexión persistente hacia Okta. Okta nunca inicia conexiones hacia el entorno on-premise. Esto es lo que hace que la integración sea aceptable para equipos de seguridad conservadores.
+
+**La diferencia entre Profile Master y Delegated Authentication es fundamental.** El Profile Master define quién controla los atributos del usuario, si AD es el profile master, los cambios en Okta son sobrescritos en el siguiente sync. La Delegated Authentication define quién verifica la contraseña, si está activa, Okta pasa la autenticación al Domain Controller y nunca almacena ni gestiona la contraseña de Windows.
+
+**El Base DN es el scope de lo que Okta importa.** Si configuras el Base DN en la raíz del dominio (`DC=corp,DC=acme,DC=local`), Okta importará todos los objetos incluyendo cuentas de servicio, cuentas de administrador, y cuentas deshabilitadas. La práctica correcta es apuntar a la OU que contiene solo los usuarios que deben tener acceso a Okta.
+
+**El attribute mapping es donde viven los errores más difíciles de debuggear.** Si `sAMAccountName` no está mapeado a `login`, los usuarios no pueden autenticarse. Si `mail` no está mapeado a `email`, las notificaciones de Okta van a ningún lado. Revisar los mappings antes del primer import es el paso más importante del lab.
+
+**Los usuarios importados tienen AD como profile master, Okta no puede editarlos.** Si intentas cambiar el departamento de un usuario importado desde AD directamente en Okta, el cambio será sobrescrito en el siguiente sync. El cambio tiene que hacerse en Active Directory, Okta recoge el cambio en el siguiente ciclo de sincronización.
+
+**La sincronización incremental después del import inicial es automática.** El primer import es manual y trae todos los usuarios del scope. Después, el agente sincroniza cambios cada 4 horas por defecto nuevos usuarios en AD aparecen en Okta automáticamente, cambios de atributos se propagan, y usuarios deshabilitados en AD se desactivan en Okta.
 
 ---
+
+## Troubleshooting
+
+| Error | Causa | Fix |
+|---|---|---|
+| AD Agent no aparece como activo después de instalarlo | El agente no puede alcanzar Okta en el puerto 443 | Verificar que el servidor Windows tiene salida HTTPS sin restricciones revisar proxy corporativo y firewall |
+| "Failed to connect to AD" durante la configuración | El Base DN es incorrecto o la cuenta de servicio no tiene permisos | Verificar el Base DN con `dsquery` en el servidor AD, y que la cuenta de servicio tiene "Read" en la OU objetivo |
+| Usuarios importados sin email | El atributo `mail` no está poblado en AD | Completar el atributo `mail` en los objetos de usuario en AD antes de hacer el import |
+| Delegated auth falla usuarios no pueden autenticarse | La cuenta de servicio del agente no tiene permisos para verificar credenciales | La cuenta de servicio necesita el permiso "Validate credentials" en el dominio |
+| Sync no propaga cambios hechos en AD | El ciclo de sync de 4 horas no ha corrido aún | Forzar un sync manual desde el tab Import → Import Now en el Admin Console |
+| Usuarios de AD aparecen duplicados en Okta | Ya existían usuarios en Okta con el mismo email antes del import | Usar la función de "Match" durante el import para vincular usuarios existentes con sus cuentas de AD en vez de crear nuevos |
+| Agent se desconecta periódicamente | El servicio de Windows del agente se detiene por actualizaciones o reinicios | Configurar el servicio "Okta AD Agent" para reinicio automático en el Administrador de servicios de Windows |
+
+---
+
 
 ## Real-World Applications
 
