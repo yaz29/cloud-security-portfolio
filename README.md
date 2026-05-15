@@ -10,7 +10,7 @@
 This folder contains all hands-on labs developed for the **SC-300: Microsoft Identity and Access Administrator** certification path.  
 Each lab demonstrates how to design, implement, and manage secure identity solutions using **Microsoft Entra ID (Azure AD)**.
 
-The labs are organized sequentially, following real-world security implementation flows — from enforcing Zero Trust to automating identity lifecycle and privileged access.
+The labs are organized sequentially, following real-world security implementation flows from enforcing Zero Trust to automating identity lifecycle and privileged access.
 
 ---
 
